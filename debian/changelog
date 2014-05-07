@@ -1,3 +1,9 @@
+docker.io (0.11.0~dfsg1-1) UNRELEASED; urgency=medium
+
+  * Updated to 0.11.0 upstream release.
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Sat, 19 Apr 2014 17:37:01 -0600
+
 docker.io (0.9.1~dfsg1-2) unstable; urgency=medium
 
   * Added upstream apparmor patch to fix newer apparmor versions (such as the
