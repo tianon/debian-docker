@@ -1,0 +1,21 @@
+Author: Paul R. Tagliamonte <paultag@debian.org>
+Last-Update: 2014-05-07
+Description: Use EnvironmentFile with the systemd unit file.
+Bug-Debian: http://bugs.debian.org/746774
+Forwarded: no
+
+
+diff -Nuarp a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
+--- a/contrib/init/systemd/docker.service	2014-05-07 23:03:16.086355784 -0400
++++ b/contrib/init/systemd/docker.service	2014-05-07 23:03:59.718200336 -0400
+@@ -4,7 +4,8 @@ Documentation=http://docs.docker.io
+ After=network.target
+ 
+ [Service]
+-ExecStart=/usr/bin/docker.io -d
++EnvironmentFile=/etc/default/docker.io
++ExecStart=/usr/bin/docker.io -d $DOCKER_OPTS
+ Restart=on-failure
+ LimitNOFILE=1048576
+ LimitNPROC=1048576
+

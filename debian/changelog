@@ -1,6 +1,7 @@
 docker.io (0.11.1~dfsg1-1) UNRELEASED; urgency=medium
 
   [ Paul Tagliamonte ]
+  * Use EnvironmentFile with the systemd unit file. (Closes: #746774)
   * Patch out version checking code. (Closes: #747140)
   * Remove all host checking for non-amd64 host arches. Let docker build
     and run on all platforms now. (Closes: #747139, #739914)

@@ -8,6 +8,9 @@ mkimage-docker.io.patch
 # once golang-1.3 drops, up the dep in debian/control and remove this patch
 upstream-patched-archive-tar.patch
 
+# Once upstream adds EnvFile, remove this patch.
+change-system-unit-env-file.patch
+
 # Upstream deltas:
 #  -> Don't hit Docker for a version command
 remove-version-phone-home.patch
