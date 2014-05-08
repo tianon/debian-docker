@@ -8,5 +8,8 @@ mkimage-docker.io.patch
 # once golang-1.3 drops, up the dep in debian/control and remove this patch
 upstream-patched-archive-tar.patch
 
-# Version checking patch.
+# Upstream deltas:
+#  -> Don't hit Docker for a version command
 remove-version-phone-home.patch
+#  -> Let there be light on non-amd64
+enable-non-amd64-arches.patch

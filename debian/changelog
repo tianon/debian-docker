@@ -2,6 +2,8 @@ docker.io (0.11.1~dfsg1-1) UNRELEASED; urgency=medium
 
   [ Paul Tagliamonte ]
   * Patch out version checking code. (Closes: #747140)
+  * Remove all host checking for non-amd64 host arches. Let docker build
+    and run on all platforms now. (Closes: #747139, #739914)
 
   [ Tianon Gravi ]
   * Updated to 0.11.1 upstream release.
