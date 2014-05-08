@@ -6,4 +6,4 @@ zsh-completion-docker.io.patch
 mkimage-docker.io.patch
 
 # once golang-1.3 drops, up the dep in debian/control and remove this patch
-0.10.0-upstream-patched-archive-tar.patch
+upstream-patched-archive-tar.patch

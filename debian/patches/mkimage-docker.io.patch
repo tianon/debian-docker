@@ -6,9 +6,9 @@ diff --git a/contrib/mkimage-arch.sh b/contrib/mkimage-arch.sh
 index 73a4173..fe9f4cc 100755
 --- a/contrib/mkimage-arch.sh
 +++ b/contrib/mkimage-arch.sh
-@@ -58,6 +58,6 @@ mknod -m 666 $DEV/full c 1 7
- mknod -m 600 $DEV/initctl p
+@@ -59,6 +59,6 @@ mknod -m 666 $DEV/full c 1 7
  mknod -m 666 $DEV/ptmx c 5 2
+ ln -sf /proc/self/fd $DEV/fd
  
 -tar --numeric-owner -C $ROOTFS -c . | docker import - archlinux
 -docker run -i -t archlinux echo Success.
