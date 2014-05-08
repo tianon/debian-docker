@@ -7,3 +7,6 @@ mkimage-docker.io.patch
 
 # once golang-1.3 drops, up the dep in debian/control and remove this patch
 upstream-patched-archive-tar.patch
+
+# Version checking patch.
+remove-version-phone-home.patch
