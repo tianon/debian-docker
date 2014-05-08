@@ -1,0 +1,150 @@
+diff --git a/archive/archive.go b/archive/archive.go
+index 2fac18e..19ffcf7 100644
+--- a/archive/archive.go
++++ b/archive/archive.go
+@@ -1,6 +1,7 @@
+ package archive
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"compress/bzip2"
+ 	"compress/gzip"
+@@ -8,7 +9,6 @@ import (
+ 	"fmt"
+ 	"github.com/dotcloud/docker/pkg/system"
+ 	"github.com/dotcloud/docker/utils"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"io/ioutil"
+ 	"os"
+diff --git a/archive/archive_test.go b/archive/archive_test.go
+index 4126601..164fc8f 100644
+--- a/archive/archive_test.go
++++ b/archive/archive_test.go
+@@ -1,9 +1,9 @@
+ package archive
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"fmt"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"io/ioutil"
+ 	"os"
+diff --git a/archive/changes.go b/archive/changes.go
+index 723e4a7..120f33a 100644
+--- a/archive/changes.go
++++ b/archive/changes.go
+@@ -1,11 +1,11 @@
+ package archive
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"fmt"
+ 	"github.com/dotcloud/docker/pkg/system"
+ 	"github.com/dotcloud/docker/utils"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"os"
+ 	"path/filepath"
+diff --git a/archive/diff.go b/archive/diff.go
+index e20e4b1..7bf01f3 100644
+--- a/archive/diff.go
++++ b/archive/diff.go
+@@ -1,8 +1,8 @@
+ package archive
+ 
+ import (
++	"archive/tar"
+ 	"fmt"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"io/ioutil"
+ 	"os"
+diff --git a/archive/wrap.go b/archive/wrap.go
+index 03ea508..dfb335c 100644
+--- a/archive/wrap.go
++++ b/archive/wrap.go
+@@ -1,8 +1,8 @@
+ package archive
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io/ioutil"
+ )
+ 
+diff --git a/graph/tags_unit_test.go b/graph/tags_unit_test.go
+index 1777391..18ce711 100644
+--- a/graph/tags_unit_test.go
++++ b/graph/tags_unit_test.go
+@@ -1,12 +1,12 @@
+ package graph
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"github.com/dotcloud/docker/image"
+ 	"github.com/dotcloud/docker/runtime/graphdriver"
+ 	_ "github.com/dotcloud/docker/runtime/graphdriver/vfs" // import the vfs driver so it is used in the tests
+ 	"github.com/dotcloud/docker/utils"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"os"
+ 	"path"
+diff --git a/integration/api_test.go b/integration/api_test.go
+index 26441a2..ba65dda 100644
+--- a/integration/api_test.go
++++ b/integration/api_test.go
+@@ -1,6 +1,7 @@
+ package docker
+ 
+ import (
++	"archive/tar"
+ 	"bufio"
+ 	"bytes"
+ 	"encoding/json"
+@@ -21,7 +22,6 @@ import (
+ 	"github.com/dotcloud/docker/runconfig"
+ 	"github.com/dotcloud/docker/runtime"
+ 	"github.com/dotcloud/docker/utils"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ )
+ 
+ func TestGetEvents(t *testing.T) {
+diff --git a/integration/utils_test.go b/integration/utils_test.go
+index 8ad6ccb..07b0cfe 100644
+--- a/integration/utils_test.go
++++ b/integration/utils_test.go
+@@ -1,9 +1,9 @@
+ package docker
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"fmt"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"io/ioutil"
+ 	"net/http"
+diff --git a/utils/tarsum.go b/utils/tarsum.go
+index 67e94aa..786196b 100644
+--- a/utils/tarsum.go
++++ b/utils/tarsum.go
+@@ -1,11 +1,11 @@
+ package utils
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"compress/gzip"
+ 	"crypto/sha256"
+ 	"encoding/hex"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"hash"
+ 	"io"
+ 	"sort"
