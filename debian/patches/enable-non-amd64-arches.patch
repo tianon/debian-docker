@@ -257,15 +257,62 @@ index ee27b35..de40fb5 100644
  package mount
  
 diff --git a/pkg/netlink/netlink_linux.go b/pkg/netlink/netlink_linux.go
-index 6de293d..f7ef09e 100644
+index 6de293d..67518c6 100644
 --- a/pkg/netlink/netlink_linux.go
 +++ b/pkg/netlink/netlink_linux.go
-@@ -1,5 +1,3 @@
+@@ -1,11 +1,8 @@
 -// +build amd64
 -
  package netlink
  
  import (
+ 	"encoding/binary"
+ 	"fmt"
+-	"math/rand"
+ 	"net"
+ 	"syscall"
+ 	"unsafe"
+@@ -878,7 +875,7 @@ func setBridgeMacAddress(s int, name string) error {
+ 	copy(ifr.IfrnName[:], name)
+ 
+ 	for i := 0; i < 6; i++ {
+-		ifr.IfruHwaddr.Data[i] = int8(rand.Intn(255))
++		ifr.IfruHwaddr.Data[i] = randIfrDataByte()
+ 	}
+ 
+ 	ifr.IfruHwaddr.Data[0] &^= 0x1 // clear multicast bit
+diff --git a/pkg/netlink/netlink_linux_arm.go b/pkg/netlink/netlink_linux_arm.go
+new file mode 100644
+index 0000000..7789ae2
+--- /dev/null
++++ b/pkg/netlink/netlink_linux_arm.go
+@@ -0,0 +1,9 @@
++package netlink
++
++import (
++	"math/rand"
++)
++
++func randIfrDataByte() uint8 {
++	return uint8(rand.Intn(255))
++}
+diff --git a/pkg/netlink/netlink_linux_notarm.go b/pkg/netlink/netlink_linux_notarm.go
+new file mode 100644
+index 0000000..23c4a92
+--- /dev/null
++++ b/pkg/netlink/netlink_linux_notarm.go
+@@ -0,0 +1,11 @@
++// +build !arm
++
++package netlink
++
++import (
++	"math/rand"
++)
++
++func randIfrDataByte() int8 {
++	return int8(rand.Intn(255))
++}
 diff --git a/pkg/netlink/netlink_unsupported.go b/pkg/netlink/netlink_unsupported.go
 index 8a5531b..e98f5b0 100644
 --- a/pkg/netlink/netlink_unsupported.go
