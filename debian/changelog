@@ -1,5 +1,9 @@
 docker.io (0.11.1~dfsg1-1) UNRELEASED; urgency=medium
 
+  [ Paul Tagliamonte ]
+  * Patch out version checking code. (Closes: #747140)
+
+  [ Tianon Gravi ]
   * Updated to 0.11.1 upstream release.
 
  -- Tianon Gravi <admwiggin@gmail.com>  Wed, 07 May 2014 19:57:02 -0600
