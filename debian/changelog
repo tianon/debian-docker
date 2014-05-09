@@ -1,4 +1,4 @@
-docker.io (0.11.1~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (0.11.1~dfsg1-1) unstable; urgency=medium
 
   [ Paul Tagliamonte ]
   * Use EnvironmentFile with the systemd unit file. (Closes: #746774)
@@ -9,7 +9,7 @@ docker.io (0.11.1~dfsg1-1) UNRELEASED; urgency=medium
   [ Tianon Gravi ]
   * Updated to 0.11.1 upstream release.
 
- -- Tianon Gravi <admwiggin@gmail.com>  Wed, 07 May 2014 19:57:02 -0600
+ -- Tianon Gravi <admwiggin@gmail.com>  Fri, 09 May 2014 13:13:35 -0400
 
 docker.io (0.9.1~dfsg1-2) unstable; urgency=medium
 
