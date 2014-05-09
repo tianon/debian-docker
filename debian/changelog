@@ -8,8 +8,11 @@ docker.io (0.11.1~dfsg1-1) unstable; urgency=medium
 
   [ Tianon Gravi ]
   * Updated to 0.11.1 upstream release.
+  * Added backported upstream patch for removing RemoteAddr assumptions
+    that cause events to not be delivered to more than one unix socket
+    listener.
 
- -- Tianon Gravi <admwiggin@gmail.com>  Fri, 09 May 2014 13:13:35 -0400
+ -- Tianon Gravi <admwiggin@gmail.com>  Fri, 09 May 2014 17:30:45 -0400
 
 docker.io (0.9.1~dfsg1-2) unstable; urgency=medium
 
