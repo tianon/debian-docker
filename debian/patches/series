@@ -12,6 +12,7 @@ upstream-patched-archive-tar.patch
 change-system-unit-env-file.patch
 
 proc-kcore.patch
+fix-events-forwarding.patch
 
 # Upstream deltas:
 #  -> Don't hit Docker for a version command
