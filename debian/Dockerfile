@@ -16,5 +16,3 @@ RUN origtargz --unpack
 
 # tianon is _really_ lazy, and likes a preseeded bash history
 RUN echo 'origtargz --unpack && dpkg-buildpackage -us -uc && lintian -EvIL+pedantic' >> /root/.bash_history
-
-CMD [ "debuild", "-us", "-uc", "--lintian-opts", "-EvIL+pedantic" ]
