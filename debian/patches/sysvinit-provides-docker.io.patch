@@ -2,6 +2,8 @@ Description: Sysvinit needs to "Provides" docker.io, not docker
 Author: Tianon Gravi <admwiggin@gmail.com>
 Forwarded: not-needed
 
+diff --git a/contrib/init/sysvinit-debian/docker b/contrib/init/sysvinit-debian/docker
+index 9b50fad..283dc31 100755
 --- a/contrib/init/sysvinit-debian/docker
 +++ b/contrib/init/sysvinit-debian/docker
 @@ -1,7 +1,7 @@
@@ -12,4 +14,4 @@ Forwarded: not-needed
 +# Provides:           docker.io
  # Required-Start:     $syslog $remote_fs
  # Required-Stop:      $syslog $remote_fs
- # Default-Start:      2 3 4 5
+ # Should-Start:       cgroupfs-mount cgroup-lite

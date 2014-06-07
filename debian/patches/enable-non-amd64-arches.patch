@@ -46,7 +46,7 @@ index 2735624..e291bef 100644
  package aufs
  
 diff --git a/daemon/graphdriver/btrfs/btrfs.go b/daemon/graphdriver/btrfs/btrfs.go
-index 4d19553..dcf18c4 100644
+index f561244..e4e0274 100644
 --- a/daemon/graphdriver/btrfs/btrfs.go
 +++ b/daemon/graphdriver/btrfs/btrfs.go
 @@ -1,4 +1,4 @@
@@ -54,15 +54,6 @@ index 4d19553..dcf18c4 100644
 +// +build linux
  
  package btrfs
- 
-@@ -30,7 +30,7 @@ func Init(home string) (graphdriver.Driver, error) {
- 		return nil, err
- 	}
- 
--	if buf.Type != 0x9123683E {
-+	if uint32(buf.Type) != 0x9123683E {
- 		return nil, fmt.Errorf("%s is not a btrfs filesystem", rootdir)
- 	}
  
 diff --git a/daemon/graphdriver/btrfs/dummy_unsupported.go b/daemon/graphdriver/btrfs/dummy_unsupported.go
 index 6c44615..5efd180 100644
@@ -74,7 +65,7 @@ index 6c44615..5efd180 100644
  
  package btrfs
 diff --git a/daemon/graphdriver/devmapper/attach_loopback.go b/daemon/graphdriver/devmapper/attach_loopback.go
-index 2333907..456b564 100644
+index d2ab8c3..31d092a 100644
 --- a/daemon/graphdriver/devmapper/attach_loopback.go
 +++ b/daemon/graphdriver/devmapper/attach_loopback.go
 @@ -1,4 +1,4 @@
@@ -84,7 +75,7 @@ index 2333907..456b564 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/deviceset.go b/daemon/graphdriver/devmapper/deviceset.go
-index a96331d..803e227 100644
+index 48323f6..98d6e7a 100644
 --- a/daemon/graphdriver/devmapper/deviceset.go
 +++ b/daemon/graphdriver/devmapper/deviceset.go
 @@ -1,4 +1,4 @@
@@ -94,7 +85,7 @@ index a96331d..803e227 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/devmapper.go b/daemon/graphdriver/devmapper/devmapper.go
-index 7317118..902a052 100644
+index a6602c2..e44bd21 100644
 --- a/daemon/graphdriver/devmapper/devmapper.go
 +++ b/daemon/graphdriver/devmapper/devmapper.go
 @@ -1,4 +1,4 @@
@@ -104,7 +95,7 @@ index 7317118..902a052 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/devmapper_log.go b/daemon/graphdriver/devmapper/devmapper_log.go
-index 18dde7c..8d54ad4 100644
+index cdeaed2..ec7809c 100644
 --- a/daemon/graphdriver/devmapper/devmapper_log.go
 +++ b/daemon/graphdriver/devmapper/devmapper_log.go
 @@ -1,4 +1,4 @@
@@ -114,7 +105,7 @@ index 18dde7c..8d54ad4 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/devmapper_test.go b/daemon/graphdriver/devmapper/devmapper_test.go
-index 3ffa163..a43e32e 100644
+index 7c97d6b..9cf62f9 100644
 --- a/daemon/graphdriver/devmapper/devmapper_test.go
 +++ b/daemon/graphdriver/devmapper/devmapper_test.go
 @@ -1,4 +1,4 @@
@@ -124,7 +115,7 @@ index 3ffa163..a43e32e 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/devmapper_wrapper.go b/daemon/graphdriver/devmapper/devmapper_wrapper.go
-index bf558af..7e6dd5e 100644
+index 9f1b5a6..bd1c6fd 100644
 --- a/daemon/graphdriver/devmapper/devmapper_wrapper.go
 +++ b/daemon/graphdriver/devmapper/devmapper_wrapper.go
 @@ -1,4 +1,4 @@
@@ -134,7 +125,7 @@ index bf558af..7e6dd5e 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/driver.go b/daemon/graphdriver/devmapper/driver.go
-index 9f240d9..d072854 100644
+index cf82ad6..a4fcb76 100644
 --- a/daemon/graphdriver/devmapper/driver.go
 +++ b/daemon/graphdriver/devmapper/driver.go
 @@ -1,4 +1,4 @@
@@ -143,18 +134,8 @@ index 9f240d9..d072854 100644
  
  package devmapper
  
-diff --git a/daemon/graphdriver/devmapper/driver_test.go b/daemon/graphdriver/devmapper/driver_test.go
-index 913add7..fd7e9ba 100644
---- a/daemon/graphdriver/devmapper/driver_test.go
-+++ b/daemon/graphdriver/devmapper/driver_test.go
-@@ -1,4 +1,4 @@
--// +build linux,amd64
-+// +build linux
- 
- package devmapper
- 
 diff --git a/daemon/graphdriver/devmapper/ioctl.go b/daemon/graphdriver/devmapper/ioctl.go
-index 30bafff..f9bf34f 100644
+index 8f403da..29caab0 100644
 --- a/daemon/graphdriver/devmapper/ioctl.go
 +++ b/daemon/graphdriver/devmapper/ioctl.go
 @@ -1,4 +1,4 @@
@@ -164,7 +145,7 @@ index 30bafff..f9bf34f 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/mount.go b/daemon/graphdriver/devmapper/mount.go
-index 4f19109..d005048 100644
+index c9ff216..f64e995 100644
 --- a/daemon/graphdriver/devmapper/mount.go
 +++ b/daemon/graphdriver/devmapper/mount.go
 @@ -1,4 +1,4 @@
@@ -173,21 +154,11 @@ index 4f19109..d005048 100644
  
  package devmapper
  
-diff --git a/daemon/graphdriver/devmapper/sys.go b/daemon/graphdriver/devmapper/sys.go
-index 5a9ab4d..540c468 100644
---- a/daemon/graphdriver/devmapper/sys.go
-+++ b/daemon/graphdriver/devmapper/sys.go
-@@ -1,4 +1,4 @@
--// +build linux,amd64
-+// +build linux
- 
- package devmapper
- 
 diff --git a/docker/docker.go b/docker/docker.go
-index 60f34a1..cd70287 100644
+index 56bcb04..4190631 100644
 --- a/docker/docker.go
 +++ b/docker/docker.go
-@@ -252,7 +252,7 @@ func showVersion() {
+@@ -259,7 +259,7 @@ func showVersion() {
  func checkKernelAndArch() error {
  	// Check for unsupported architectures
  	if runtime.GOARCH != "amd64" {
@@ -257,7 +228,7 @@ index ee27b35..de40fb5 100644
  package mount
  
 diff --git a/pkg/netlink/netlink_linux.go b/pkg/netlink/netlink_linux.go
-index 6de293d..67518c6 100644
+index 14e30aa..92accd4 100644
 --- a/pkg/netlink/netlink_linux.go
 +++ b/pkg/netlink/netlink_linux.go
 @@ -1,11 +1,8 @@
@@ -270,9 +241,9 @@ index 6de293d..67518c6 100644
  	"fmt"
 -	"math/rand"
  	"net"
+ 	"sync/atomic"
  	"syscall"
- 	"unsafe"
-@@ -878,7 +875,7 @@ func setBridgeMacAddress(s int, name string) error {
+@@ -951,7 +948,7 @@ func setBridgeMacAddress(s int, name string) error {
  	copy(ifr.IfrnName[:], name)
  
  	for i := 0; i < 6; i++ {
@@ -281,40 +252,8 @@ index 6de293d..67518c6 100644
  	}
  
  	ifr.IfruHwaddr.Data[0] &^= 0x1 // clear multicast bit
-diff --git a/pkg/netlink/netlink_linux_arm.go b/pkg/netlink/netlink_linux_arm.go
-new file mode 100644
-index 0000000..7789ae2
---- /dev/null
-+++ b/pkg/netlink/netlink_linux_arm.go
-@@ -0,0 +1,9 @@
-+package netlink
-+
-+import (
-+	"math/rand"
-+)
-+
-+func randIfrDataByte() uint8 {
-+	return uint8(rand.Intn(255))
-+}
-diff --git a/pkg/netlink/netlink_linux_notarm.go b/pkg/netlink/netlink_linux_notarm.go
-new file mode 100644
-index 0000000..23c4a92
---- /dev/null
-+++ b/pkg/netlink/netlink_linux_notarm.go
-@@ -0,0 +1,11 @@
-+// +build !arm
-+
-+package netlink
-+
-+import (
-+	"math/rand"
-+)
-+
-+func randIfrDataByte() int8 {
-+	return int8(rand.Intn(255))
-+}
 diff --git a/pkg/netlink/netlink_unsupported.go b/pkg/netlink/netlink_unsupported.go
-index 8a5531b..e98f5b0 100644
+index 1359345..2c4d319 100644
 --- a/pkg/netlink/netlink_unsupported.go
 +++ b/pkg/netlink/netlink_unsupported.go
 @@ -1,4 +1,4 @@

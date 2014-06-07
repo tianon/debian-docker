@@ -3,71 +3,61 @@ Description: "archive/tar" patch for upstreamed xattrs patch
 Applied-Upstream: when golang-1.3 is broadly packaged (scheduled to be released 2014-06-01)
 
 diff --git a/archive/archive.go b/archive/archive.go
-index 2fac18e..19ffcf7 100644
+index 76c6e31..6700a9d 100644
 --- a/archive/archive.go
 +++ b/archive/archive.go
-@@ -1,6 +1,7 @@
- package archive
+@@ -16,9 +16,9 @@ import (
+ 	"strings"
+ 	"syscall"
  
- import (
 +	"archive/tar"
- 	"bytes"
- 	"compress/bzip2"
- 	"compress/gzip"
-@@ -8,7 +9,6 @@ import (
- 	"fmt"
  	"github.com/dotcloud/docker/pkg/system"
  	"github.com/dotcloud/docker/utils"
 -	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io"
- 	"io/ioutil"
- 	"os"
+ )
+ 
+ type (
 diff --git a/archive/archive_test.go b/archive/archive_test.go
-index 4126601..164fc8f 100644
+index 72ffd99..0145e82 100644
 --- a/archive/archive_test.go
 +++ b/archive/archive_test.go
-@@ -1,9 +1,9 @@
- package archive
+@@ -11,7 +11,7 @@ import (
+ 	"testing"
+ 	"time"
  
- import (
-+	"archive/tar"
- 	"bytes"
- 	"fmt"
 -	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io"
- 	"io/ioutil"
- 	"os"
++	"archive/tar"
+ )
+ 
+ func TestCmdStreamLargeStderr(t *testing.T) {
 diff --git a/archive/changes.go b/archive/changes.go
-index 723e4a7..120f33a 100644
+index 1e588b8..380ed22 100644
 --- a/archive/changes.go
 +++ b/archive/changes.go
-@@ -1,11 +1,11 @@
- package archive
+@@ -10,9 +10,9 @@ import (
+ 	"syscall"
+ 	"time"
  
- import (
 +	"archive/tar"
- 	"bytes"
- 	"fmt"
  	"github.com/dotcloud/docker/pkg/system"
  	"github.com/dotcloud/docker/utils"
 -	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io"
- 	"os"
- 	"path/filepath"
+ )
+ 
+ type ChangeType int
 diff --git a/archive/diff.go b/archive/diff.go
-index 87e8ac7..a617d4e 100644
+index d169669..b7514e4 100644
 --- a/archive/diff.go
 +++ b/archive/diff.go
-@@ -1,8 +1,8 @@
- package archive
+@@ -9,7 +9,7 @@ import (
+ 	"strings"
+ 	"syscall"
  
- import (
-+	"archive/tar"
- 	"fmt"
 -	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io"
- 	"io/ioutil"
- 	"os"
++	"archive/tar"
+ )
+ 
+ // Linux device nodes are a bit weird due to backwards compat with 16 bit device nodes.
 diff --git a/archive/wrap.go b/archive/wrap.go
 index 03ea508..dfb335c 100644
 --- a/archive/wrap.go
@@ -83,7 +73,7 @@ index 03ea508..dfb335c 100644
  )
  
 diff --git a/graph/tags_unit_test.go b/graph/tags_unit_test.go
-index bc43813..9075208 100644
+index 42e0977..5a5ccc1 100644
 --- a/graph/tags_unit_test.go
 +++ b/graph/tags_unit_test.go
 @@ -1,12 +1,12 @@
@@ -101,17 +91,17 @@ index bc43813..9075208 100644
  	"os"
  	"path"
 diff --git a/integration/api_test.go b/integration/api_test.go
-index 04611df..187efc5 100644
+index 969e0fb..99c2751 100644
 --- a/integration/api_test.go
 +++ b/integration/api_test.go
-@@ -1,6 +1,7 @@
- package docker
+@@ -14,6 +14,7 @@ import (
+ 	"testing"
+ 	"time"
  
- import (
 +	"archive/tar"
- 	"bufio"
- 	"bytes"
- 	"encoding/json"
+ 	"github.com/dotcloud/docker/api"
+ 	"github.com/dotcloud/docker/api/server"
+ 	"github.com/dotcloud/docker/daemon"
 @@ -21,7 +22,6 @@ import (
  	"github.com/dotcloud/docker/image"
  	"github.com/dotcloud/docker/runconfig"
@@ -121,20 +111,18 @@ index 04611df..187efc5 100644
  
  func TestGetEvents(t *testing.T) {
 diff --git a/integration/utils_test.go b/integration/utils_test.go
-index 6901662..66cf9ef 100644
+index d8101df..357ef4b 100644
 --- a/integration/utils_test.go
 +++ b/integration/utils_test.go
-@@ -1,9 +1,9 @@
- package docker
+@@ -13,7 +13,7 @@ import (
+ 	"testing"
+ 	"time"
  
- import (
-+	"archive/tar"
- 	"bytes"
- 	"fmt"
 -	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io"
- 	"io/ioutil"
- 	"net/http"
++	"archive/tar"
+ 
+ 	"github.com/dotcloud/docker/builtins"
+ 	"github.com/dotcloud/docker/daemon"
 diff --git a/utils/tarsum.go b/utils/tarsum.go
 index 67e94aa..786196b 100644
 --- a/utils/tarsum.go
@@ -152,3 +140,19 @@ index 67e94aa..786196b 100644
  	"hash"
  	"io"
  	"sort"
+diff --git a/utils/tarsum_test.go b/utils/tarsum_test.go
+index 52ddd64..d356832 100644
+--- a/utils/tarsum_test.go
++++ b/utils/tarsum_test.go
+@@ -1,10 +1,10 @@
+ package utils
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+ 	"crypto/rand"
+ 	"fmt"
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io"
+ 	"io/ioutil"
+ 	"os"
