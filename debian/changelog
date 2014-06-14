@@ -1,4 +1,4 @@
-docker.io (1.0.0~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.0.0~dfsg1-1) unstable; urgency=medium
 
   * Updated to 1.0.0 upstream release. Huzzah!
   * I've removed what is commonly called a `button' of patches against
@@ -17,7 +17,7 @@ docker.io (1.0.0~dfsg1-1) UNRELEASED; urgency=medium
   * As a stop-gap, I'm still shipping a docker.io(1) symlink to allow
     migration away.
 
- -- Paul Tagliamonte <paultag@debian.org>  Wed, 11 Jun 2014 19:52:59 -0400
+ -- Paul Tagliamonte <paultag@debian.org>  Fri, 13 Jun 2014 21:04:53 -0400
 
 docker.io (0.11.1~dfsg1-1) unstable; urgency=medium
 
