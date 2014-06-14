@@ -24,6 +24,12 @@ export DOCKER_BUILDTAGS := apparmor
 override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
 	./hack/make.sh dynbinary
+	
+	# compile man pages
+	./contrib/man/md/md2man-all.sh
+	# ... and work around a minor bug in md2man-all.sh
+	# (see https://github.com/dotcloud/docker/pull/6424)
+	rm -r contrib/man/manREADME
 
 
 override_dh_auto_install:
@@ -47,12 +53,6 @@ override_dh_strip:
 
 
 override_dh_auto_test:
-
-
-override_dh_installman:
-	# we have to manually install because of the period in the name
-	mkdir -p debian/docker.io/usr/share/man/man1
-	cp debian/docker.io.1 debian/docker.io/usr/share/man/man1/
 
 
 override_dh_installchangelogs:
