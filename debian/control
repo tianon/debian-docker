@@ -21,7 +21,8 @@ Build-Depends: bash-completion,
                golang-mux-dev (>= 0.0~git20140505~),
                golang-pty-dev (>= 0.0~git20140315.1.67e2db2-1~),
                libapparmor-dev,
-               libdevmapper-dev
+               libdevmapper-dev,
+               pandoc
 Standards-Version: 3.9.5
 Homepage: https://github.com/dotcloud/docker
 Vcs-Git: git://anonscm.debian.org/docker/docker.io.git
