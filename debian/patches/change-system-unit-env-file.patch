@@ -13,7 +13,7 @@ diff -Nuarp a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.
  
  [Service]
 -ExecStart=/usr/bin/docker -d
-+EnvironmentFile=/etc/default/docker.io
++EnvironmentFile=/etc/default/docker
 +ExecStart=/usr/bin/docker -d $DOCKER_OPTS
  Restart=on-failure
  LimitNOFILE=1048576
