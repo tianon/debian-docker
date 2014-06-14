@@ -35,6 +35,8 @@ Recommends: aufs-tools,
             cgroupfs-mount | cgroup-lite,
             git,
             xz-utils
+Replaces: docker (<< 1.5~)
+Breaks: docker (<< 1.5~)
 Suggests: btrfs-tools, debootstrap, lxc, rinse
 Built-Using: ${misc:Built-Using}
 Description: Linux container runtime

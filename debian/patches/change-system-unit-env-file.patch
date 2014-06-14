@@ -12,9 +12,9 @@ diff -Nuarp a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.
  After=network.target
  
  [Service]
--ExecStart=/usr/bin/docker.io -d
+-ExecStart=/usr/bin/docker -d
 +EnvironmentFile=/etc/default/docker.io
-+ExecStart=/usr/bin/docker.io -d $DOCKER_OPTS
++ExecStart=/usr/bin/docker -d $DOCKER_OPTS
  Restart=on-failure
  LimitNOFILE=1048576
  LimitNPROC=1048576

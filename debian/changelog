@@ -1,6 +1,21 @@
 docker.io (1.0.0~dfsg1-1) UNRELEASED; urgency=medium
 
   * Updated to 1.0.0 upstream release. Huzzah!
+  * I've removed what is commonly called a `button' of patches against
+    the docker package. Exact patches:
+     - bash-completion-docker.io.patch
+     - systemd-docker.io.patch
+     - sysvinit-provides-docker.io.patch
+     - zsh-completion-docker.io.patch
+     - mkimage-docker.io.patch
+  * I know y'all are guessing why; and the answer's pretty simple -- we're
+    no longer docker.io(1). Since the src:docker package now ships wmdocker(1),
+    we can safely declare a breaks/replaces on the pre-wmdocker version of the
+    package, allowing existing users to safely update, both src:docker and
+    src:docker.io side. This brings us into line with other distros, which
+    now ship wmdocker(1) and docker(1).
+  * As a stop-gap, I'm still shipping a docker.io(1) symlink to allow
+    migration away.
 
  -- Paul Tagliamonte <paultag@debian.org>  Wed, 11 Jun 2014 19:52:59 -0400
 
