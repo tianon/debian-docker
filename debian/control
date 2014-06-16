@@ -35,7 +35,8 @@ Recommends: aufs-tools,
             ca-certificates,
             cgroupfs-mount | cgroup-lite,
             git,
-            xz-utils
+            xz-utils,
+            ${apparmor:Recommends}
 Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
 Suggests: btrfs-tools, debootstrap, lxc, rinse

@@ -21,6 +21,12 @@ export DOCKER_INITPATH := ${INITPATH}
 export DOCKER_BUILDTAGS := apparmor
 
 
+APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)
+override_dh_gencontrol:
+	echo 'apparmor:Recommends=$(APPARMOR_RECOMMENDS)' >> debian/docker.io.substvars
+	dh_gencontrol
+
+
 override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
 	./hack/make.sh dynbinary
