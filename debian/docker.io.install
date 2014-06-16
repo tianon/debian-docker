@@ -1,4 +1,4 @@
-contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
 
 contrib/*-integration usr/share/docker.io/contrib/
+contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
 contrib/mk* usr/share/docker.io/contrib/
