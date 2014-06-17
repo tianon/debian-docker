@@ -58,6 +58,15 @@ Description: Linux container runtime
  the daemon process, and that any lower versions may have subtle and/or glaring
  issues.
 
+Package: golang-docker-dev
+Architecture: all
+Depends: ${misc:Depends}
+Built-Using: ${misc:Built-Using}
+Description: Externally reusable Go packages included with Docker
+ These packages are intentionally developed by upstream in such a way that they
+ are resuable to projects outside Docker and only rely on each other or other
+ external dependencies to be built.
+
 Package: vim-syntax-docker
 Architecture: all
 Depends: vim, ${misc:Depends}

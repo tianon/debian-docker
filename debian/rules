@@ -54,8 +54,14 @@ override_dh_auto_install:
 	# install dockerinit binary
 	mkdir -p debian/docker.io/${INITDIR}
 	mv bundles/${DOCKER_VERSION}/dynbinary/dockerinit-${DOCKER_VERSION} debian/docker.io/${INITPATH}
-	# The source of docker does not make a library, so don't ship it.
-	rm -rf debian/docker.io/usr/share/gocode
+	
+	# Most of the source of docker does not make a library,
+	#   so only ship the reusable parts (and in a separate package).
+	mkdir -p debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}
+	mv -v \
+		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/pkg \
+		debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}/
+	rm -rf debian/tmp/usr/share/gocode
 
 
 # the SHA1 of dockerinit is important: don't strip it
