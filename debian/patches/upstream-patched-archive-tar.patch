@@ -1,9 +1,9 @@
 Author: Tianon Gravi <admwiggin@gmail.com>
 Description: "archive/tar" patch for upstreamed xattrs patch
-Applied-Upstream: when golang-1.3 is broadly packaged (scheduled to be released 2014-06-01)
+Applied-Upstream: when golang-1.4 is broadly packaged (scheduled to be released 2014-12-01)
 
 diff --git a/archive/archive.go b/archive/archive.go
-index 76c6e31..6700a9d 100644
+index 2ba62f5..8fa7451 100644
 --- a/archive/archive.go
 +++ b/archive/archive.go
 @@ -16,9 +16,9 @@ import (
@@ -18,7 +18,7 @@ index 76c6e31..6700a9d 100644
  
  type (
 diff --git a/archive/archive_test.go b/archive/archive_test.go
-index 72ffd99..0145e82 100644
+index 61ee0af..0127ed9 100644
 --- a/archive/archive_test.go
 +++ b/archive/archive_test.go
 @@ -11,7 +11,7 @@ import (
@@ -91,27 +91,25 @@ index 42e0977..5a5ccc1 100644
  	"os"
  	"path"
 diff --git a/integration/api_test.go b/integration/api_test.go
-index 969e0fb..99c2751 100644
+index b2e4471..ab59a5c 100644
 --- a/integration/api_test.go
 +++ b/integration/api_test.go
-@@ -14,6 +14,7 @@ import (
+@@ -13,12 +13,12 @@ import (
  	"testing"
  	"time"
  
 +	"archive/tar"
  	"github.com/dotcloud/docker/api"
  	"github.com/dotcloud/docker/api/server"
- 	"github.com/dotcloud/docker/daemon"
-@@ -21,7 +22,6 @@ import (
+ 	"github.com/dotcloud/docker/engine"
  	"github.com/dotcloud/docker/image"
  	"github.com/dotcloud/docker/runconfig"
- 	"github.com/dotcloud/docker/utils"
 -	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
  )
  
- func TestGetEvents(t *testing.T) {
+ func TestGetImagesJSON(t *testing.T) {
 diff --git a/integration/utils_test.go b/integration/utils_test.go
-index d8101df..357ef4b 100644
+index 7be7f13..6105f03 100644
 --- a/integration/utils_test.go
 +++ b/integration/utils_test.go
 @@ -13,7 +13,7 @@ import (
@@ -141,18 +139,15 @@ index 67e94aa..786196b 100644
  	"io"
  	"sort"
 diff --git a/utils/tarsum_test.go b/utils/tarsum_test.go
-index 52ddd64..d356832 100644
+index e84abde..cc54d7f 100644
 --- a/utils/tarsum_test.go
 +++ b/utils/tarsum_test.go
-@@ -1,10 +1,10 @@
- package utils
- 
- import (
-+	"archive/tar"
- 	"bytes"
- 	"crypto/rand"
- 	"fmt"
--	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io"
- 	"io/ioutil"
+@@ -9,7 +9,7 @@ import (
  	"os"
+ 	"testing"
+ 
+-	"github.com/dotcloud/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ type testLayer struct {
