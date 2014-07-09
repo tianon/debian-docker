@@ -1,4 +1,4 @@
-# once golang-1.3 drops, up the dep in debian/control and remove this patch
+# Once upstream kills the archive/tar vendoring, remove this patch
 upstream-patched-archive-tar.patch
 
 # Once upstream adds EnvFile, remove this patch.
