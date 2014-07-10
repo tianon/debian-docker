@@ -1,0 +1,29 @@
+From 3589f5b9c2d9e5cb6d057713aa8d591295c5f523 Mon Sep 17 00:00:00 2001
+From: Tianon Gravi <admwiggin@gmail.com>
+Date: Mon, 7 Jul 2014 08:09:25 -0600
+Subject: [PATCH] Fix the systemd socket activation socket permissions
+
+Fixes #6836
+
+Docker-DCO-1.1-Signed-off-by: Andrew Page <admwiggin@gmail.com> (github: tianon)
+---
+ contrib/init/systemd/socket-activation/docker.socket | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/init/systemd/socket-activation/docker.socket b/contrib/init/systemd/socket-activation/docker.socket
+index 3635c89..9db5049 100644
+--- a/contrib/init/systemd/socket-activation/docker.socket
++++ b/contrib/init/systemd/socket-activation/docker.socket
+@@ -3,6 +3,9 @@ Description=Docker Socket for the API
+ 
+ [Socket]
+ ListenStream=/var/run/docker.sock
++SocketMode=0660
++SocketUser=root
++SocketGroup=docker
+ 
+ [Install]
+ WantedBy=sockets.target
+-- 
+1.9.3
+
