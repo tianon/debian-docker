@@ -1,6 +1,6 @@
-docker.io (1.1.1~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.1.2~dfsg1-1) UNRELEASED; urgency=medium
 
-  * Updated to 1.1.1 upstream release.
+  * Updated to 1.1.2 upstream release.
   * Added upstream man pages.
   * Updated bash and zsh completions to be installed as "docker" and "_docker".
   * Updated init scripts to also be installed as "docker".
