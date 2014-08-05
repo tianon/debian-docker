@@ -33,10 +33,6 @@ override_dh_auto_build:
 	
 	# compile man pages
 	./contrib/man/md/md2man-all.sh
-	
-	# zsh completion scripts aren't supposed to be +x
-	# (see https://github.com/dotcloud/docker/pull/6427)
-	chmod -x contrib/completion/zsh/*
 
 
 override_dh_auto_install:
