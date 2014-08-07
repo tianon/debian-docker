@@ -3,7 +3,7 @@
 
 set -e
 
-if ! [ -d debian/prune ]; then
+if ! [ -d debian/repack/prune ]; then
 	exit 0
 fi
 
@@ -23,7 +23,7 @@ tempdir="$(mktemp -d)"
 
 cd "$tempdir"
 tar xf "$dir/$filename"
-cat "$dir"/debian/prune/* | while read file; do rm -rvf */$file; done
+cat "$dir"/debian/repack/prune/* | while read file; do rm -rvf */$file; done
 
 dfsgfilename="$(echo $filename | sed -E 's/(\.orig\.)/~dfsg1\1/')"
 #dfsgfilename="$(echo $filename | sed -E 's/(\.orig\.)/+dfsg1\1/')"
