@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+# Copyright (c) Paul R. Tagliamonte, 2014 under the Apache 2.0 license,
+# a copy of which is present in debian/copyright.
+import re
+import os
+import sys
+import urllib.request
+
+TARBALLS = os.environ.get("DOCKER_TARBALLS", "../tarballs/")
+
+with open("debian/changelog", 'r') as fd:
+    data = re.match(
+        "(?P<source>.*) \((?P<version>.*)\) (?P<suite>.*); .*",
+        fd.readline()
+    ).groupdict()
+
+if not os.path.exists(TARBALLS):
+    os.mkdir(TARBALLS)
+
+
+def parse_version(version):
+    """
+    Parse a *native* Debian version into:
+
+         - Upstream (upstream's version number)
+         - Debian's Upstream (perhaps with +repack, +dfsg or +ds)
+         - Debian's Version
+    """
+
+    dupstream, debversion = version.rsplit("-", 1)
+    upstream = dupstream
+
+    if "dfsg" in dupstream:  # or ds?
+        upstream = re.sub("[~+]dfsg\d+", "", dupstream)
+
+    return {
+        "upstream": upstream,
+        "dupstream": dupstream,
+        "debversion": debversion,
+        "digested": upstream.split("."),
+    }
+
+
+version = parse_version(data['version'])
+
+
+def download_version(version):
+    """
+    Download the friggn' tarball.
+    """
+    urllib.request.urlretrieve(
+        "https://github.com/docker/libcontainer/"
+        "archive/v{upstream}.tar.gz".format(**version),
+        os.path.join(TARBALLS,
+                     "docker.io_{dupstream}.orig-libcontainer.tar.gz".format(
+                         **version)))
+
+
+major, micro, patch = (int(x) for x in version['digested'])
+for pv in range(patch, -1, -1):
+    _version = version.copy()
+    _version['upstream'] = "{major}.{micro}.{pv}".format(**locals())
+    try:
+        print("Trying: {upstream}".format(**_version))
+        download_version(_version)
+        print(" Nice! That's the one! Saving it!")
+        break
+    except urllib.error.HTTPError:
+        continue
+else:
+    print("Nothing found, ugh. Wat.")
+    sys.exit(1)
