@@ -6,7 +6,7 @@ Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=747139
 Forwarded: not-needed
 
 diff --git a/daemon/execdriver/lxc/lxc_init_linux.go b/daemon/execdriver/lxc/lxc_init_linux.go
-index 7288f58..b0055c3 100644
+index 1fd497e..9e40070 100644
 --- a/daemon/execdriver/lxc/lxc_init_linux.go
 +++ b/daemon/execdriver/lxc/lxc_init_linux.go
 @@ -1,5 +1,3 @@
@@ -16,7 +16,7 @@ index 7288f58..b0055c3 100644
  
  import (
 diff --git a/daemon/execdriver/lxc/lxc_init_unsupported.go b/daemon/execdriver/lxc/lxc_init_unsupported.go
-index d68cb91..951a286 100644
+index 079446e..73fe3fa 100644
 --- a/daemon/execdriver/lxc/lxc_init_unsupported.go
 +++ b/daemon/execdriver/lxc/lxc_init_unsupported.go
 @@ -1,4 +1,4 @@
@@ -65,7 +65,7 @@ index 6c44615..5efd180 100644
  
  package btrfs
 diff --git a/daemon/graphdriver/devmapper/attach_loopback.go b/daemon/graphdriver/devmapper/attach_loopback.go
-index d2ab8c3..31d092a 100644
+index 28a648a..6002071 100644
 --- a/daemon/graphdriver/devmapper/attach_loopback.go
 +++ b/daemon/graphdriver/devmapper/attach_loopback.go
 @@ -1,4 +1,4 @@
@@ -75,7 +75,7 @@ index d2ab8c3..31d092a 100644
  package devmapper
  
 diff --git a/daemon/graphdriver/devmapper/deviceset.go b/daemon/graphdriver/devmapper/deviceset.go
-index 48323f6..98d6e7a 100644
+index 31c3f39..2c4ba34 100644
 --- a/daemon/graphdriver/devmapper/deviceset.go
 +++ b/daemon/graphdriver/devmapper/deviceset.go
 @@ -1,4 +1,4 @@
@@ -155,82 +155,42 @@ index c9ff216..f64e995 100644
  package devmapper
  
 diff --git a/docker/docker.go b/docker/docker.go
-index 56bcb04..4190631 100644
+index 30d43bc..aac52fd 100644
 --- a/docker/docker.go
 +++ b/docker/docker.go
-@@ -259,7 +259,7 @@ func showVersion() {
+@@ -269,7 +269,7 @@ func showVersion() {
  func checkKernelAndArch() error {
  	// Check for unsupported architectures
  	if runtime.GOARCH != "amd64" {
--		return fmt.Errorf("The docker runtime currently only supports amd64 (not %s). This will change in the future. Aborting.", runtime.GOARCH)
-+		log.Printf("WARNING: The docker runtime currently only officially supports amd64 (not %s). THIS BUILD IS NOT OFFICIAL AND WILL NOT BE SUPPORTED BY DOCKER UPSTREAM.", runtime.GOARCH)
+-		return fmt.Errorf("The Docker runtime currently only supports amd64 (not %s). This will change in the future. Aborting.", runtime.GOARCH)
++		log.Printf("WARNING: The Docker runtime currently only officially supports amd64 (not %s). THIS BUILD IS NOT OFFICIAL AND WILL NOT BE SUPPORTED BY DOCKER UPSTREAM.", runtime.GOARCH)
  	}
  	// Check for unsupported kernel versions
  	// FIXME: it would be cleaner to not test for specific versions, but rather
-diff --git a/pkg/apparmor/apparmor.go b/pkg/apparmor/apparmor.go
+diff --git a/libcontainer/apparmor/apparmor.go b/libcontainer/apparmor/apparmor.go
 index 704ee29..fb1574d 100644
---- a/pkg/apparmor/apparmor.go
-+++ b/pkg/apparmor/apparmor.go
+--- a/libcontainer/apparmor/apparmor.go
++++ b/libcontainer/apparmor/apparmor.go
 @@ -1,4 +1,4 @@
 -// +build apparmor,linux,amd64
 +// +build apparmor,linux
  
  package apparmor
  
-diff --git a/pkg/apparmor/apparmor_disabled.go b/pkg/apparmor/apparmor_disabled.go
+diff --git a/libcontainer/apparmor/apparmor_disabled.go b/libcontainer/apparmor/apparmor_disabled.go
 index 8d86ce9..937bf91 100644
---- a/pkg/apparmor/apparmor_disabled.go
-+++ b/pkg/apparmor/apparmor_disabled.go
+--- a/libcontainer/apparmor/apparmor_disabled.go
++++ b/libcontainer/apparmor/apparmor_disabled.go
 @@ -1,4 +1,4 @@
 -// +build !apparmor !linux !amd64
 +// +build !apparmor !linux
  
  package apparmor
  
-diff --git a/pkg/mount/flags_linux.go b/pkg/mount/flags_linux.go
-index b7124b1..483f129 100644
---- a/pkg/mount/flags_linux.go
-+++ b/pkg/mount/flags_linux.go
-@@ -1,5 +1,3 @@
--// +build amd64
--
- package mount
- 
- import (
-diff --git a/pkg/mount/flags_unsupported.go b/pkg/mount/flags_unsupported.go
-index c894efe..b9731a5 100644
---- a/pkg/mount/flags_unsupported.go
-+++ b/pkg/mount/flags_unsupported.go
-@@ -1,4 +1,4 @@
--// +build !linux !amd64
-+// +build !linux
- 
- package mount
- 
-diff --git a/pkg/mount/mounter_linux.go b/pkg/mount/mounter_linux.go
-index 70b7798..dd4280c 100644
---- a/pkg/mount/mounter_linux.go
-+++ b/pkg/mount/mounter_linux.go
-@@ -1,5 +1,3 @@
--// +build amd64
--
- package mount
- 
- import (
-diff --git a/pkg/mount/mounter_unsupported.go b/pkg/mount/mounter_unsupported.go
-index ee27b35..de40fb5 100644
---- a/pkg/mount/mounter_unsupported.go
-+++ b/pkg/mount/mounter_unsupported.go
-@@ -1,4 +1,4 @@
--// +build !linux !amd64
-+// +build !linux
- 
- package mount
- 
-diff --git a/pkg/netlink/netlink_linux.go b/pkg/netlink/netlink_linux.go
+diff --git a/libcontainer/netlink/netlink_linux.go b/libcontainer/netlink/netlink_linux.go
 index 14e30aa..92accd4 100644
---- a/pkg/netlink/netlink_linux.go
-+++ b/pkg/netlink/netlink_linux.go
+--- a/libcontainer/netlink/netlink_linux.go
++++ b/libcontainer/netlink/netlink_linux.go
 @@ -1,11 +1,8 @@
 -// +build amd64
 -
@@ -252,11 +212,11 @@ index 14e30aa..92accd4 100644
  	}
  
  	ifr.IfruHwaddr.Data[0] &^= 0x1 // clear multicast bit
-diff --git a/pkg/netlink/netlink_linux_arm.go b/pkg/netlink/netlink_linux_arm.go
+diff --git a/libcontainer/netlink/netlink_linux_arm.go b/libcontainer/netlink/netlink_linux_arm.go
 new file mode 100644
 index 0000000..7789ae2
 --- /dev/null
-+++ b/pkg/netlink/netlink_linux_arm.go
++++ b/libcontainer/netlink/netlink_linux_arm.go
 @@ -0,0 +1,9 @@
 +package netlink
 +
@@ -267,11 +227,11 @@ index 0000000..7789ae2
 +func randIfrDataByte() uint8 {
 +	return uint8(rand.Intn(255))
 +}
-diff --git a/pkg/netlink/netlink_linux_notarm.go b/pkg/netlink/netlink_linux_notarm.go
+diff --git a/libcontainer/netlink/netlink_linux_notarm.go b/libcontainer/netlink/netlink_linux_notarm.go
 new file mode 100644
 index 0000000..23c4a92
 --- /dev/null
-+++ b/pkg/netlink/netlink_linux_notarm.go
++++ b/libcontainer/netlink/netlink_linux_notarm.go
 @@ -0,0 +1,11 @@
 +// +build !arm
 +
@@ -284,16 +244,36 @@ index 0000000..23c4a92
 +func randIfrDataByte() int8 {
 +	return int8(rand.Intn(255))
 +}
-diff --git a/pkg/netlink/netlink_unsupported.go b/pkg/netlink/netlink_unsupported.go
+diff --git a/libcontainer/netlink/netlink_unsupported.go b/libcontainer/netlink/netlink_unsupported.go
 index 1359345..2c4d319 100644
---- a/pkg/netlink/netlink_unsupported.go
-+++ b/pkg/netlink/netlink_unsupported.go
+--- a/libcontainer/netlink/netlink_unsupported.go
++++ b/libcontainer/netlink/netlink_unsupported.go
 @@ -1,4 +1,4 @@
 -// +build !linux !amd64
 +// +build !linux
  
  package netlink
  
+diff --git a/pkg/mount/flags_linux.go b/pkg/mount/flags_linux.go
+index 19c882f..0bb47d8 100644
+--- a/pkg/mount/flags_linux.go
++++ b/pkg/mount/flags_linux.go
+@@ -1,5 +1,3 @@
+-// +build amd64
+-
+ package mount
+ 
+ import (
+diff --git a/pkg/mount/mounter_linux.go b/pkg/mount/mounter_linux.go
+index 70b7798..dd4280c 100644
+--- a/pkg/mount/mounter_linux.go
++++ b/pkg/mount/mounter_linux.go
+@@ -1,5 +1,3 @@
+-// +build amd64
+-
+ package mount
+ 
+ import (
 diff --git a/pkg/system/setns_linux.go b/pkg/system/setns_linux.go
 index 2b6f9e7..6e4f924 100644
 --- a/pkg/system/setns_linux.go
