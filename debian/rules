@@ -6,6 +6,8 @@ export DH_GOPKG := github.com/dotcloud/docker
 # Tell dh-golang that we DO need subpackages
 export DH_GOLANG_INSTALL_ALL := 1
 
+LIBCONTAINER_GOPKG = github.com/docker/libcontainer
+
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 export GOPATH := $(CURDIR)/obj-$(DEB_BUILD_GNU_TYPE)
 
@@ -29,6 +31,8 @@ override_dh_gencontrol:
 
 override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
+	@mkdir -p "$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))"
+	ln -sf "$$(readlink -f libcontainer)" "$(GOPATH)/src/$(dir $(LIBCONTAINER_GOPKG))"
 	./hack/make.sh dynbinary
 	
 	# compile man pages
@@ -54,6 +58,10 @@ override_dh_auto_install:
 	mv -v \
 		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/pkg \
 		debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}/
+	mkdir -p debian/golang-docker-dev/usr/share/gocode/src/$(dir $(LIBCONTAINER_GOPKG))
+	mv -v \
+		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer \
+		debian/golang-docker-dev/usr/share/gocode/src/$(dir $(LIBCONTAINER_GOPKG))
 	rm -rf debian/tmp/usr/share/gocode
 
 
