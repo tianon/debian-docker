@@ -14,7 +14,7 @@ This is because enabling memory cgroup support has some run-time overhead,
 and kernel maintainers don't want to slow down systems unnecessarily.
 
 http://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg764104.html
-https://github.com/dotcloud/docker/issues/396
+https://github.com/docker/docker/issues/396
 
 To instruct the kernel to enable memory cgroup support, edit
 /etc/default/grub and extend GRUB_CMDLINE_LINUX_DEFAULT like:

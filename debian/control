@@ -27,7 +27,7 @@ Build-Depends: bash-completion,
                libdevmapper-dev,
                pandoc
 Standards-Version: 3.9.5
-Homepage: https://github.com/dotcloud/docker
+Homepage: https://github.com/docker/docker
 Vcs-Git: git://anonscm.debian.org/docker/docker.io.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=docker/docker.io.git;a=summary
 
