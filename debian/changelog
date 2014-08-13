@@ -4,6 +4,7 @@ docker.io (1.1.2~dfsg1-1) UNRELEASED; urgency=medium
   * Added upstream man pages.
   * Updated bash and zsh completions to be installed as "docker" and "_docker".
   * Updated init scripts to also be installed as "docker".
+  * Fixed "equivalent" typo in README.Debian (Closes #756395). Thanks Reuben!
 
  -- Tianon Gravi <admwiggin@gmail.com>  Sat, 14 Jun 2014 02:05:16 -0600
 
