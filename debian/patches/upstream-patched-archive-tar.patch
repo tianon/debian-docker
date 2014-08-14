@@ -3,22 +3,20 @@ Description: "archive/tar" patch for upstreamed xattrs patch
 Applied-Upstream: when golang-1.4 is broadly packaged (scheduled to be released 2014-12-01)
 
 diff --git a/archive/archive.go b/archive/archive.go
-index eea8db3..0c5f0ee 100644
+index 932e230..85bedfd 100644
 --- a/archive/archive.go
 +++ b/archive/archive.go
-@@ -16,9 +16,9 @@ import (
+@@ -16,7 +16,7 @@ import (
  	"strings"
  	"syscall"
  
-+	"archive/tar"
- 	"github.com/docker/docker/pkg/system"
- 	"github.com/docker/docker/utils"
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- )
++	"archive/tar"
  
- type (
+ 	"github.com/docker/docker/pkg/log"
+ 	"github.com/docker/docker/pkg/system"
 diff --git a/archive/archive_test.go b/archive/archive_test.go
-index 6afe298..37d1386 100644
+index b46f953..3a1fc75 100644
 --- a/archive/archive_test.go
 +++ b/archive/archive_test.go
 @@ -11,7 +11,7 @@ import (
@@ -31,20 +29,18 @@ index 6afe298..37d1386 100644
  
  func TestCmdStreamLargeStderr(t *testing.T) {
 diff --git a/archive/changes.go b/archive/changes.go
-index 859c8aa..38c805d 100644
+index 032dfe0..e3e9ac9 100644
 --- a/archive/changes.go
 +++ b/archive/changes.go
-@@ -11,9 +11,9 @@ import (
+@@ -11,7 +11,7 @@ import (
  	"syscall"
  	"time"
  
-+	"archive/tar"
- 	"github.com/docker/docker/pkg/system"
- 	"github.com/docker/docker/utils"
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- )
++	"archive/tar"
  
- type ChangeType int
+ 	"github.com/docker/docker/pkg/log"
+ 	"github.com/docker/docker/pkg/system"
 diff --git a/archive/diff.go b/archive/diff.go
 index a805f2c..decaf66 100644
 --- a/archive/diff.go
@@ -108,7 +104,7 @@ index e5f93fb..afb0d9b 100644
  
  func TestGetContainersJSON(t *testing.T) {
 diff --git a/integration/utils_test.go b/integration/utils_test.go
-index e44bda8..0828b86 100644
+index 7962886..9d8e87d 100644
 --- a/integration/utils_test.go
 +++ b/integration/utils_test.go
 @@ -13,7 +13,7 @@ import (
@@ -121,18 +117,18 @@ index e44bda8..0828b86 100644
  	"github.com/docker/docker/builtins"
  	"github.com/docker/docker/daemon"
 diff --git a/pkg/tarsum/tarsum.go b/pkg/tarsum/tarsum.go
-index bc017d0..4d38ace 100644
+index 32b5e42..07af57a 100644
 --- a/pkg/tarsum/tarsum.go
 +++ b/pkg/tarsum/tarsum.go
-@@ -12,7 +12,7 @@ import (
+@@ -11,7 +11,7 @@ import (
  	"strconv"
  	"strings"
  
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
 +	"archive/tar"
- )
  
- type TarSum struct {
+ 	"github.com/docker/docker/pkg/log"
+ )
 diff --git a/pkg/tarsum/tarsum_test.go b/pkg/tarsum/tarsum_test.go
 index f251f09..a4bd8fd 100644
 --- a/pkg/tarsum/tarsum_test.go
