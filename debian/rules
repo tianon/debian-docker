@@ -2,7 +2,7 @@
 # -*- makefile -*-
 
 # Tell dh-golang where this package lives upstream
-export DH_GOPKG := github.com/dotcloud/docker
+export DH_GOPKG := github.com/docker/docker
 # Tell dh-golang that we DO need subpackages
 export DH_GOLANG_INSTALL_ALL := 1
 
