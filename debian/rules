@@ -31,8 +31,14 @@ override_dh_gencontrol:
 
 override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
+	
+	@# this is especially for easier build-testing of nightlies
+	@[ -d libcontainer ] || { [ -d vendor/src/github.com/docker/libcontainer ] && ln -sf vendor/src/github.com/docker/libcontainer libcontainer; }
+	
+	@# we need to make sure our multitarball libcontainer is in our GOPATH
 	@mkdir -p "$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))"
 	ln -sf "$$(readlink -f libcontainer)" "$(GOPATH)/src/$(dir $(LIBCONTAINER_GOPKG))"
+	
 	./hack/make.sh dynbinary
 	
 	# compile man pages
