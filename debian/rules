@@ -65,6 +65,8 @@ override_dh_auto_install:
 		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/pkg \
 		debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}/
 	mkdir -p debian/golang-docker-dev/usr/share/gocode/src/$(dir $(LIBCONTAINER_GOPKG))
+	@# this is especially for easier build-testing of nightlies
+	@[ -d debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer ] || { [ -d debian/tmp/usr/share/gocode/src/${DH_GOPKG}/vendor/src/$(LIBCONTAINER_GOPKG) ] && mv debian/tmp/usr/share/gocode/src/${DH_GOPKG}/vendor/src/$(LIBCONTAINER_GOPKG) debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer; }
 	mv -v \
 		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer \
 		debian/golang-docker-dev/usr/share/gocode/src/$(dir $(LIBCONTAINER_GOPKG))
