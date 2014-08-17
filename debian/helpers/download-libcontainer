@@ -54,6 +54,7 @@ def download_version(version):
         os.path.join(TARBALLS,
                      "docker.io_{dupstream}.orig-libcontainer.tar.gz".format(
                          **version)))
+    # TODO repack to purge libcontainer's vendor/
 
 
 major, micro, patch = (int(x) for x in version['digested'])
