@@ -1,73 +1,29 @@
-#!/usr/bin/env python3
-# Copyright (c) Paul R. Tagliamonte, 2014 under the Apache 2.0 license,
-# a copy of which is present in debian/copyright.
-import re
-import os
-import sys
-import urllib.request
+#!/bin/bash
+set -e
 
-TARBALLS = os.environ.get("DOCKER_TARBALLS", "../tarballs/")
+mkdir -p "${DOCKER_TARBALLS:=../tarballs}"
 
-with open("debian/changelog", 'r') as fd:
-    data = re.match(
-        "(?P<source>.*) \((?P<version>.*)\) (?P<suite>.*); .*",
-        fd.readline()
-    ).groupdict()
+pkg="$(dpkg-parsechangelog -SSource)"
+ver="$(dpkg-parsechangelog -SVersion)"
+origVer="${ver%-*}" # strip everything from the last dash
+origVer="$(echo "$origVer" | sed -r 's/^[0-9]+://')" # strip epoch
+upstreamVer="${origVer%%[+~]*}"
+origTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${origVer}.orig"
 
-if not os.path.exists(TARBALLS):
-    os.mkdir(TARBALLS)
+get_hack_vendor() {
+	if [ -e "${origTarballPrefix}.tar.gz" ]; then
+		# if we have the main orig tarball handy, let's prefer that
+		tar -xzOf "${origTarballPrefix}.tar.gz" --wildcards '*/hack/vendor.sh'
+	else
+		# but fall back to grabbing it raw from github otherwise
+		curl -sSL "https://raw.githubusercontent.com/docker/docker/v${upstreamVer}/hack/vendor.sh"
+	fi
+}
 
+libcontainerCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libcontainer ' | cut -d' ' -f4)"
+[ "$libcontainerCommit" ]
 
-def parse_version(version):
-    """
-    Parse a *native* Debian version into:
+curl -sSL "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" -o "${origTarballPrefix}-libcontainer.tar.gz"
 
-         - Upstream (upstream's version number)
-         - Debian's Upstream (perhaps with +repack, +dfsg or +ds)
-         - Debian's Version
-    """
-
-    dupstream, debversion = version.rsplit("-", 1)
-    upstream = dupstream
-
-    if "dfsg" in dupstream:  # or ds?
-        upstream = re.sub("[~+]dfsg\d+", "", dupstream)
-
-    return {
-        "upstream": upstream,
-        "dupstream": dupstream,
-        "debversion": debversion,
-        "digested": upstream.split("."),
-    }
-
-
-version = parse_version(data['version'])
-
-
-def download_version(version):
-    """
-    Download the friggn' tarball.
-    """
-    urllib.request.urlretrieve(
-        "https://github.com/docker/libcontainer/"
-        "archive/v{upstream}.tar.gz".format(**version),
-        os.path.join(TARBALLS,
-                     "docker.io_{dupstream}.orig-libcontainer.tar.gz".format(
-                         **version)))
-    # TODO repack to purge libcontainer's vendor/
-
-
-major, micro, patch = (int(x) for x in version['digested'])
-for pv in range(patch, -1, -1):
-    _version = version.copy()
-    _version['upstream'] = "{major}.{micro}.{pv}".format(**locals())
-    try:
-        print("Trying: {upstream}".format(**_version))
-        download_version(_version)
-        print(" Nice! That's the one! Saving it!")
-        break
-    except urllib.error.HTTPError:
-        continue
-else:
-    print("Nothing found, ugh. Wat.")
-    sys.exit(1)
+echo "successfully fetched ${origTarballPrefix}-libcontainer.tar.gz"
+echo "  (from libcontainer commit $libcontainerCommit)"
