@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Taken from the X Strike Force Build System
 
 set -e
@@ -23,10 +23,15 @@ tempdir="$(mktemp -d)"
 
 cd "$tempdir"
 tar xf "$dir/$filename"
-cat "$dir"/debian/repack/prune/* | while read file; do rm -rvf */$file; done
+cat "$dir"/debian/repack/prune/* | while read file; do
+	echo "Pruning $file"
+	rm -rf */$file
+done
 
-dfsgfilename="$(echo $filename | sed -E 's/(\.orig\.)/~dfsg1\1/')"
-#dfsgfilename="$(echo $filename | sed -E 's/(\.orig\.)/+dfsg1\1/')"
+dfsgfilename="$filename"
+if [[ "$dfsgfilename" != *dfsg* ]]; then
+	dfsgfilename="${dfsgfilename/.orig/~dfsg1.orig}"
+fi
 tar -czf ${dir}/${dfsgfilename} *
 cd "$dir"
 rm -rf "$tempdir"

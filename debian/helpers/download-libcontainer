@@ -9,6 +9,7 @@ origVer="${ver%-*}" # strip everything from the last dash
 origVer="$(echo "$origVer" | sed -r 's/^[0-9]+://')" # strip epoch
 upstreamVer="${origVer%%[+~]*}"
 origTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${origVer}.orig"
+unprunedTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${upstreamVer}.orig"
 
 get_hack_vendor() {
 	if [ -e "${origTarballPrefix}.tar.gz" ]; then
@@ -23,7 +24,9 @@ get_hack_vendor() {
 libcontainerCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libcontainer ' | cut -d' ' -f4)"
 [ "$libcontainerCommit" ]
 
-curl -sSL "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" -o "${origTarballPrefix}-libcontainer.tar.gz"
+curl -sSL "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" -o "${unprunedTarballPrefix}-libcontainer.tar.gz"
 
-echo "successfully fetched ${origTarballPrefix}-libcontainer.tar.gz"
+echo "successfully fetched ${unprunedTarballPrefix}-libcontainer.tar.gz"
 echo "  (from libcontainer commit $libcontainerCommit)"
+
+"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libcontainer.tar.gz"
