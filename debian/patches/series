@@ -1,9 +1,6 @@
 # Once upstream kills the archive/tar vendoring, remove this patch
 upstream-patched-archive-tar.patch
 
-# Fix socket activation vulnerability; remove in 1.2+ (when it hits an upstream release)
-socket-activation-fix.patch
-
 # Once upstream adds EnvFile, remove this patch.
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
