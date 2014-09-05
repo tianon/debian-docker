@@ -24,8 +24,10 @@ tempdir="$(mktemp -d)"
 cd "$tempdir"
 tar xf "$dir/$filename"
 cat "$dir"/debian/repack/prune/* | while read file; do
-	echo "Pruning $file"
-	rm -rf */$file
+	if [ -e */"$file" ]; then
+		echo "Pruning $file"
+		rm -rf */"$file"
+	fi
 done
 
 dfsgfilename="$filename"
