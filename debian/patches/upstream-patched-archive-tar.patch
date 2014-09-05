@@ -3,7 +3,7 @@ Description: "archive/tar" patch for upstreamed xattrs patch
 Applied-Upstream: when golang-1.4 is broadly packaged (scheduled to be released 2014-12-01)
 
 diff --git a/archive/archive.go b/archive/archive.go
-index 932e230..85bedfd 100644
+index 59163f8..205a9e8 100644
 --- a/archive/archive.go
 +++ b/archive/archive.go
 @@ -16,7 +16,7 @@ import (
@@ -14,7 +14,7 @@ index 932e230..85bedfd 100644
 +	"archive/tar"
  
  	"github.com/docker/docker/pkg/log"
- 	"github.com/docker/docker/pkg/system"
+ 	"github.com/docker/docker/pkg/pools"
 diff --git a/archive/archive_test.go b/archive/archive_test.go
 index b46f953..3a1fc75 100644
 --- a/archive/archive_test.go
@@ -29,10 +29,10 @@ index b46f953..3a1fc75 100644
  
  func TestCmdStreamLargeStderr(t *testing.T) {
 diff --git a/archive/changes.go b/archive/changes.go
-index 032dfe0..e3e9ac9 100644
+index eefc4b6..0101b1a 100644
 --- a/archive/changes.go
 +++ b/archive/changes.go
-@@ -11,7 +11,7 @@ import (
+@@ -10,7 +10,7 @@ import (
  	"syscall"
  	"time"
  
@@ -40,20 +40,20 @@ index 032dfe0..e3e9ac9 100644
 +	"archive/tar"
  
  	"github.com/docker/docker/pkg/log"
- 	"github.com/docker/docker/pkg/system"
+ 	"github.com/docker/docker/pkg/pools"
 diff --git a/archive/diff.go b/archive/diff.go
-index a805f2c..decaf66 100644
+index 215f62e..47e97bd 100644
 --- a/archive/diff.go
 +++ b/archive/diff.go
-@@ -10,7 +10,7 @@ import (
+@@ -9,7 +9,7 @@ import (
  	"strings"
  	"syscall"
  
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
 +	"archive/tar"
- )
  
- // Linux device nodes are a bit weird due to backwards compat with 16 bit device nodes.
+ 	"github.com/docker/docker/pkg/pools"
+ )
 diff --git a/archive/wrap.go b/archive/wrap.go
 index b8b6019..dfb335c 100644
 --- a/archive/wrap.go
@@ -69,7 +69,7 @@ index b8b6019..dfb335c 100644
  )
  
 diff --git a/graph/tags_unit_test.go b/graph/tags_unit_test.go
-index c6edc2d..946e0c7 100644
+index 36cda68..11f1259 100644
 --- a/graph/tags_unit_test.go
 +++ b/graph/tags_unit_test.go
 @@ -1,12 +1,12 @@
@@ -104,7 +104,7 @@ index e5f93fb..afb0d9b 100644
  
  func TestGetContainersJSON(t *testing.T) {
 diff --git a/integration/utils_test.go b/integration/utils_test.go
-index 7962886..9d8e87d 100644
+index bab7b09..439911b 100644
 --- a/integration/utils_test.go
 +++ b/integration/utils_test.go
 @@ -13,7 +13,7 @@ import (
@@ -117,7 +117,7 @@ index 7962886..9d8e87d 100644
  	"github.com/docker/docker/builtins"
  	"github.com/docker/docker/daemon"
 diff --git a/pkg/tarsum/tarsum.go b/pkg/tarsum/tarsum.go
-index 32b5e42..07af57a 100644
+index 05b9ef4..3e3ab6e 100644
 --- a/pkg/tarsum/tarsum.go
 +++ b/pkg/tarsum/tarsum.go
 @@ -11,7 +11,7 @@ import (
