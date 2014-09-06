@@ -11,18 +11,4 @@ for conffile in \
 		/etc/"$conffile".io /etc/"$conffile" 1.0.0~dfsg1-1 -- "$@"
 done
 
-case "$1" in
-	configure)
-		if [ -z "$2" ]; then
-			addgroup --system docker
-		fi
-		;;
-	abort-*)
-		# How'd we get here??
-		exit 1
-		;;
-	*)
-		;;
-esac
-
 #DEBHELPER#
