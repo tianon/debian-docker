@@ -11,20 +11,29 @@ upstreamVer="${origVer%%[+~]*}"
 origTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${origVer}.orig"
 unprunedTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${upstreamVer}.orig"
 
+if command -v curl &> /dev/null; then
+	curl='curl -sSL'
+elif command -v wget &> /dev/null; then
+	curl='wget -qO-'
+else
+	echo >&2 'error: missing "curl" or "wget" - install one or the other'
+	exit 1
+fi
+
 get_hack_vendor() {
 	if [ -e "${origTarballPrefix}.tar.gz" ]; then
 		# if we have the main orig tarball handy, let's prefer that
 		tar -xzOf "${origTarballPrefix}.tar.gz" --wildcards '*/hack/vendor.sh'
 	else
 		# but fall back to grabbing it raw from github otherwise
-		curl -sSL "https://raw.githubusercontent.com/docker/docker/v${upstreamVer}/hack/vendor.sh"
+		$curl "https://raw.githubusercontent.com/docker/docker/v${upstreamVer}/hack/vendor.sh"
 	fi
 }
 
 libcontainerCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libcontainer ' | cut -d' ' -f4)"
 [ "$libcontainerCommit" ]
 
-curl -sSL "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" -o "${unprunedTarballPrefix}-libcontainer.tar.gz"
+$curl "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" > "${unprunedTarballPrefix}-libcontainer.tar.gz"
 
 echo "successfully fetched ${unprunedTarballPrefix}-libcontainer.tar.gz"
 echo "  (from libcontainer commit $libcontainerCommit)"
