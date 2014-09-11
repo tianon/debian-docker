@@ -20,7 +20,7 @@ Files: contrib/init/openrc/docker.initd
 Copyright: 1999-2013 Gentoo Foundation
 License: GPL-2
 
-Files: contrib/vim-syntax/*
+Files: contrib/syntax/vim/*
 Copyright: 2013 Honza Pokorny
 License: BSD-2-clause
 
