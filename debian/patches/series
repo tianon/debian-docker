@@ -5,6 +5,9 @@ upstream-patched-archive-tar.patch
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
 
+# see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=752555#10
+disable-systemd-socket-activation.patch
+
 # Upstream deltas:
 #  -> Let there be light on non-amd64
 enable-non-amd64-arches.patch

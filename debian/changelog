@@ -8,7 +8,6 @@ docker.io (1.2.0~dfsg1-1) UNRELEASED; urgency=medium
   * Removed "docker.io" mention in README.Debian (Closes: #756290). Thanks
     Olivier!
   * Added "golang-docker-dev" package for the reusable bits of Docker's source.
-  * Added systemd socket activation (Closes: #752555).
 
  -- Tianon Gravi <admwiggin@gmail.com>  Sat, 14 Jun 2014 02:05:16 -0600
 
