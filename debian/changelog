@@ -1,4 +1,4 @@
-docker.io (1.2.0~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.2.0~dfsg1-1) unstable; urgency=medium
 
   * Updated to 1.2.0 upstream release (Closes: #757183, #757023, #757024).
   * Added upstream man pages.
