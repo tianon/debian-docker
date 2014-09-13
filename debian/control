@@ -69,3 +69,12 @@ Suggests: docker.io
 Description: Docker container engine - Vim highlighting syntax files
  This package provides syntax files for the Vim editor for editing Dockerfiles
  from the Docker container engine.
+
+Package: golang-docker-dev
+Architecture: all
+Depends: ${misc:Depends}
+Built-Using: ${misc:Built-Using}
+Description: Externally reusable Go packages included with Docker
+ These packages are intentionally developed by upstream in such a way that they
+ are reusable to projects outside Docker and only rely on each other or other
+ external dependencies to be built.

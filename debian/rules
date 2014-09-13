@@ -60,7 +60,6 @@ override_dh_auto_install:
 	
 	# Most of the source of docker does not make a library,
 	#   so only ship the reusable parts (and in a separate package).
-	# THIS WILL BE AN ACTUAL PACKAGE IN THE _NEXT_ VERSION.
 	mkdir -p debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}
 	mv -v \
 		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/pkg \
