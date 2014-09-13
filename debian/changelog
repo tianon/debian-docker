@@ -1,4 +1,4 @@
-docker.io (1.2.0~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.2.0~dfsg1-1) unstable; urgency=medium
 
   * Updated to 1.2.0 upstream release (Closes: #757183, #757023, #757024).
   * Added upstream man pages.
@@ -8,7 +8,7 @@ docker.io (1.2.0~dfsg1-1) UNRELEASED; urgency=medium
   * Removed "docker.io" mention in README.Debian (Closes: #756290). Thanks
     Olivier!
 
- -- Tianon Gravi <admwiggin@gmail.com>  Sat, 14 Jun 2014 02:05:16 -0600
+ -- Tianon Gravi <admwiggin@gmail.com>  Sat, 13 Sep 2014 11:43:17 -0600
 
 docker.io (1.0.0~dfsg1-1) unstable; urgency=medium
 
