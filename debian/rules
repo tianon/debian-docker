@@ -7,6 +7,7 @@ export DH_GOPKG := github.com/docker/docker
 export DH_GOLANG_INSTALL_ALL := 1
 
 LIBCONTAINER_GOPKG = github.com/docker/libcontainer
+LIBTRUST_GOPKG = github.com/docker/libtrust
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 export GOPATH := $(CURDIR)/obj-$(DEB_BUILD_GNU_TYPE)
@@ -34,10 +35,12 @@ override_dh_auto_build:
 	
 	@# this is especially for easier build-testing of nightlies
 	@[ -d libcontainer ] || { [ -d vendor/src/$(LIBCONTAINER_GOPKG) ] && ln -sf vendor/src/$(LIBCONTAINER_GOPKG) libcontainer; }
+	@[ -d libtrust ] || { [ -d vendor/src/$(LIBTRUST_GOPKG) ] && ln -sf vendor/src/$(LIBTRUST_GOPKG) libtrust; }
 	
-	@# we need to make sure our multitarball libcontainer is in our GOPATH
-	@mkdir -p "$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))"
+	@# we need to make sure our multitarball deps are in our GOPATH
+	@mkdir -p "$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))" "$$GOPATH/src/$(dir $(LIBTRUST_GOPKG))"
 	ln -sf "$$(readlink -f libcontainer)" "$(GOPATH)/src/$(dir $(LIBCONTAINER_GOPKG))"
+	ln -sf "$$(readlink -f libtrust)" "$(GOPATH)/src/$(dir $(LIBTRUST_GOPKG))"
 	
 	./hack/make.sh dynbinary
 	

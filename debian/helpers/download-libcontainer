@@ -39,3 +39,13 @@ echo "successfully fetched ${unprunedTarballPrefix}-libcontainer.tar.gz"
 echo "  (from libcontainer commit $libcontainerCommit)"
 
 "$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libcontainer.tar.gz"
+
+libtrustCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libtrust ' | cut -d' ' -f4)"
+[ "$libtrustCommit" ]
+
+$curl "https://github.com/docker/libtrust/archive/${libtrustCommit}.tar.gz" > "${unprunedTarballPrefix}-libtrust.tar.gz"
+
+echo "successfully fetched ${unprunedTarballPrefix}-libtrust.tar.gz"
+echo "  (from libtrust commit $libtrustCommit)"
+
+"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libtrust.tar.gz"
