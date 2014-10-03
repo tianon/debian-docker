@@ -30,22 +30,20 @@ get_hack_vendor() {
 	fi
 }
 
-libcontainerCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libcontainer ' | cut -d' ' -f4)"
-[ "$libcontainerCommit" ]
+if libcontainerCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libcontainer ' | cut -d' ' -f4)" && [ "$libcontainerCommit" ]; then
+	$curl "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" > "${unprunedTarballPrefix}-libcontainer.tar.gz"
 
-$curl "https://github.com/docker/libcontainer/archive/${libcontainerCommit}.tar.gz" > "${unprunedTarballPrefix}-libcontainer.tar.gz"
+	echo "successfully fetched ${unprunedTarballPrefix}-libcontainer.tar.gz"
+	echo "  (from libcontainer commit $libcontainerCommit)"
 
-echo "successfully fetched ${unprunedTarballPrefix}-libcontainer.tar.gz"
-echo "  (from libcontainer commit $libcontainerCommit)"
+	"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libcontainer.tar.gz"
+fi
 
-"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libcontainer.tar.gz"
+if libtrustCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libtrust ' | cut -d' ' -f4)" && [ "$libtrustCommit" ]; then
+	$curl "https://github.com/docker/libtrust/archive/${libtrustCommit}.tar.gz" > "${unprunedTarballPrefix}-libtrust.tar.gz"
 
-libtrustCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libtrust ' | cut -d' ' -f4)"
-[ "$libtrustCommit" ]
+	echo "successfully fetched ${unprunedTarballPrefix}-libtrust.tar.gz"
+	echo "  (from libtrust commit $libtrustCommit)"
 
-$curl "https://github.com/docker/libtrust/archive/${libtrustCommit}.tar.gz" > "${unprunedTarballPrefix}-libtrust.tar.gz"
-
-echo "successfully fetched ${unprunedTarballPrefix}-libtrust.tar.gz"
-echo "  (from libtrust commit $libtrustCommit)"
-
-"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libtrust.tar.gz"
+	"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libtrust.tar.gz"
+fi
