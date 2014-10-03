@@ -2,74 +2,8 @@ Author: Tianon Gravi <admwiggin@gmail.com>
 Description: "archive/tar" patch for upstreamed xattrs patch
 Applied-Upstream: when golang-1.4 is broadly packaged (scheduled to be released 2014-12-01)
 
-diff --git a/archive/archive.go b/archive/archive.go
-index 59163f8..205a9e8 100644
---- a/archive/archive.go
-+++ b/archive/archive.go
-@@ -16,7 +16,7 @@ import (
- 	"strings"
- 	"syscall"
- 
--	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
-+	"archive/tar"
- 
- 	"github.com/docker/docker/pkg/log"
- 	"github.com/docker/docker/pkg/pools"
-diff --git a/archive/archive_test.go b/archive/archive_test.go
-index b46f953..3a1fc75 100644
---- a/archive/archive_test.go
-+++ b/archive/archive_test.go
-@@ -11,7 +11,7 @@ import (
- 	"testing"
- 	"time"
- 
--	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
-+	"archive/tar"
- )
- 
- func TestCmdStreamLargeStderr(t *testing.T) {
-diff --git a/archive/changes.go b/archive/changes.go
-index eefc4b6..0101b1a 100644
---- a/archive/changes.go
-+++ b/archive/changes.go
-@@ -10,7 +10,7 @@ import (
- 	"syscall"
- 	"time"
- 
--	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
-+	"archive/tar"
- 
- 	"github.com/docker/docker/pkg/log"
- 	"github.com/docker/docker/pkg/pools"
-diff --git a/archive/diff.go b/archive/diff.go
-index 215f62e..47e97bd 100644
---- a/archive/diff.go
-+++ b/archive/diff.go
-@@ -9,7 +9,7 @@ import (
- 	"strings"
- 	"syscall"
- 
--	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
-+	"archive/tar"
- 
- 	"github.com/docker/docker/pkg/pools"
- )
-diff --git a/archive/wrap.go b/archive/wrap.go
-index b8b6019..dfb335c 100644
---- a/archive/wrap.go
-+++ b/archive/wrap.go
-@@ -1,8 +1,8 @@
- package archive
- 
- import (
-+	"archive/tar"
- 	"bytes"
--	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
- 	"io/ioutil"
- )
- 
 diff --git a/graph/tags_unit_test.go b/graph/tags_unit_test.go
-index 36cda68..11f1259 100644
+index d3111cf..ecd9032 100644
 --- a/graph/tags_unit_test.go
 +++ b/graph/tags_unit_test.go
 @@ -1,12 +1,12 @@
@@ -86,11 +20,24 @@ index 36cda68..11f1259 100644
  	"io"
  	"os"
  	"path"
+diff --git a/integration-cli/utils.go b/integration-cli/utils.go
+index ae4cd61..828a2fc 100644
+--- a/integration-cli/utils.go
++++ b/integration-cli/utils.go
+@@ -15,7 +15,7 @@ import (
+ 	"testing"
+ 	"time"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ func getExitCode(err error) (int, error) {
 diff --git a/integration/api_test.go b/integration/api_test.go
-index e5f93fb..afb0d9b 100644
+index c326465..342d84f 100644
 --- a/integration/api_test.go
 +++ b/integration/api_test.go
-@@ -12,11 +12,11 @@ import (
+@@ -14,11 +14,11 @@ import (
  	"testing"
  	"time"
  
@@ -104,7 +51,7 @@ index e5f93fb..afb0d9b 100644
  
  func TestGetContainersJSON(t *testing.T) {
 diff --git a/integration/utils_test.go b/integration/utils_test.go
-index bab7b09..439911b 100644
+index e1abfa7..c5bc3af 100644
 --- a/integration/utils_test.go
 +++ b/integration/utils_test.go
 @@ -13,7 +13,7 @@ import (
@@ -116,8 +63,74 @@ index bab7b09..439911b 100644
  
  	"github.com/docker/docker/builtins"
  	"github.com/docker/docker/daemon"
+diff --git a/pkg/archive/archive.go b/pkg/archive/archive.go
+index 7d9103e..1bc6c0c 100644
+--- a/pkg/archive/archive.go
++++ b/pkg/archive/archive.go
+@@ -16,7 +16,7 @@ import (
+ 	"strings"
+ 	"syscall"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ 
+ 	"github.com/docker/docker/pkg/fileutils"
+ 	"github.com/docker/docker/pkg/log"
+diff --git a/pkg/archive/archive_test.go b/pkg/archive/archive_test.go
+index b46f953..3a1fc75 100644
+--- a/pkg/archive/archive_test.go
++++ b/pkg/archive/archive_test.go
+@@ -11,7 +11,7 @@ import (
+ 	"testing"
+ 	"time"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ func TestCmdStreamLargeStderr(t *testing.T) {
+diff --git a/pkg/archive/changes.go b/pkg/archive/changes.go
+index 5fbdcc9..fa96bb8 100644
+--- a/pkg/archive/changes.go
++++ b/pkg/archive/changes.go
+@@ -10,7 +10,7 @@ import (
+ 	"syscall"
+ 	"time"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ 
+ 	"github.com/docker/docker/pkg/log"
+ 	"github.com/docker/docker/pkg/pools"
+diff --git a/pkg/archive/diff.go b/pkg/archive/diff.go
+index 215f62e..47e97bd 100644
+--- a/pkg/archive/diff.go
++++ b/pkg/archive/diff.go
+@@ -9,7 +9,7 @@ import (
+ 	"strings"
+ 	"syscall"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ 
+ 	"github.com/docker/docker/pkg/pools"
+ )
+diff --git a/pkg/archive/wrap.go b/pkg/archive/wrap.go
+index b8b6019..dfb335c 100644
+--- a/pkg/archive/wrap.go
++++ b/pkg/archive/wrap.go
+@@ -1,8 +1,8 @@
+ package archive
+ 
+ import (
++	"archive/tar"
+ 	"bytes"
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ 	"io/ioutil"
+ )
+ 
 diff --git a/pkg/tarsum/tarsum.go b/pkg/tarsum/tarsum.go
-index 05b9ef4..3e3ab6e 100644
+index 6581f3f..ed36494 100644
 --- a/pkg/tarsum/tarsum.go
 +++ b/pkg/tarsum/tarsum.go
 @@ -11,7 +11,7 @@ import (
@@ -130,10 +143,10 @@ index 05b9ef4..3e3ab6e 100644
  	"github.com/docker/docker/pkg/log"
  )
 diff --git a/pkg/tarsum/tarsum_test.go b/pkg/tarsum/tarsum_test.go
-index f251f09..a4bd8fd 100644
+index 1e06cda..ef910c3 100644
 --- a/pkg/tarsum/tarsum_test.go
 +++ b/pkg/tarsum/tarsum_test.go
-@@ -9,7 +9,7 @@ import (
+@@ -15,7 +15,7 @@ import (
  	"os"
  	"testing"
  
