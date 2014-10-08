@@ -1,3 +1,7 @@
+Author: Tianon Gravi <admwiggin@gmail.com>
+Description: socket activation + systemd 208 made permission issues, so this is a temporary patch-out of socket activation
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=752555
+
 Index: docker.io/contrib/init/systemd/docker.service
 ===================================================================
 --- docker.io.orig/contrib/init/systemd/docker.service
