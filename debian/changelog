@@ -1,6 +1,7 @@
 docker.io (1.3.0~dfsg1-1) UNRELEASED; urgency=medium
 
   * Updated to 1.3.0 upstream release.
+  * Enable systemd socket activation (Closes: #752555).
 
  -- Tianon Gravi <admwiggin@gmail.com>  Fri, 17 Oct 2014 06:25:57 +0000
 
