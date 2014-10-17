@@ -1,3 +1,9 @@
+docker.io (1.3.0~dfsg1-1) UNRELEASED; urgency=medium
+
+  * Updated to 1.3.0 upstream release.
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Fri, 17 Oct 2014 06:25:57 +0000
+
 docker.io (1.2.0~dfsg1-2) unstable; urgency=medium
 
   * Added "golang-docker-dev" package for the reusable bits of Docker's source.
