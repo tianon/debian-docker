@@ -54,8 +54,6 @@ override_dh_auto_install:
 	# install docker binary
 	mkdir -p debian/docker.io/usr/bin
 	mv bundles/${DOCKER_VERSION}/dynbinary/docker-${DOCKER_VERSION} debian/docker.io/usr/bin/docker
-	# install docker.io symlink for easier transition
-	ln -s docker debian/docker.io/usr/bin/docker.io
 	
 	# install dockerinit binary
 	mkdir -p debian/docker.io/${INITDIR}
