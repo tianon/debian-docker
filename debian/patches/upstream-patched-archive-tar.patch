@@ -3,7 +3,7 @@ Description: "archive/tar" patch for upstreamed xattrs patch
 Applied-Upstream: when golang-1.4 is broadly packaged (scheduled to be released 2014-12-01)
 
 diff --git a/graph/tags_unit_test.go b/graph/tags_unit_test.go
-index e4f1fb8..12db007 100644
+index da51254..de232cb 100644
 --- a/graph/tags_unit_test.go
 +++ b/graph/tags_unit_test.go
 @@ -7,11 +7,11 @@ import (
@@ -63,7 +63,7 @@ index e1abfa7..c5bc3af 100644
  	"github.com/docker/docker/builtins"
  	"github.com/docker/docker/daemon"
 diff --git a/pkg/archive/archive.go b/pkg/archive/archive.go
-index 7d9103e..1bc6c0c 100644
+index 155145f..0c41f1b 100644
 --- a/pkg/archive/archive.go
 +++ b/pkg/archive/archive.go
 @@ -16,7 +16,7 @@ import (
@@ -76,10 +76,10 @@ index 7d9103e..1bc6c0c 100644
  	"github.com/docker/docker/pkg/fileutils"
  	"github.com/docker/docker/pkg/log"
 diff --git a/pkg/archive/archive_test.go b/pkg/archive/archive_test.go
-index b46f953..3a1fc75 100644
+index 7c9db44..39c8caf 100644
 --- a/pkg/archive/archive_test.go
 +++ b/pkg/archive/archive_test.go
-@@ -11,7 +11,7 @@ import (
+@@ -12,7 +12,7 @@ import (
  	"testing"
  	"time"
  
@@ -102,7 +102,7 @@ index 5fbdcc9..fa96bb8 100644
  	"github.com/docker/docker/pkg/log"
  	"github.com/docker/docker/pkg/pools"
 diff --git a/pkg/archive/diff.go b/pkg/archive/diff.go
-index 215f62e..47e97bd 100644
+index 5ed1a1d..f20fcb8 100644
 --- a/pkg/archive/diff.go
 +++ b/pkg/archive/diff.go
 @@ -9,7 +9,7 @@ import (
@@ -114,6 +114,32 @@ index 215f62e..47e97bd 100644
  
  	"github.com/docker/docker/pkg/pools"
  )
+diff --git a/pkg/archive/diff_test.go b/pkg/archive/diff_test.go
+index 758c411..1af10fe 100644
+--- a/pkg/archive/diff_test.go
++++ b/pkg/archive/diff_test.go
+@@ -3,7 +3,7 @@ package archive
+ import (
+ 	"testing"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ func TestApplyLayerInvalidFilenames(t *testing.T) {
+diff --git a/pkg/archive/utils_test.go b/pkg/archive/utils_test.go
+index 3624fe5..8e26a11 100644
+--- a/pkg/archive/utils_test.go
++++ b/pkg/archive/utils_test.go
+@@ -9,7 +9,7 @@ import (
+ 	"path/filepath"
+ 	"time"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ var testUntarFns = map[string]func(string, io.Reader) error{
 diff --git a/pkg/archive/wrap.go b/pkg/archive/wrap.go
 index b8b6019..dfb335c 100644
 --- a/pkg/archive/wrap.go
