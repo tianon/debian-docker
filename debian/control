@@ -3,7 +3,6 @@ Section: admin
 Priority: optional
 Maintainer: Paul Tagliamonte <paultag@debian.org>
 Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>,
-           Daniel Mizyrycki <daniel@docker.com>,
            Tianon Gravi <admwiggin@gmail.com>,
            Johan Euphrosine <proppy@google.com>
 Build-Depends: bash-completion,
