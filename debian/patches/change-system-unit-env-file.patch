@@ -13,7 +13,7 @@ index 0cb31e3..240961c 100644
  
  [Service]
 -ExecStart=/usr/bin/docker -d -H fd://
-+EnvironmentFile=/etc/default/docker
++EnvironmentFile=-/etc/default/docker
 +ExecStart=/usr/bin/docker -d -H fd:// $DOCKER_OPTS
  LimitNOFILE=1048576
  LimitNPROC=1048576
