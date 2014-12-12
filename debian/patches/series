@@ -1,6 +1,9 @@
 # Once upstream kills the archive/tar vendoring, remove this patch
 upstream-patched-archive-tar.patch
 
+# Remove this in Docker 1.5.0
+9637-fix-nuke-bashism.patch
+
 # Once upstream adds EnvFile, remove this patch.
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589

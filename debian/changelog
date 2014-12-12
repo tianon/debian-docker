@@ -8,6 +8,7 @@ docker.io (1.3.3~dfsg1-1) UNRELEASED; urgency=medium
       LZMA (.xz) archives)
     - Fix for CVE-2014-9358 (Path traversal and spoofing opportunities presented
       through image identifiers)
+  * Fix bashism in nuke-graph-directory.sh (Closes: #772261)
 
   [ Didier Roche ]
   * Support starting systemd service without /etc/default/docker
