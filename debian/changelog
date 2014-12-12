@@ -1,10 +1,19 @@
-docker.io (1.3.2~dfsg1-2) UNRELEASED; urgency=medium
+docker.io (1.3.3~dfsg1-1) UNRELEASED; urgency=medium
+
+  [ Tianon Gravi ]
+  * Update to 1.3.3 upstream release (Closes: #772909)
+    - Fix for CVE-2014-9356 (Path traversal during processing of absolute
+      symlinks)
+    - Fix for CVE-2014-9357 (Escalation of privileges during decompression of
+      LZMA (.xz) archives)
+    - Fix for CVE-2014-9358 (Path traversal and spoofing opportunities presented
+      through image identifiers)
 
   [ Didier Roche ]
   * Support starting systemd service without /etc/default/docker
     (Closes: #770293)
 
- -- Tianon Gravi <admwiggin@gmail.com>  Tue, 02 Dec 2014 11:05:11 -0700
+ -- Tianon Gravi <admwiggin@gmail.com>  Fri, 12 Dec 2014 20:37:58 +0000
 
 docker.io (1.3.2~dfsg1-1) unstable; urgency=high
 
