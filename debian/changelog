@@ -1,3 +1,13 @@
+docker.io (1.5.0~dfsg1-1) UNRELEASED; urgency=low
+
+  * Update to 1.5.0 upstream release (Closes: #773495)
+  * Remove several patches applied upstream!
+    - 9637-fix-nuke-bashism.patch
+    - enable-non-amd64-arches.patch
+  * Fix btrfs-tools handling to allow for building with btrfs-tools < 1.16.1
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Fri, 13 Feb 2015 13:05:58 -0700
+
 docker.io (1.3.3~dfsg1-2) unstable; urgency=medium
 
   * Add fatal-error-old-kernels.patch to make Docker refuse to start on old,

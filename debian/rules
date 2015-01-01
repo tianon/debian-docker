@@ -20,8 +20,14 @@ DOCKER_VERSION = $(shell cat VERSION)
 export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
 export DOCKER_INITPATH := ${INITPATH}
 
-# good old Ubuntu needs AppArmor
-export DOCKER_BUILDTAGS := apparmor
+
+# see https://github.com/docker/docker/blob/v1.5.0/project/PACKAGERS.md#build-dependencies
+# and https://github.com/docker/docker/blob/v1.5.0/project/PACKAGERS.md#docker_buildtags
+BTRFS_VERSION = $(shell dpkg-query -f '$${Version}' -W btrfs-tools)
+OLD_BTRFS_BUILDTAG = $(shell dpkg --compare-versions $(BTRFS_VERSION) '>=' '3.16.1~' || echo btrfs_noversion)
+
+# AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
+export DOCKER_BUILDTAGS := apparmor $(OLD_BTRFS_BUILDTAG)
 
 
 APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)

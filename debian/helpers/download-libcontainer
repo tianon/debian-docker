@@ -21,13 +21,19 @@ else
 fi
 
 get_hack_vendor() {
-	if [ -e "${origTarballPrefix}.tar.gz" ]; then
-		# if we have the main orig tarball handy, let's prefer that
-		tar -xzOf "${origTarballPrefix}.tar.gz" --wildcards '*/hack/vendor.sh'
-	else
-		# but fall back to grabbing it raw from github otherwise
-		$curl "https://raw.githubusercontent.com/docker/docker/v${upstreamVer}/hack/vendor.sh"
-	fi
+	for path in hack/vendor.sh project/vendor.sh; do
+		if [ -e "${origTarballPrefix}.tar.gz" ]; then
+			# if we have the main orig tarball handy, let's prefer that
+			if tar -xzOf "${origTarballPrefix}.tar.gz" --wildcards '*/'"$path"; then
+				return
+			fi
+		else
+			# but fall back to grabbing it raw from github otherwise
+			if $curl "https://raw.githubusercontent.com/docker/docker/v${upstreamVer}/$path"; then
+				return
+			fi
+		fi
+	done
 }
 
 if libcontainerCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/libcontainer ' | cut -d' ' -f4)" && [ "$libcontainerCommit" ]; then

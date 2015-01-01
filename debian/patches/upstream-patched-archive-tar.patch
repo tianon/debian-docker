@@ -3,7 +3,7 @@ Description: "archive/tar" patch for upstreamed xattrs patch
 Applied-Upstream: when golang-1.4 is broadly packaged (scheduled to be released 2014-12-01)
 
 diff --git a/graph/tags_unit_test.go b/graph/tags_unit_test.go
-index da51254..de232cb 100644
+index 58ad8ed..0b06f3e 100644
 --- a/graph/tags_unit_test.go
 +++ b/graph/tags_unit_test.go
 @@ -7,11 +7,11 @@ import (
@@ -19,12 +19,39 @@ index da51254..de232cb 100644
  )
  
  const (
+diff --git a/integration-cli/docker_api_containers_test.go b/integration-cli/docker_api_containers_test.go
+index 5dce388..fca39c4 100644
+--- a/integration-cli/docker_api_containers_test.go
++++ b/integration-cli/docker_api_containers_test.go
+@@ -11,8 +11,8 @@ import (
+ 	"testing"
+ 	"time"
+ 
++	"archive/tar"
+ 	"github.com/docker/docker/api/stats"
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
+ )
+ 
+ func TestContainerApiGetAll(t *testing.T) {
+diff --git a/integration-cli/docker_cli_push_test.go b/integration-cli/docker_cli_push_test.go
+index bcab531..2b5aa4b 100644
+--- a/integration-cli/docker_cli_push_test.go
++++ b/integration-cli/docker_cli_push_test.go
+@@ -9,7 +9,7 @@ import (
+ 	"testing"
+ 	"time"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ // pulling an image from the central registry should work
 diff --git a/integration-cli/utils.go b/integration-cli/utils.go
-index f3f128e..abea8a3 100644
+index f67ee78..77c5720 100644
 --- a/integration-cli/utils.go
 +++ b/integration-cli/utils.go
-@@ -16,7 +16,7 @@ import (
- 	"testing"
+@@ -15,7 +15,7 @@ import (
+ 	"syscall"
  	"time"
  
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
@@ -33,7 +60,7 @@ index f3f128e..abea8a3 100644
  
  func getExitCode(err error) (int, error) {
 diff --git a/integration/api_test.go b/integration/api_test.go
-index 8fa295e..9c1ecb2 100644
+index ab2c307..a520355 100644
 --- a/integration/api_test.go
 +++ b/integration/api_test.go
 @@ -14,11 +14,11 @@ import (
@@ -48,12 +75,12 @@ index 8fa295e..9c1ecb2 100644
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
  )
  
- func TestGetContainersJSON(t *testing.T) {
+ func TestSaveImageAndThenLoad(t *testing.T) {
 diff --git a/integration/utils_test.go b/integration/utils_test.go
-index e1abfa7..c5bc3af 100644
+index 32ca8e0..a283597 100644
 --- a/integration/utils_test.go
 +++ b/integration/utils_test.go
-@@ -13,7 +13,7 @@ import (
+@@ -14,7 +14,7 @@ import (
  	"testing"
  	"time"
  
@@ -63,7 +90,7 @@ index e1abfa7..c5bc3af 100644
  	"github.com/docker/docker/builtins"
  	"github.com/docker/docker/daemon"
 diff --git a/pkg/archive/archive.go b/pkg/archive/archive.go
-index 155145f..0c41f1b 100644
+index 68e5c1d..b54bad3 100644
 --- a/pkg/archive/archive.go
 +++ b/pkg/archive/archive.go
 @@ -16,7 +16,7 @@ import (
@@ -73,13 +100,13 @@ index 155145f..0c41f1b 100644
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
 +	"archive/tar"
  
+ 	log "github.com/Sirupsen/logrus"
  	"github.com/docker/docker/pkg/fileutils"
- 	"github.com/docker/docker/pkg/log"
 diff --git a/pkg/archive/archive_test.go b/pkg/archive/archive_test.go
-index 7c9db44..39c8caf 100644
+index 6cd95d5..dbe8d5e 100644
 --- a/pkg/archive/archive_test.go
 +++ b/pkg/archive/archive_test.go
-@@ -12,7 +12,7 @@ import (
+@@ -14,7 +14,7 @@ import (
  	"testing"
  	"time"
  
@@ -88,8 +115,34 @@ index 7c9db44..39c8caf 100644
  )
  
  func TestCmdStreamLargeStderr(t *testing.T) {
+diff --git a/pkg/archive/archive_unix.go b/pkg/archive/archive_unix.go
+index c0e8aee..dd1b767 100644
+--- a/pkg/archive/archive_unix.go
++++ b/pkg/archive/archive_unix.go
+@@ -6,7 +6,7 @@ import (
+ 	"errors"
+ 	"syscall"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ func setHeaderForSpecialDevice(hdr *tar.Header, ta *tarAppender, name string, stat interface{}) (nlink uint32, inode uint64, err error) {
+diff --git a/pkg/archive/archive_windows.go b/pkg/archive/archive_windows.go
+index 3cc2493..6312df3 100644
+--- a/pkg/archive/archive_windows.go
++++ b/pkg/archive/archive_windows.go
+@@ -3,7 +3,7 @@
+ package archive
+ 
+ import (
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ func setHeaderForSpecialDevice(hdr *tar.Header, ta *tarAppender, name string, stat interface{}) (nlink uint32, inode uint64, err error) {
 diff --git a/pkg/archive/changes.go b/pkg/archive/changes.go
-index 5fbdcc9..fa96bb8 100644
+index 85217f6..bc67e90 100644
 --- a/pkg/archive/changes.go
 +++ b/pkg/archive/changes.go
 @@ -10,7 +10,7 @@ import (
@@ -99,10 +152,10 @@ index 5fbdcc9..fa96bb8 100644
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
 +	"archive/tar"
  
- 	"github.com/docker/docker/pkg/log"
+ 	log "github.com/Sirupsen/logrus"
  	"github.com/docker/docker/pkg/pools"
 diff --git a/pkg/archive/diff.go b/pkg/archive/diff.go
-index 5ed1a1d..f20fcb8 100644
+index ca28207..1e9b968 100644
 --- a/pkg/archive/diff.go
 +++ b/pkg/archive/diff.go
 @@ -9,7 +9,7 @@ import (
@@ -113,7 +166,7 @@ index 5ed1a1d..f20fcb8 100644
 +	"archive/tar"
  
  	"github.com/docker/docker/pkg/pools"
- )
+ 	"github.com/docker/docker/pkg/system"
 diff --git a/pkg/archive/diff_test.go b/pkg/archive/diff_test.go
 index 758c411..1af10fe 100644
 --- a/pkg/archive/diff_test.go
@@ -128,7 +181,7 @@ index 758c411..1af10fe 100644
  
  func TestApplyLayerInvalidFilenames(t *testing.T) {
 diff --git a/pkg/archive/utils_test.go b/pkg/archive/utils_test.go
-index 3624fe5..8e26a11 100644
+index 9048027..539f694 100644
 --- a/pkg/archive/utils_test.go
 +++ b/pkg/archive/utils_test.go
 @@ -9,7 +9,7 @@ import (
@@ -155,20 +208,20 @@ index b8b6019..dfb335c 100644
  )
  
 diff --git a/pkg/tarsum/tarsum.go b/pkg/tarsum/tarsum.go
-index 6581f3f..ed36494 100644
+index 88fcbe4..17ca379 100644
 --- a/pkg/tarsum/tarsum.go
 +++ b/pkg/tarsum/tarsum.go
-@@ -11,7 +11,7 @@ import (
- 	"strconv"
+@@ -12,7 +12,7 @@ import (
+ 	"io"
  	"strings"
  
 -	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
 +	"archive/tar"
- 
- 	"github.com/docker/docker/pkg/log"
  )
+ 
+ const (
 diff --git a/pkg/tarsum/tarsum_test.go b/pkg/tarsum/tarsum_test.go
-index 1e06cda..ef910c3 100644
+index 26f12cc..3ec7035 100644
 --- a/pkg/tarsum/tarsum_test.go
 +++ b/pkg/tarsum/tarsum_test.go
 @@ -15,7 +15,7 @@ import (
@@ -180,3 +233,16 @@ index 1e06cda..ef910c3 100644
  )
  
  type testLayer struct {
+diff --git a/pkg/tarsum/versioning.go b/pkg/tarsum/versioning.go
+index 0ceb529..243844e 100644
+--- a/pkg/tarsum/versioning.go
++++ b/pkg/tarsum/versioning.go
+@@ -6,7 +6,7 @@ import (
+ 	"strconv"
+ 	"strings"
+ 
+-	"github.com/docker/docker/vendor/src/code.google.com/p/go/src/pkg/archive/tar"
++	"archive/tar"
+ )
+ 
+ // versioning of the TarSum algorithm
