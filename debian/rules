@@ -103,5 +103,11 @@ override_dh_installudev:
 	dh_installudev --priority=z80
 
 
+override_dh_auto_clean:
+	# bundles is created by hack/make.sh
+	# docs/man/man*/ is created by docs/man/md2man-all.sh
+	rm -rf bundles docs/man/man*/
+
+
 %:
 	dh $@ --buildsystem=golang --with=golang,systemd,bash-completion

@@ -2,6 +2,8 @@ docker.io (1.3.3~dfsg1-2) UNRELEASED; urgency=medium
 
   * Add fatal-error-old-kernels.patch to make Docker refuse to start on old,
     unsupported kernels (Closes: #774376)
+  * Fix dh_auto_clean to clean up after the build properly, especially to avoid
+    FTBFS when built twice
 
  -- Tianon Gravi <admwiggin@gmail.com>  Thu, 01 Jan 2015 20:00:24 +0000
 
