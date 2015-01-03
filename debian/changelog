@@ -1,11 +1,11 @@
-docker.io (1.3.3~dfsg1-2) UNRELEASED; urgency=medium
+docker.io (1.3.3~dfsg1-2) unstable; urgency=medium
 
   * Add fatal-error-old-kernels.patch to make Docker refuse to start on old,
     unsupported kernels (Closes: #774376)
   * Fix dh_auto_clean to clean up after the build properly, especially to avoid
     FTBFS when built twice (Closes: #774482)
 
- -- Tianon Gravi <admwiggin@gmail.com>  Thu, 01 Jan 2015 20:00:24 +0000
+ -- Tianon Gravi <admwiggin@gmail.com>  Sat, 03 Jan 2015 00:11:47 -0700
 
 docker.io (1.3.3~dfsg1-1) unstable; urgency=medium
 
