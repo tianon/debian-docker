@@ -24,7 +24,7 @@ Build-Depends: bash-completion,
                golang-gosqlite-dev (>= 0.0~hg20130530~),
                golang-logrus-dev (>= 0.6.0~),
                golang-mux-dev (>= 0.0~git20140505~),
-               golang-pty-dev (>= 0.0~git20140315.1.67e2db2-1~),
+               golang-pty-dev (>= 0.0~git20141217~),
                libapparmor-dev,
                libdevmapper-dev
 Standards-Version: 3.9.6
