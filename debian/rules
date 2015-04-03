@@ -1,33 +1,24 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-# Tell dh-golang where this package lives upstream
-export DH_GOPKG := github.com/docker/docker
-# Tell dh-golang that we DO need subpackages
-export DH_GOLANG_INSTALL_ALL := 1
-
+DOCKER_GOPKG = github.com/docker/docker
 LIBCONTAINER_GOPKG = github.com/docker/libcontainer
 LIBTRUST_GOPKG = github.com/docker/libtrust
+DISTRIBUTION_GOPKG = github.com/docker/distribution
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
-export GOPATH := $(CURDIR)/obj-$(DEB_BUILD_GNU_TYPE)
+export GOPATH = $(CURDIR)/.gopath
+GOPATH_PACKAGED = /usr/share/gocode
 
 # a few helpful variables for deduplication
-INITDIR = /usr/lib/docker.io
-INITPATH = ${INITDIR}/dockerinit
+DOCKER_BINPATH = /usr/bin/docker
 DOCKER_VERSION = $(shell cat VERSION)
 
-export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
-export DOCKER_INITPATH := ${INITPATH}
-
-
-# see https://github.com/docker/docker/blob/v1.5.0/project/PACKAGERS.md#build-dependencies
-# and https://github.com/docker/docker/blob/v1.5.0/project/PACKAGERS.md#docker_buildtags
-BTRFS_VERSION = $(shell dpkg-query -f '$${Version}' -W btrfs-tools)
-OLD_BTRFS_BUILDTAG = $(shell dpkg --compare-versions $(BTRFS_VERSION) '>=' '3.16.1~' || echo btrfs_noversion)
+export DOCKER_GITCOMMIT = $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
+export DOCKER_INITPATH = /usr/lib/docker.io/dockerinit
 
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
-export DOCKER_BUILDTAGS := apparmor $(OLD_BTRFS_BUILDTAG)
+export DOCKER_BUILDTAGS = apparmor
 
 
 APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)
@@ -39,50 +30,56 @@ override_dh_gencontrol:
 override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
 	
-	@# this is especially for easier build-testing of nightlies
-	@[ -d libcontainer ] || { [ -d vendor/src/$(LIBCONTAINER_GOPKG) ] && ln -sf vendor/src/$(LIBCONTAINER_GOPKG) libcontainer; }
-	@[ -d libtrust ] || { [ -d vendor/src/$(LIBTRUST_GOPKG) ] && ln -sf vendor/src/$(LIBTRUST_GOPKG) libtrust; }
+	# make sure we have our multitarball deps (from tarballs or from vendor/ in nightlies)
+	[ -d libcontainer ] || { [ -d vendor/src/$(LIBCONTAINER_GOPKG) ] && ln -sf vendor/src/$(LIBCONTAINER_GOPKG) libcontainer; }
+	[ -d libtrust ] || { [ -d vendor/src/$(LIBTRUST_GOPKG) ] && ln -sf vendor/src/$(LIBTRUST_GOPKG) libtrust; }
+	[ -d distribution ] || { [ -d vendor/src/$(DISTRIBUTION_GOPKG) ] && ln -sf vendor/src/$(DISTRIBUTION_GOPKG) distribution; }
 	
-	@# we need to make sure our multitarball deps are in our GOPATH
-	@mkdir -p "$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))" "$$GOPATH/src/$(dir $(LIBTRUST_GOPKG))"
-	ln -sf "$$(readlink -f libcontainer)" "$(GOPATH)/src/$(dir $(LIBCONTAINER_GOPKG))"
-	ln -sf "$$(readlink -f libtrust)" "$(GOPATH)/src/$(dir $(LIBTRUST_GOPKG))"
+	# we need to make sure all deps are in our GOPATH
+	mkdir -p "$(GOPATH)"
+	mkdir -p \
+		"$$GOPATH/src/$(dir $(DOCKER_GOPKG))" \
+		"$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))" \
+		"$$GOPATH/src/$(dir $(LIBTRUST_GOPKG))" \
+		"$$GOPATH/src/$(dir $(DISTRIBUTION_GOPKG))"
+	ln -sfT "$$(readlink -f .)" "$$GOPATH/src/$(DOCKER_GOPKG)"
+	ln -sfT "$$(readlink -f libcontainer)" "$$GOPATH/src/$(LIBCONTAINER_GOPKG)"
+	ln -sfT "$$(readlink -f libtrust)" "$$GOPATH/src/$(LIBTRUST_GOPKG)"
+	ln -sfT "$$(readlink -f distribution)" "$$GOPATH/src/$(DISTRIBUTION_GOPKG)"
 	
+	# build "docker" and "dockerinit"
+	GOPATH="$$GOPATH:$(GOPATH_PACKAGED)" \
 	./hack/make.sh dynbinary
 	
 	# compile man pages
-	./docs/man/md2man-all.sh
+	./docs/man/md2man-all.sh -q
 
 
 override_dh_auto_install:
-	dh_auto_install
-	
 	# install docker binary
-	mkdir -p debian/docker.io/usr/bin
-	mv bundles/${DOCKER_VERSION}/dynbinary/docker-${DOCKER_VERSION} debian/docker.io/usr/bin/docker
+	mkdir -p debian/docker.io/$(dir $(DOCKER_BINPATH))
+	cp -aT bundles/$(DOCKER_VERSION)/dynbinary/docker-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_BINPATH)
 	
 	# install dockerinit binary
-	mkdir -p debian/docker.io/${INITDIR}
-	mv bundles/${DOCKER_VERSION}/dynbinary/dockerinit-${DOCKER_VERSION} debian/docker.io/${INITPATH}
+	mkdir -p debian/docker.io/$(dir $(DOCKER_INITPATH))
+	cp -aT bundles/$(DOCKER_VERSION)/dynbinary/dockerinit-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_INITPATH)
 	
 	# Most of the source of docker does not make a library,
 	#   so only ship the reusable parts (and in a separate package).
-	mkdir -p debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}
-	mv -v \
-		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/pkg \
-		debian/golang-docker-dev/usr/share/gocode/src/${DH_GOPKG}/
-	mkdir -p debian/golang-docker-dev/usr/share/gocode/src/$(dir $(LIBCONTAINER_GOPKG))
-	@# this is especially for easier build-testing of nightlies
-	@[ -d debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer ] || { [ -d debian/tmp/usr/share/gocode/src/${DH_GOPKG}/vendor/src/$(LIBCONTAINER_GOPKG) ] && mv debian/tmp/usr/share/gocode/src/${DH_GOPKG}/vendor/src/$(LIBCONTAINER_GOPKG) debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer; }
-	mv -v \
-		debian/tmp/usr/share/gocode/src/${DH_GOPKG}/libcontainer \
-		debian/golang-docker-dev/usr/share/gocode/src/$(dir $(LIBCONTAINER_GOPKG))
-	rm -rf debian/tmp/usr/share/gocode
+	@set -ex; \
+		for package in \
+			$(DOCKER_GOPKG)/autogen/dockerversion \
+			$(DOCKER_GOPKG)/pkg \
+			$(LIBCONTAINER_GOPKG) \
+		; do \
+			mkdir -p "debian/golang-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
+			cp -aT "$$(readlink -f "$$GOPATH/src/$$package")" "debian/golang-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
+		done
 
 
-# the SHA1 of dockerinit is important: don't strip it
-# also, Go has lots of problems with stripping, so just don't
 override_dh_strip:
+	# the SHA1 of dockerinit is important: don't strip it
+	# also, Go has lots of problems with stripping, so just don't
 
 
 override_dh_auto_test:
@@ -91,18 +88,6 @@ override_dh_auto_test:
 override_dh_installinit:
 	dh_installinit --name=docker
 
-override_dh_systemd_enable:
-	dh_systemd_enable -pdocker.io --no-enable docker.service
-	dh_systemd_enable -pdocker.io docker.socket
-
-override_dh_systemd_start:
-	dh_systemd_start -pdocker.io --no-start docker.service
-	dh_systemd_start -pdocker.io docker.socket
-
-
-override_dh_installchangelogs:
-	dh_installchangelogs CHANGELOG.md
-
 
 override_dh_installudev:
 	# use priority z80 to match the upstream priority of 80
@@ -110,10 +95,16 @@ override_dh_installudev:
 
 
 override_dh_auto_clean:
+	dh_auto_clean
+	
+	# GOPATH is created by us
+	rm -rf "$(GOPATH)"
+	
+	# autogen is created by hack/make.sh
 	# bundles is created by hack/make.sh
 	# docs/man/man*/ is created by docs/man/md2man-all.sh
-	rm -rf bundles docs/man/man*/
+	rm -rf autogen bundles docs/man/man*/
 
 
 %:
-	dh $@ --buildsystem=golang --with=golang,systemd,bash-completion
+	dh $@ --with=systemd,bash-completion

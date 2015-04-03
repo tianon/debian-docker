@@ -1,3 +1,20 @@
+docker.io (1.6.0~rc4~dfsg1-1) UNRELEASED; urgency=low
+
+  [ Tianon Gravi ]
+  * Update to 1.6.0-rc4 upstream release
+    - drop golang 1.2 support (no longer supported upstream)
+    - update Homepage to https://dockerproject.com
+    - add check-config.sh to /usr/share/docker.io/contrib
+    - add "distribution" as a new multitarball orig
+    - backport auto "btrfs_noversion" patch from
+      https://github.com/docker/docker/pull/12048
+      (simplifying our logic for detecting whether to use it)
+    - switch from dh-golang to direct install since we're not actually using the
+      features it offers (due to upstream's build system)
+    - enable "docker.service" on boot by default for restart policies to work
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Tue, 24 Mar 2015 09:01:14 -0600
+
 docker.io (1.5.0~dfsg1-1) experimental; urgency=low
 
   * Update to 1.5.0 upstream release (Closes: #773495)

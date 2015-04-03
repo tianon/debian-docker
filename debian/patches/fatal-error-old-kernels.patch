@@ -4,14 +4,14 @@ Author: Tianon Gravi <admwiggin@gmail.com>
 Reviewed-by: Paul Tagliamonte <paultag@debian.org>
 
 diff --git a/daemon/daemon.go b/daemon/daemon.go
-index 632b9ab..5df7a54 100644
+index 6a27a08..eb366a1 100644
 --- a/daemon/daemon.go
 +++ b/daemon/daemon.go
-@@ -1129,7 +1129,7 @@ func checkKernelAndArch() error {
+@@ -1257,7 +1257,7 @@ func checkKernel() error {
  	} else {
  		if kernel.CompareKernelVersion(k, &kernel.KernelVersionInfo{Kernel: 3, Major: 8, Minor: 0}) < 0 {
  			if os.Getenv("DOCKER_NOWARN_KERNEL_VERSION") == "" {
--				log.Infof("WARNING: You are running linux kernel version %s, which might be unstable running docker. Please upgrade your kernel to 3.8.0.", k.String())
+-				log.Warnf("You are running linux kernel version %s, which might be unstable running docker. Please upgrade your kernel to 3.8.0.", k.String())
 +				log.Fatalf("ERROR: You are running Linux kernel version %s, which is unsupported for running Docker. Please upgrade your kernel to 3.8+.", k.String())
  			}
  		}

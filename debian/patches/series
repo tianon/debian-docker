@@ -1,3 +1,6 @@
+# https://github.com/docker/docker/pull/12048!
+12048-auto-btrfs_noversion.patch
+
 # Once upstream kills the archive/tar vendoring, remove this patch
 upstream-patched-archive-tar.patch
 

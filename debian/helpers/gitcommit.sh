@@ -13,7 +13,7 @@ fi
 
 if [ "${uVersion%-dev}" = "$uVersion" ]; then
 	# this is a straight-up release!  easy-peasy
-	exec awk '/^'"$uVersion"':/ { print $2 }' debian/upstream-version-gitcommits
+	exec awk -F ': ' '$1 == "'"$uVersion"'" { print $2 }' debian/upstream-version-gitcommits
 fi
 
 # must be a nightly, so let's look for clues about what the git commit is

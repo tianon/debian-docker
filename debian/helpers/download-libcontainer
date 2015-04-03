@@ -7,7 +7,7 @@ pkg="$(dpkg-parsechangelog -SSource)"
 ver="$(dpkg-parsechangelog -SVersion)"
 origVer="${ver%-*}" # strip everything from the last dash
 origVer="$(echo "$origVer" | sed -r 's/^[0-9]+://')" # strip epoch
-upstreamVer="${origVer%%[+~]*}"
+upstreamVer="${origVer%%[+~]dfsg*}"
 origTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${origVer}.orig"
 unprunedTarballPrefix="${DOCKER_TARBALLS}/${pkg}_${upstreamVer}.orig"
 
@@ -52,4 +52,13 @@ if libtrustCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/li
 	echo "  (from libtrust commit $libtrustCommit)"
 
 	"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-libtrust.tar.gz"
+fi
+
+if distributionCommit="$(get_hack_vendor | grep -m1 '^clone git github.com/docker/distribution ' | cut -d' ' -f4)" && [ "$distributionCommit" ]; then
+	$curl "https://github.com/docker/distribution/archive/${distributionCommit}.tar.gz" > "${unprunedTarballPrefix}-distribution.tar.gz"
+
+	echo "successfully fetched ${unprunedTarballPrefix}-distribution.tar.gz"
+	echo "  (from distribution commit $distributionCommit)"
+
+	"$(dirname "$(readlink -f "$BASH_SOURCE")")/../repack.sh" --upstream-version "$upstreamVer" "${unprunedTarballPrefix}-distribution.tar.gz"
 fi

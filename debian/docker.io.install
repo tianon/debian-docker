@@ -1,4 +1,5 @@
 contrib/*-integration usr/share/docker.io/contrib/
+contrib/check-config.sh usr/share/docker.io/contrib/
 contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
 contrib/init/systemd/docker.service lib/systemd/system/
 contrib/init/systemd/docker.socket lib/systemd/system/
