@@ -1,4 +1,4 @@
-docker.io (1.6.0~rc4~dfsg1-1) UNRELEASED; urgency=low
+docker.io (1.6.0~rc4~dfsg1-1) experimental; urgency=low
 
   [ Tianon Gravi ]
   * Update to 1.6.0-rc4 upstream release
@@ -16,7 +16,7 @@ docker.io (1.6.0~rc4~dfsg1-1) UNRELEASED; urgency=low
   [ Felipe Sateler ]
   * Add Built-Using for glibc (Closes: #769351).
 
- -- Tianon Gravi <admwiggin@gmail.com>  Tue, 24 Mar 2015 09:01:14 -0600
+ -- Tianon Gravi <admwiggin@gmail.com>  Mon, 06 Apr 2015 17:11:33 -0600
 
 docker.io (1.5.0~dfsg1-1) experimental; urgency=low
 
