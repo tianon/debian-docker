@@ -41,7 +41,7 @@ Recommends: aufs-tools,
 Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
 Suggests: btrfs-tools, debootstrap, lxc, rinse
-Built-Using: ${misc:Built-Using}
+Built-Using: ${misc:Built-Using}, ${libc:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at
  the process level. It runs unix processes with strong guarantees of isolation

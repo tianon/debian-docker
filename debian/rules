@@ -22,8 +22,11 @@ export DOCKER_BUILDTAGS = apparmor
 
 
 APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)
+BUILT_LIBC := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)
+
 override_dh_gencontrol:
 	echo 'apparmor:Recommends=$(APPARMOR_RECOMMENDS)' >> debian/docker.io.substvars
+	echo 'libc:Built-Using=$(BUILT_LIBC)' >> debian/docker.io.substvars
 	dh_gencontrol
 
 

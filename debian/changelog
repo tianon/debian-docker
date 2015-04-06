@@ -13,6 +13,9 @@ docker.io (1.6.0~rc4~dfsg1-1) UNRELEASED; urgency=low
       features it offers (due to upstream's build system)
     - enable "docker.service" on boot by default for restart policies to work
 
+  [ Felipe Sateler ]
+  * Add Built-Using for glibc (Closes: #769351).
+
  -- Tianon Gravi <admwiggin@gmail.com>  Tue, 24 Mar 2015 09:01:14 -0600
 
 docker.io (1.5.0~dfsg1-1) experimental; urgency=low
