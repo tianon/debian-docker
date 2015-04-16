@@ -1,6 +1,7 @@
 docker.io (1.6.0+dfsg1-1~exp1) UNRELEASED; urgency=medium
 
   * Update to 1.6.0 upstream release
+  * Adjust "repack.sh" to be more tolerant of "dfsg" suffixes
 
  -- Tianon Gravi <admwiggin@gmail.com>  Thu, 16 Apr 2015 16:38:58 -0600
 

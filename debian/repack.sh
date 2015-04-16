@@ -32,7 +32,14 @@ done
 
 dfsgfilename="$filename"
 if [[ "$dfsgfilename" != *dfsg* ]]; then
-	dfsgfilename="${dfsgfilename/.orig/~dfsg1.orig}"
+	pkg="$(dpkg-parsechangelog -l"$dir"/debian/changelog -SSource)"
+	ver="$(dpkg-parsechangelog -l"$dir"/debian/changelog -SVersion)"
+	origVer="${ver%-*}" # strip everything from the last dash
+	origVer="$(echo "$origVer" | sed -r 's/^[0-9]+://')" # strip epoch
+	upstreamVer="${origVer%%[+~]dfsg*}"
+	dfsgBits="${origVer#$upstreamVer}"
+	
+	dfsgfilename="${dfsgfilename/.orig/$dfsgBits.orig}"
 fi
 tar -czf ${dir}/${dfsgfilename} *
 cd "$dir"
