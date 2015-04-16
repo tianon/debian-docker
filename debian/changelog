@@ -1,3 +1,9 @@
+docker.io (1.6.0~rc7~dfsg1-1~exp1) UNRELEASED; urgency=low
+
+  * Update to 1.6.0-rc7 upstream release
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Wed, 15 Apr 2015 19:27:28 -0600
+
 docker.io (1.6.0~rc4~dfsg1-1) experimental; urgency=low
 
   [ Tianon Gravi ]
