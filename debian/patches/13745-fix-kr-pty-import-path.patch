@@ -1,18 +1,18 @@
 Author: Arnaud Porterie <arnaud.porterie@docker.com>
 Date: Thu, 4 Jun 2015 09:02:14 -0700
 Subject: [PATCH] Fix kr/pty import path
-Applied-Upstream: https://github.com/docker/docker/pull/13745 (Docker 1.7+)
+Applied-Upstream: https://github.com/docker/docker/pull/13745 (Docker 1.8+)
 
-diff --git a/integration-cli/docker_cli_save_load_unix_test.go b/integration-cli/docker_cli_save_load_unix_test.go
-index 5a6f580..f16cd17 100644
---- a/integration-cli/docker_cli_save_load_unix_test.go
-+++ b/integration-cli/docker_cli_save_load_unix_test.go
-@@ -9,7 +9,7 @@ import (
+Index: docker.io/integration-cli/docker_cli_save_load_unix_test.go
+===================================================================
+--- docker.io.orig/integration-cli/docker_cli_save_load_unix_test.go
++++ docker.io/integration-cli/docker_cli_save_load_unix_test.go
+@@ -8,7 +8,7 @@ import (
+ 	"os"
  	"os/exec"
- 	"testing"
  
 -	"github.com/docker/docker/vendor/src/github.com/kr/pty"
 +	"github.com/kr/pty"
+ 	"github.com/go-check/check"
  )
  
- // save a repo and try to load it using stdout
