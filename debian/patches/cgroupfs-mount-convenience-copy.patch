@@ -47,9 +47,9 @@ Index: docker.io/contrib/init/upstart/docker.conf
 ===================================================================
 --- docker.io.orig/contrib/init/upstart/docker.conf
 +++ docker.io/contrib/init/upstart/docker.conf
-@@ -7,29 +7,6 @@ limit nproc 524288 1048576
+@@ -9,29 +9,6 @@ respawn
  
- respawn
+ kill timeout 20
  
 -pre-start script
 -	# see also https://github.com/tianon/cgroupfs-mount/blob/master/cgroupfs-mount

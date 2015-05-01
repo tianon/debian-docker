@@ -1,0 +1,119 @@
+Author: Antonio Murdaca <runcom@linux.com>, Tianon Gravi <tianon@dockerproject.org>
+Date: Jul 24, 2015, 7:11 AM PDT
+Subject: [PATCH] Update go systemd dbus v3
+Applied-Upstream: https://github.com/opencontainers/runc/pull/150 (Docker 1.8+)
+
+Index: docker.io/libcontainer/cgroups/systemd/apply_systemd.go
+===================================================================
+--- docker.io.orig/libcontainer/cgroups/systemd/apply_systemd.go
++++ docker.io/libcontainer/cgroups/systemd/apply_systemd.go
+@@ -12,7 +12,8 @@ import (
+ 	"sync"
+ 	"time"
+ 
+-	systemd "github.com/coreos/go-systemd/dbus"
++	systemdDbus "github.com/coreos/go-systemd/dbus"
++	systemdUtil "github.com/coreos/go-systemd/util"
+ 	"github.com/docker/libcontainer/cgroups"
+ 	"github.com/docker/libcontainer/cgroups/fs"
+ 	"github.com/docker/libcontainer/configs"
+@@ -51,21 +52,20 @@ const (
+ 
+ var (
+ 	connLock                        sync.Mutex
+-	theConn                         *systemd.Conn
++	theConn                         *systemdDbus.Conn
+ 	hasStartTransientUnit           bool
+ 	hasTransientDefaultDependencies bool
+ )
+ 
+-func newProp(name string, units interface{}) systemd.Property {
+-	return systemd.Property{
++func newProp(name string, units interface{}) systemdDbus.Property {
++	return systemdDbus.Property{
+ 		Name:  name,
+ 		Value: dbus.MakeVariant(units),
+ 	}
+ }
+ 
+ func UseSystemd() bool {
+-	s, err := os.Stat("/run/systemd/system")
+-	if err != nil || !s.IsDir() {
++	if !systemdUtil.IsRunningSystemd() {
+ 		return false
+ 	}
+ 
+@@ -74,7 +74,7 @@ func UseSystemd() bool {
+ 
+ 	if theConn == nil {
+ 		var err error
+-		theConn, err = systemd.New()
++		theConn, err = systemdDbus.New()
+ 		if err != nil {
+ 			return false
+ 		}
+@@ -83,7 +83,7 @@ func UseSystemd() bool {
+ 		hasStartTransientUnit = true
+ 
+ 		// But if we get UnknownMethod error we don't
+-		if _, err := theConn.StartTransientUnit("test.scope", "invalid"); err != nil {
++		if _, err := theConn.StartTransientUnit("test.scope", "invalid", nil, nil); err != nil {
+ 			if dbusError, ok := err.(dbus.Error); ok {
+ 				if dbusError.Name == "org.freedesktop.DBus.Error.UnknownMethod" {
+ 					hasStartTransientUnit = false
+@@ -98,7 +98,7 @@ func UseSystemd() bool {
+ 		scope := fmt.Sprintf("libcontainer-%d-systemd-test-default-dependencies.scope", os.Getpid())
+ 		testScopeExists := true
+ 		for i := 0; i <= testScopeWait; i++ {
+-			if _, err := theConn.StopUnit(scope, "replace"); err != nil {
++			if _, err := theConn.StopUnit(scope, "replace", nil); err != nil {
+ 				if dbusError, ok := err.(dbus.Error); ok {
+ 					if strings.Contains(dbusError.Name, "org.freedesktop.systemd1.NoSuchUnit") {
+ 						testScopeExists = false
+@@ -117,7 +117,7 @@ func UseSystemd() bool {
+ 		// Assume StartTransientUnit on a scope allows DefaultDependencies
+ 		hasTransientDefaultDependencies = true
+ 		ddf := newProp("DefaultDependencies", false)
+-		if _, err := theConn.StartTransientUnit(scope, "replace", ddf); err != nil {
++		if _, err := theConn.StartTransientUnit(scope, "replace", []systemdDbus.Property{ddf}, nil); err != nil {
+ 			if dbusError, ok := err.(dbus.Error); ok {
+ 				if strings.Contains(dbusError.Name, "org.freedesktop.DBus.Error.PropertyReadOnly") {
+ 					hasTransientDefaultDependencies = false
+@@ -126,7 +126,7 @@ func UseSystemd() bool {
+ 		}
+ 
+ 		// Not critical because of the stop unit logic above.
+-		theConn.StopUnit(scope, "replace")
++		theConn.StopUnit(scope, "replace", nil)
+ 	}
+ 	return hasStartTransientUnit
+ }
+@@ -146,7 +146,7 @@ func (m *Manager) Apply(pid int) error {
+ 		c          = m.Cgroups
+ 		unitName   = getUnitName(c)
+ 		slice      = "system.slice"
+-		properties []systemd.Property
++		properties []systemdDbus.Property
+ 	)
+ 
+ 	if c.Slice != "" {
+@@ -154,8 +154,8 @@ func (m *Manager) Apply(pid int) error {
+ 	}
+ 
+ 	properties = append(properties,
+-		systemd.PropSlice(slice),
+-		systemd.PropDescription("docker container "+c.Name),
++		systemdDbus.PropSlice(slice),
++		systemdDbus.PropDescription("docker container "+c.Name),
+ 		newProp("PIDs", []uint32{uint32(pid)}),
+ 	)
+ 
+@@ -187,7 +187,7 @@ func (m *Manager) Apply(pid int) error {
+ 			newProp("BlockIOWeight", uint64(c.BlkioWeight)))
+ 	}
+ 
+-	if _, err := theConn.StartTransientUnit(unitName, "replace", properties...); err != nil {
++	if _, err := theConn.StartTransientUnit(unitName, "replace", properties, nil); err != nil {
+ 		return err
+ 	}
+ 

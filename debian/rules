@@ -6,6 +6,7 @@ DOCKER_GOPKG = github.com/docker/docker
 # MUST STAY IN SYNC WITH LIST IN "debian/helpers/download-libcontainer"
 MULTI_ORIG_GOPKGS = \
 	github.com/docker/libcontainer \
+	github.com/docker/libnetwork \
 	github.com/docker/libtrust \
 	github.com/docker/distribution
 
@@ -67,7 +68,7 @@ override_dh_auto_build:
 	./hack/make.sh dynbinary
 	
 	# compile man pages
-	./docs/man/md2man-all.sh -q
+	./man/md2man-all.sh -q
 
 
 override_dh_auto_install:
@@ -113,8 +114,8 @@ override_dh_auto_clean:
 	
 	# autogen is created by hack/make.sh
 	# bundles is created by hack/make.sh
-	# docs/man/man*/ is created by docs/man/md2man-all.sh
-	rm -rf autogen bundles docs/man/man*/
+	# man/man*/ is created by man/md2man-all.sh
+	rm -rf autogen bundles man/man*/
 
 
 %:

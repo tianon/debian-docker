@@ -3,25 +3,28 @@ Section: admin
 Priority: optional
 Maintainer: Paul Tagliamonte <paultag@debian.org>
 Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>,
-           Tianon Gravi <admwiggin@gmail.com>,
+           Tianon Gravi <tianon@debian.org>,
            Johan Euphrosine <proppy@google.com>
 Build-Depends: bash-completion,
                btrfs-tools,
                debhelper (>=9),
                dh-systemd,
                go-md2man (>= 1.0.1~),
-               golang (>= 2:1.3-4~) | golang (= 2:1.3-1) | golang (<< 2:1.3~),
                golang-context-dev (>= 0.0~git20140604~),
                golang-dbus-dev (>= 2~),
-               golang-fsnotify-dev (>= 1.0.4~),
+               golang-github-coreos-go-systemd-dev (>= 2~),
+               golang-github-gorilla-mux-dev (>= 0.0~git20140926~),
+               golang-github-vishvananda-netlink-dev (>= 0.0~git20150224~),
+               golang-github-vishvananda-netns-dev (>= 0.0~git20150526~),
+               golang-go (>= 2:1.4~),
                golang-go-patricia-dev (>= 2.1.0~),
-               golang-go-systemd-dev (>= 2~),
+               golang-go-zfs-dev (>= 2.1.0~),
                golang-go.net-dev (>= 0.0~hg20130629~),
                golang-gocapability-dev (>= 0.0~git20150506~),
+               golang-goprotobuf-dev (>= 0.0~git20150325~),
                golang-gosqlite-dev (>= 0.0~hg20130530~),
                golang-logrus-dev (>= 0.7.3~),
-               golang-mux-dev (>= 0.0~git20140505~),
-               golang-pty-dev (>= 0.0~git20141217~),
+               golang-pty-dev (>= 0.0~git20150511~),
                libapparmor-dev,
                libdevmapper-dev (>= 2:1.02.68~)
 Standards-Version: 3.9.6
@@ -40,7 +43,7 @@ Recommends: aufs-tools,
             ${apparmor:Recommends}
 Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
-Suggests: btrfs-tools, debootstrap, lxc, rinse
+Suggests: btrfs-tools, debootstrap, lxc, rinse, zfs-fuse | zfsutils
 Built-Using: ${misc:Built-Using}, ${libc:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at

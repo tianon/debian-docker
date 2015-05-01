@@ -6,6 +6,7 @@ mkdir -p "${DOCKER_TARBALLS:=../tarballs}"
 # MUST STAY IN SYNC WITH LIST IN "debian/rules"
 multiOrigGopkgs=(
 	github.com/docker/libcontainer
+	github.com/docker/libnetwork
 	github.com/docker/libtrust
 	github.com/docker/distribution
 )

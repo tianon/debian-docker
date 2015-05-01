@@ -1,3 +1,11 @@
+docker.io (1.7.1~dfsg1-1) UNRELEASED; urgency=medium
+
+  * Update to 1.7.1 upstream release
+  * Remove patches applied upstream; refresh other patches
+  * Update Build-Depends
+
+ -- Tianon Gravi <tianon@debian.org>  Fri, 21 Aug 2015 21:52:19 -0700
+
 docker.io (1.6.2~dfsg1-2) unstable; urgency=medium
 
   * Add DEP8 tests

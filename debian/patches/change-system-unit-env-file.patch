@@ -4,10 +4,10 @@ Description: Use EnvironmentFile with the systemd unit file.
 Bug-Debian: http://bugs.debian.org/746774
 Forwarded: no
 
-diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
-index 0cb31e3..240961c 100644
---- a/contrib/init/systemd/docker.service
-+++ b/contrib/init/systemd/docker.service
+Index: docker.io/contrib/init/systemd/docker.service
+===================================================================
+--- docker.io.orig/contrib/init/systemd/docker.service
++++ docker.io/contrib/init/systemd/docker.service
 @@ -5,7 +5,8 @@ After=network.target docker.socket
  Requires=docker.socket
  
