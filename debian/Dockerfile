@@ -1,7 +1,6 @@
 FROM tianon/debian-devel
 
-# since we're uploading to experimental, let's build with deps from it too
-RUN echo 'APT::Default-Release "experimental";' > /etc/apt/apt.conf.d/default
+RUN echo 'deb http://incoming.debian.org/debian-buildd buildd-unstable main contrib non-free' > /etc/apt/sources.list.d/incoming.list
 
 # start by adding just "debian/control" so we can get mk-build-deps with maximum caching
 COPY control /usr/src/docker.io/debian/

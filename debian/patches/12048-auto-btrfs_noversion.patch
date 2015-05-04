@@ -2,7 +2,7 @@ From 3761955e8c1e7534026c469186c3f66c18e77cbc Mon Sep 17 00:00:00 2001
 From: Tianon Gravi <admwiggin@gmail.com>
 Date: Fri, 3 Apr 2015 01:30:12 -0600
 Subject: [PATCH] Change the btrfs_noversion check to be automatic
-Applied-Upstream: https://github.com/docker/docker/pull/12048
+Applied-Upstream: https://github.com/docker/docker/pull/12048 (Docker 1.7+)
 
 Signed-off-by: Andrew "Tianon" Page <admwiggin@gmail.com>
 ---

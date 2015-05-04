@@ -1,3 +1,10 @@
+docker.io (1.6.0+dfsg1-1) UNRELEASED; urgency=medium
+
+  * Upload to unstable
+  * Backport PR 12943 to support golang-go-patricia 2.*
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Mon, 04 May 2015 19:46:50 +0000
+
 docker.io (1.6.0+dfsg1-1~exp1) experimental; urgency=medium
 
   * Update to 1.6.0 upstream release
