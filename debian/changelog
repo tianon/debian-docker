@@ -1,11 +1,11 @@
-docker.io (1.6.0+dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.6.0+dfsg1-1) unstable; urgency=medium
 
   * Upload to unstable
   * Backport PR 12943 to support golang-go-patricia 2.*
   * Remove convenience copies of cgroupfs-mount in init.d / upstart scripts
     (Re: #783143)
 
- -- Tianon Gravi <admwiggin@gmail.com>  Mon, 04 May 2015 19:46:50 +0000
+ -- Tianon Gravi <admwiggin@gmail.com>  Tue, 05 May 2015 15:10:49 -0600
 
 docker.io (1.6.0+dfsg1-1~exp1) experimental; urgency=medium
 
