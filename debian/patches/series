@@ -1,3 +1,5 @@
+cgroupfs-mount-convenience-copy.patch
+
 # https://github.com/docker/docker/pull/12048! (1.7+)
 12048-auto-btrfs_noversion.patch
 
