@@ -1,3 +1,17 @@
+docker.io (1.6.1+dfsg1-1) UNRELEASED; urgency=high
+
+  * Update to 1.6.1 upstream release (Closes: #784726)
+    - CVE-2015-3627
+      Insecure opening of file-descriptor 1 leading to privilege escalation
+    - CVE-2015-3629
+      Symlink traversal on container respawn allows local privilege escalation
+    - CVE-2015-3630
+      Read/write proc paths allow host modification & information disclosure
+    - CVE-2015-3631
+      Volume mounts allow LSM profile escalation
+
+ -- Tianon Gravi <admwiggin@gmail.com>  Fri, 08 May 2015 22:30:55 +0000
+
 docker.io (1.6.0+dfsg1-1) unstable; urgency=medium
 
   * Upload to unstable
