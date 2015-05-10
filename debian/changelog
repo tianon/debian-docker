@@ -1,3 +1,11 @@
+docker.io (1.6.1+dfsg1-2) UNRELEASED; urgency=medium
+
+  * Add --no-restart-on-upgrade to dh_installinit so that we don't force
+    a stop on upgrade, which can cause other units to fall over. Many thanks
+    to Michael Stapelberg (sECuRE) for the tip!
+
+ -- Paul Tagliamonte <paultag@debian.org>  Sun, 10 May 2015 13:02:54 -0400
+
 docker.io (1.6.1+dfsg1-1) unstable; urgency=high
 
   * Update to 1.6.1 upstream release (Closes: #784726)
