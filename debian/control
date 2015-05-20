@@ -9,21 +9,21 @@ Build-Depends: bash-completion,
                btrfs-tools,
                debhelper (>=9),
                dh-systemd,
-               go-md2man,
+               go-md2man (>= 1.0.1~),
                golang (>= 2:1.3-4~) | golang (= 2:1.3-1) | golang (<< 2:1.3~),
                golang-context-dev (>= 0.0~git20140604~),
                golang-dbus-dev (>= 2~),
                golang-fsnotify-dev (>= 1.0.4~),
                golang-go-patricia-dev (>= 2.1.0~),
                golang-go-systemd-dev (>= 2~),
-               golang-go.net-dev (>= 0.0~hg20130530~),
-               golang-gocapability-dev (>= 0.0~git20150218~),
+               golang-go.net-dev (>= 0.0~hg20130629~),
+               golang-gocapability-dev (>= 0.0~git20150506~),
                golang-gosqlite-dev (>= 0.0~hg20130530~),
-               golang-logrus-dev (>= 0.7.1~),
+               golang-logrus-dev (>= 0.7.3~),
                golang-mux-dev (>= 0.0~git20140505~),
                golang-pty-dev (>= 0.0~git20141217~),
                libapparmor-dev,
-               libdevmapper-dev
+               libdevmapper-dev (>= 2:1.02.68~)
 Standards-Version: 3.9.6
 Homepage: https://dockerproject.com
 Vcs-Git: git://anonscm.debian.org/docker/docker.io.git
