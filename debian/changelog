@@ -1,9 +1,9 @@
-docker.io (1.6.2~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.6.2~dfsg1-1) unstable; urgency=medium
 
   * Update to 1.6.2 upstream release
   * Update deps in d/control to match upstream's hack/vendor.sh specifications
 
- -- Tianon Gravi <admwiggin@gmail.com>  Tue, 19 May 2015 23:10:30 +0000
+ -- Tianon Gravi <admwiggin@gmail.com>  Thu, 21 May 2015 00:47:43 -0600
 
 docker.io (1.6.1+dfsg1-2) unstable; urgency=medium
 
