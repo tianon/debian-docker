@@ -2,9 +2,18 @@
 # -*- makefile -*-
 
 DOCKER_GOPKG = github.com/docker/docker
-LIBCONTAINER_GOPKG = github.com/docker/libcontainer
-LIBTRUST_GOPKG = github.com/docker/libtrust
-DISTRIBUTION_GOPKG = github.com/docker/distribution
+
+# MUST STAY IN SYNC WITH LIST IN "debian/helpers/download-libcontainer"
+MULTI_ORIG_GOPKGS = \
+	github.com/docker/libcontainer \
+	github.com/docker/libtrust \
+	github.com/docker/distribution
+
+# the list of Go packages to include in golang-docker-dev
+DEV_GOPKGS = \
+	github.com/docker/docker/autogen/dockerversion \
+	github.com/docker/docker/pkg \
+	github.com/docker/libcontainer
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 export GOPATH = $(CURDIR)/.gopath
@@ -34,21 +43,21 @@ override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
 	
 	# make sure we have our multitarball deps (from tarballs or from vendor/ in nightlies)
-	[ -d libcontainer ] || { [ -d vendor/src/$(LIBCONTAINER_GOPKG) ] && ln -sf vendor/src/$(LIBCONTAINER_GOPKG) libcontainer; }
-	[ -d libtrust ] || { [ -d vendor/src/$(LIBTRUST_GOPKG) ] && ln -sf vendor/src/$(LIBTRUST_GOPKG) libtrust; }
-	[ -d distribution ] || { [ -d vendor/src/$(DISTRIBUTION_GOPKG) ] && ln -sf vendor/src/$(DISTRIBUTION_GOPKG) distribution; }
+	@set -ex; \
+		for package in $(MULTI_ORIG_GOPKGS); do \
+			[ -d $$(basename $$package) ] || { [ -d vendor/src/$$package ] && ln -sf vendor/src/$$package $$(basename $$package); }; \
+		done
 	
 	# we need to make sure all deps are in our GOPATH
 	mkdir -p "$(GOPATH)"
-	mkdir -p \
-		"$$GOPATH/src/$(dir $(DOCKER_GOPKG))" \
-		"$$GOPATH/src/$(dir $(LIBCONTAINER_GOPKG))" \
-		"$$GOPATH/src/$(dir $(LIBTRUST_GOPKG))" \
-		"$$GOPATH/src/$(dir $(DISTRIBUTION_GOPKG))"
-	ln -sfT "$$(readlink -f .)" "$$GOPATH/src/$(DOCKER_GOPKG)"
-	ln -sfT "$$(readlink -f libcontainer)" "$$GOPATH/src/$(LIBCONTAINER_GOPKG)"
-	ln -sfT "$$(readlink -f libtrust)" "$$GOPATH/src/$(LIBTRUST_GOPKG)"
-	ln -sfT "$$(readlink -f distribution)" "$$GOPATH/src/$(DISTRIBUTION_GOPKG)"
+	@set -ex; \
+		for package in $(DOCKER_GOPKG) $(MULTI_ORIG_GOPKGS); do \
+			[ $$package = $(DOCKER_GOPKG) ] \
+				&& src=. \
+				|| src=$$(basename $$package); \
+			mkdir -p "$$GOPATH/src/$$(dirname $$package)"; \
+			ln -sfT "$$(readlink -f "$$src")" "$$GOPATH/src/$$package"; \
+		done
 	
 	# build "docker" and "dockerinit"
 	GOPATH="$$GOPATH:$(GOPATH_PACKAGED)" \
@@ -70,11 +79,7 @@ override_dh_auto_install:
 	# Most of the source of docker does not make a library,
 	#   so only ship the reusable parts (and in a separate package).
 	@set -ex; \
-		for package in \
-			$(DOCKER_GOPKG)/autogen/dockerversion \
-			$(DOCKER_GOPKG)/pkg \
-			$(LIBCONTAINER_GOPKG) \
-		; do \
+		for package in $(DEV_GOPKGS); do \
 			mkdir -p "debian/golang-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
 			cp -aT "$$(readlink -f "$$GOPATH/src/$$package")" "debian/golang-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
 		done
