@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+AUTO_GOPATH=1 ./hack/make.sh test-integration-cli
