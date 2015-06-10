@@ -39,9 +39,7 @@ override_dh_gencontrol:
 	dh_gencontrol
 
 
-override_dh_auto_build:
-	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
-	
+setup-gopath:
 	# make sure we have our multitarball deps (from tarballs or from vendor/ in nightlies)
 	@set -ex; \
 		for package in $(MULTI_ORIG_GOPKGS); do \
@@ -58,6 +56,11 @@ override_dh_auto_build:
 			mkdir -p "$$GOPATH/src/$$(dirname $$package)"; \
 			ln -sfT "$$(readlink -f "$$src")" "$$GOPATH/src/$$package"; \
 		done
+
+override_dh_auto_build:
+	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
+	
+	./debian/rules setup-gopath
 	
 	# build "docker" and "dockerinit"
 	GOPATH="$$GOPATH:$(GOPATH_PACKAGED)" \
