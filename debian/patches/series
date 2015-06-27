@@ -9,6 +9,9 @@ cgroupfs-mount-convenience-copy.patch
 # https://github.com/docker/docker/pull/13745 (1.7+)
 13745-fix-kr-pty-import-path.patch
 
+# https://github.com/docker/docker/pull/13972 (1.8+)
+golang.org-x-net.patch
+
 # Once upstream kills the archive/tar vendoring, remove this patch
 upstream-patched-archive-tar.patch
 

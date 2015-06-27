@@ -1,0 +1,32 @@
+Author: Tibor Vass <tibor@docker.com>, Tianon Gravi <admwiggin@gmail.com>
+Description: replace "code.google.com/p/go.net" with the canonical "golang.org/x/net"
+Applied-Upstream: https://github.com/docker/docker/pull/13972 (Docker 1.8+)
+
+Index: docker.io/api/server/server.go
+===================================================================
+--- docker.io.orig/api/server/server.go
++++ docker.io/api/server/server.go
+@@ -20,9 +20,9 @@ import (
+ 	"crypto/tls"
+ 	"crypto/x509"
+ 
+-	"code.google.com/p/go.net/websocket"
+ 	"github.com/docker/libcontainer/user"
+ 	"github.com/gorilla/mux"
++	"golang.org/x/net/websocket"
+ 
+ 	log "github.com/Sirupsen/logrus"
+ 	"github.com/docker/docker/api"
+Index: docker.io/integration-cli/docker_api_attach_test.go
+===================================================================
+--- docker.io.orig/integration-cli/docker_api_attach_test.go
++++ docker.io/integration-cli/docker_api_attach_test.go
+@@ -6,7 +6,7 @@ import (
+ 	"testing"
+ 	"time"
+ 
+-	"code.google.com/p/go.net/websocket"
++	"golang.org/x/net/websocket"
+ )
+ 
+ func TestGetContainersAttachWebsocket(t *testing.T) {
