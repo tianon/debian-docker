@@ -9,11 +9,15 @@ dpkg-source --before-build .
 export GOPATH="$PWD/.gopath:/usr/share/gocode"
 export DOCKER_GITCOMMIT="$(./debian/helpers/gitcommit.sh)"
 
+# docker's tests need an unprivileged user available at this username
+useradd --system --gid docker --comment 'Docker Test Suite Unprivileged User' unprivilegeduser
+
 # run the tests
 ./hack/make.sh test-integration-cli
 
 # clean up cruft we've created
 ./debian/rules clean
+userdel --force unprivilegeduser
 
 # unapply patches
 dpkg-source --after-build .
