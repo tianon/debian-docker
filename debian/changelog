@@ -1,11 +1,11 @@
-docker.io (1.6.2~dfsg1-2) UNRELEASED; urgency=medium
+docker.io (1.6.2~dfsg1-2) unstable; urgency=medium
 
   * Add DEP8 tests
     - integration: runs upstream's integration tests
   * Replace "code.google.com/p/go.net" with canonical "golang.org/x/net"
     (Closes: #789736)
 
- -- Tianon Gravi <admwiggin@gmail.com>  Wed, 10 Jun 2015 15:14:15 +0000
+ -- Tianon Gravi <admwiggin@gmail.com>  Wed, 01 Jul 2015 07:45:19 -0600
 
 docker.io (1.6.2~dfsg1-1) unstable; urgency=medium
 
