@@ -16,3 +16,6 @@ change-system-unit-env-file.patch
 
 # https://github.com/opencontainers/runc/pull/150 (1.8+)
 go-systemd-v3.patch
+
+# change "github.com/go-check/check" to "gopkg.in/check.v1"
+check-v1.patch
