@@ -5,6 +5,7 @@ Maintainer: Paul Tagliamonte <paultag@debian.org>
 Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>,
            Tianon Gravi <tianon@debian.org>,
            Johan Euphrosine <proppy@google.com>
+# partially generated via https://gist.github.com/tianon/92ebbd1793864b9586bc
 Build-Depends: bash-completion,
                btrfs-tools,
                debhelper (>=9),
