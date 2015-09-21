@@ -1,6 +1,6 @@
-docker.io (1.8.1~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.8.2~dfsg1-1) UNRELEASED; urgency=medium
 
-  * Update to 1.8.1 upstream release
+  * Update to 1.8.2 upstream release
 
  -- Tianon Gravi <tianon@debian.org>  Tue, 01 Sep 2015 05:15:14 -0700
 
