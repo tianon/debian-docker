@@ -1,11 +1,5 @@
 cgroupfs-mount-convenience-copy.patch
 
-# https://github.com/docker/docker/pull/13745 (1.8+)
-13745-fix-kr-pty-import-path.patch
-
-# https://github.com/docker/docker/pull/13972 (1.8+)
-golang.org-x-net.patch
-
 # If upstream ever resolves https://github.com/docker/docker/issues/8969 in a
 # reasonable way, remove this patch.
 fatal-error-old-kernels.patch
@@ -13,9 +7,6 @@ fatal-error-old-kernels.patch
 # Once upstream adds EnvFile, remove this patch.
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
-
-# https://github.com/opencontainers/runc/pull/150 (1.8+)
-go-systemd-v3.patch
 
 # change "github.com/go-check/check" to "gopkg.in/check.v1"
 check-v1.patch

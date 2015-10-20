@@ -1,34 +1,34 @@
-Index: docker.io/integration-cli/check_test.go
-===================================================================
---- docker.io.orig/integration-cli/check_test.go
-+++ docker.io/integration-cli/check_test.go
-@@ -5,7 +5,7 @@ import (
+diff --git a/integration-cli/check_test.go b/integration-cli/check_test.go
+index 5061008..10a56e2 100644
+--- a/integration-cli/check_test.go
++++ b/integration-cli/check_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
  	"testing"
- 	"time"
  
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  func Test(t *testing.T) {
-Index: docker.io/integration-cli/docker_api_attach_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_attach_test.go
-+++ docker.io/integration-cli/docker_api_attach_test.go
-@@ -7,7 +7,7 @@ import (
+diff --git a/integration-cli/docker_api_attach_test.go b/integration-cli/docker_api_attach_test.go
+index 06a1c48..001631e 100644
+--- a/integration-cli/docker_api_attach_test.go
++++ b/integration-cli/docker_api_attach_test.go
+@@ -8,7 +8,7 @@ import (
  	"strings"
  	"time"
  
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
- 
  	"golang.org/x/net/websocket"
  )
-Index: docker.io/integration-cli/docker_api_containers_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_containers_test.go
-+++ docker.io/integration-cli/docker_api_containers_test.go
-@@ -16,7 +16,7 @@ import (
+ 
+diff --git a/integration-cli/docker_api_containers_test.go b/integration-cli/docker_api_containers_test.go
+index d8dc448..571af60 100644
+--- a/integration-cli/docker_api_containers_test.go
++++ b/integration-cli/docker_api_containers_test.go
+@@ -17,7 +17,7 @@ import (
  	"github.com/docker/docker/api/types"
  	"github.com/docker/docker/pkg/stringid"
  	"github.com/docker/docker/runconfig"
@@ -37,12 +37,25 @@ Index: docker.io/integration-cli/docker_api_containers_test.go
  )
  
  func (s *DockerSuite) TestContainerApiGetAll(c *check.C) {
-Index: docker.io/integration-cli/docker_api_exec_resize_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_exec_resize_test.go
-+++ docker.io/integration-cli/docker_api_exec_resize_test.go
-@@ -5,7 +5,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_api_events_test.go b/integration-cli/docker_api_events_test.go
+index 8ae7bf7..9120aa0 100644
+--- a/integration-cli/docker_api_events_test.go
++++ b/integration-cli/docker_api_events_test.go
+@@ -4,7 +4,7 @@ import (
+ 	"net/http"
+ 	"time"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestEventsApiEmptyOutput(c *check.C) {
+diff --git a/integration-cli/docker_api_exec_resize_test.go b/integration-cli/docker_api_exec_resize_test.go
+index 01061ca..817c734 100644
+--- a/integration-cli/docker_api_exec_resize_test.go
++++ b/integration-cli/docker_api_exec_resize_test.go
+@@ -4,7 +4,7 @@ import (
+ 	"net/http"
  	"strings"
  
 -	"github.com/go-check/check"
@@ -50,24 +63,24 @@ Index: docker.io/integration-cli/docker_api_exec_resize_test.go
  )
  
  func (s *DockerSuite) TestExecResizeApiHeightWidthNoInt(c *check.C) {
-Index: docker.io/integration-cli/docker_api_exec_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_exec_test.go
-+++ docker.io/integration-cli/docker_api_exec_test.go
+diff --git a/integration-cli/docker_api_exec_test.go b/integration-cli/docker_api_exec_test.go
+index 3d99fe6..0446230 100644
+--- a/integration-cli/docker_api_exec_test.go
++++ b/integration-cli/docker_api_exec_test.go
 @@ -8,7 +8,7 @@ import (
+ 	"fmt"
  	"net/http"
- 	"os/exec"
  
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  // Regression test for #9414
-Index: docker.io/integration-cli/docker_api_images_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_images_test.go
-+++ docker.io/integration-cli/docker_api_images_test.go
-@@ -8,7 +8,7 @@ import (
+diff --git a/integration-cli/docker_api_images_test.go b/integration-cli/docker_api_images_test.go
+index 339a2f4..ab21d4b 100644
+--- a/integration-cli/docker_api_images_test.go
++++ b/integration-cli/docker_api_images_test.go
+@@ -7,7 +7,7 @@ import (
  	"strings"
  
  	"github.com/docker/docker/api/types"
@@ -76,10 +89,10 @@ Index: docker.io/integration-cli/docker_api_images_test.go
  )
  
  func (s *DockerSuite) TestApiImagesFilter(c *check.C) {
-Index: docker.io/integration-cli/docker_api_info_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_info_test.go
-+++ docker.io/integration-cli/docker_api_info_test.go
+diff --git a/integration-cli/docker_api_info_test.go b/integration-cli/docker_api_info_test.go
+index 4084289..1616e0e 100644
+--- a/integration-cli/docker_api_info_test.go
++++ b/integration-cli/docker_api_info_test.go
 @@ -4,7 +4,7 @@ import (
  	"net/http"
  	"strings"
@@ -89,12 +102,12 @@ Index: docker.io/integration-cli/docker_api_info_test.go
  )
  
  func (s *DockerSuite) TestInfoApi(c *check.C) {
-Index: docker.io/integration-cli/docker_api_inspect_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_inspect_test.go
-+++ docker.io/integration-cli/docker_api_inspect_test.go
+diff --git a/integration-cli/docker_api_inspect_test.go b/integration-cli/docker_api_inspect_test.go
+index 2287e7d..a57e687 100644
+--- a/integration-cli/docker_api_inspect_test.go
++++ b/integration-cli/docker_api_inspect_test.go
 @@ -6,7 +6,7 @@ import (
- 	"os/exec"
+ 	"net/http"
  	"strings"
  
 -	"github.com/go-check/check"
@@ -102,11 +115,11 @@ Index: docker.io/integration-cli/docker_api_inspect_test.go
  )
  
  func (s *DockerSuite) TestInspectApiContainerResponse(c *check.C) {
-Index: docker.io/integration-cli/docker_api_logs_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_logs_test.go
-+++ docker.io/integration-cli/docker_api_logs_test.go
-@@ -9,7 +9,7 @@ import (
+diff --git a/integration-cli/docker_api_logs_test.go b/integration-cli/docker_api_logs_test.go
+index d478447..d22f363 100644
+--- a/integration-cli/docker_api_logs_test.go
++++ b/integration-cli/docker_api_logs_test.go
+@@ -8,7 +8,7 @@ import (
  	"strings"
  	"time"
  
@@ -115,12 +128,25 @@ Index: docker.io/integration-cli/docker_api_logs_test.go
  )
  
  func (s *DockerSuite) TestLogsApiWithStdout(c *check.C) {
-Index: docker.io/integration-cli/docker_api_resize_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_resize_test.go
-+++ docker.io/integration-cli/docker_api_resize_test.go
-@@ -5,7 +5,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_api_network_test.go b/integration-cli/docker_api_network_test.go
+index 44d2b31..2da958f 100644
+--- a/integration-cli/docker_api_network_test.go
++++ b/integration-cli/docker_api_network_test.go
+@@ -7,7 +7,7 @@ import (
+ 	"fmt"
+ 	"net/http"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func isNetworkAvailable(c *check.C, name string) bool {
+diff --git a/integration-cli/docker_api_resize_test.go b/integration-cli/docker_api_resize_test.go
+index c7a577b..e421403 100644
+--- a/integration-cli/docker_api_resize_test.go
++++ b/integration-cli/docker_api_resize_test.go
+@@ -4,7 +4,7 @@ import (
+ 	"net/http"
  	"strings"
  
 -	"github.com/go-check/check"
@@ -128,12 +154,25 @@ Index: docker.io/integration-cli/docker_api_resize_test.go
  )
  
  func (s *DockerSuite) TestResizeApiResponse(c *check.C) {
-Index: docker.io/integration-cli/docker_api_stats_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_stats_test.go
-+++ docker.io/integration-cli/docker_api_stats_test.go
-@@ -8,7 +8,7 @@ import (
- 	"strings"
+diff --git a/integration-cli/docker_api_service_test.go b/integration-cli/docker_api_service_test.go
+index df07219..27b63c8 100644
+--- a/integration-cli/docker_api_service_test.go
++++ b/integration-cli/docker_api_service_test.go
+@@ -7,7 +7,7 @@ import (
+ 	"fmt"
+ 	"net/http"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func isServiceAvailable(c *check.C, name string, network string) bool {
+diff --git a/integration-cli/docker_api_stats_test.go b/integration-cli/docker_api_stats_test.go
+index f019e00..d1868fd 100644
+--- a/integration-cli/docker_api_stats_test.go
++++ b/integration-cli/docker_api_stats_test.go
+@@ -10,7 +10,7 @@ import (
+ 	"time"
  
  	"github.com/docker/docker/api/types"
 -	"github.com/go-check/check"
@@ -141,10 +180,10 @@ Index: docker.io/integration-cli/docker_api_stats_test.go
  )
  
  func (s *DockerSuite) TestCliStatsNoStreamGetCpu(c *check.C) {
-Index: docker.io/integration-cli/docker_api_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_test.go
-+++ docker.io/integration-cli/docker_api_test.go
+diff --git a/integration-cli/docker_api_test.go b/integration-cli/docker_api_test.go
+index 6cbf301..0572583 100644
+--- a/integration-cli/docker_api_test.go
++++ b/integration-cli/docker_api_test.go
 @@ -8,7 +8,7 @@ import (
  	"time"
  
@@ -154,10 +193,10 @@ Index: docker.io/integration-cli/docker_api_test.go
  )
  
  func (s *DockerSuite) TestApiOptionsRoute(c *check.C) {
-Index: docker.io/integration-cli/docker_api_version_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_api_version_test.go
-+++ docker.io/integration-cli/docker_api_version_test.go
+diff --git a/integration-cli/docker_api_version_test.go b/integration-cli/docker_api_version_test.go
+index b756794..42fb872 100644
+--- a/integration-cli/docker_api_version_test.go
++++ b/integration-cli/docker_api_version_test.go
 @@ -6,7 +6,7 @@ import (
  
  	"github.com/docker/docker/api/types"
@@ -167,10 +206,10 @@ Index: docker.io/integration-cli/docker_api_version_test.go
  )
  
  func (s *DockerSuite) TestGetVersion(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_attach_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_attach_test.go
-+++ docker.io/integration-cli/docker_cli_attach_test.go
+diff --git a/integration-cli/docker_cli_attach_test.go b/integration-cli/docker_cli_attach_test.go
+index f45f775..90e389c 100644
+--- a/integration-cli/docker_cli_attach_test.go
++++ b/integration-cli/docker_cli_attach_test.go
 @@ -9,7 +9,7 @@ import (
  	"sync"
  	"time"
@@ -180,10 +219,10 @@ Index: docker.io/integration-cli/docker_cli_attach_test.go
  )
  
  const attachWait = 5 * time.Second
-Index: docker.io/integration-cli/docker_cli_attach_unix_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_attach_unix_test.go
-+++ docker.io/integration-cli/docker_cli_attach_unix_test.go
+diff --git a/integration-cli/docker_cli_attach_unix_test.go b/integration-cli/docker_cli_attach_unix_test.go
+index 9718dc0..c30ff45 100644
+--- a/integration-cli/docker_cli_attach_unix_test.go
++++ b/integration-cli/docker_cli_attach_unix_test.go
 @@ -9,7 +9,7 @@ import (
  	"time"
  
@@ -193,10 +232,10 @@ Index: docker.io/integration-cli/docker_cli_attach_unix_test.go
  	"github.com/kr/pty"
  )
  
-Index: docker.io/integration-cli/docker_cli_build_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_build_test.go
-+++ docker.io/integration-cli/docker_cli_build_test.go
+diff --git a/integration-cli/docker_cli_build_test.go b/integration-cli/docker_cli_build_test.go
+index 6dc24df..ad56d5d 100644
+--- a/integration-cli/docker_cli_build_test.go
++++ b/integration-cli/docker_cli_build_test.go
 @@ -21,7 +21,7 @@ import (
  	"github.com/docker/docker/builder/command"
  	"github.com/docker/docker/pkg/archive"
@@ -206,25 +245,38 @@ Index: docker.io/integration-cli/docker_cli_build_test.go
  )
  
  func (s *DockerSuite) TestBuildJSONEmptyRun(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_by_digest_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_by_digest_test.go
-+++ docker.io/integration-cli/docker_cli_by_digest_test.go
+diff --git a/integration-cli/docker_cli_build_unix_test.go b/integration-cli/docker_cli_build_unix_test.go
+index fc7bd92..c246dbd 100644
+--- a/integration-cli/docker_cli_build_unix_test.go
++++ b/integration-cli/docker_cli_build_unix_test.go
 @@ -7,7 +7,7 @@ import (
  	"strings"
  
+ 	"github.com/docker/docker/pkg/ulimit"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestBuildResourceConstraintsAreUsed(c *check.C) {
+diff --git a/integration-cli/docker_cli_by_digest_test.go b/integration-cli/docker_cli_by_digest_test.go
+index 71f8b1a..a53e3db 100644
+--- a/integration-cli/docker_cli_by_digest_test.go
++++ b/integration-cli/docker_cli_by_digest_test.go
+@@ -9,7 +9,7 @@ import (
+ 	"github.com/docker/distribution/digest"
+ 	"github.com/docker/distribution/manifest"
  	"github.com/docker/docker/utils"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  var (
-Index: docker.io/integration-cli/docker_cli_commit_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_commit_test.go
-+++ docker.io/integration-cli/docker_cli_commit_test.go
-@@ -4,7 +4,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_commit_test.go b/integration-cli/docker_cli_commit_test.go
+index 125b2e3..7e0d6f5 100644
+--- a/integration-cli/docker_cli_commit_test.go
++++ b/integration-cli/docker_cli_commit_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
  	"strings"
  
 -	"github.com/go-check/check"
@@ -232,23 +284,36 @@ Index: docker.io/integration-cli/docker_cli_commit_test.go
  )
  
  func (s *DockerSuite) TestCommitAfterContainerIsDone(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_config_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_config_test.go
-+++ docker.io/integration-cli/docker_cli_config_test.go
-@@ -9,7 +9,7 @@ import (
- 	"path/filepath"
+diff --git a/integration-cli/docker_cli_config_test.go b/integration-cli/docker_cli_config_test.go
+index 2b08f47..1b574fb 100644
+--- a/integration-cli/docker_cli_config_test.go
++++ b/integration-cli/docker_cli_config_test.go
+@@ -11,7 +11,7 @@ import (
  
+ 	"github.com/docker/docker/autogen/dockerversion"
  	"github.com/docker/docker/pkg/homedir"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  func (s *DockerSuite) TestConfigHttpHeader(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_cp_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_cp_test.go
-+++ docker.io/integration-cli/docker_cli_cp_test.go
+diff --git a/integration-cli/docker_cli_cp_from_container_test.go b/integration-cli/docker_cli_cp_from_container_test.go
+index 945a34f..f6f3159 100644
+--- a/integration-cli/docker_cli_cp_from_container_test.go
++++ b/integration-cli/docker_cli_cp_from_container_test.go
+@@ -4,7 +4,7 @@ import (
+ 	"os"
+ 	"path/filepath"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ // docker cp CONTAINER:PATH LOCALPATH
+diff --git a/integration-cli/docker_cli_cp_test.go b/integration-cli/docker_cli_cp_test.go
+index 64ae0b5..94f6935 100644
+--- a/integration-cli/docker_cli_cp_test.go
++++ b/integration-cli/docker_cli_cp_test.go
 @@ -10,7 +10,7 @@ import (
  	"path/filepath"
  	"strings"
@@ -258,23 +323,62 @@ Index: docker.io/integration-cli/docker_cli_cp_test.go
  )
  
  const (
-Index: docker.io/integration-cli/docker_cli_create_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_create_test.go
-+++ docker.io/integration-cli/docker_cli_create_test.go
-@@ -10,7 +10,7 @@ import (
- 	"time"
+diff --git a/integration-cli/docker_cli_cp_to_container_test.go b/integration-cli/docker_cli_cp_to_container_test.go
+index 341121d..a705ad1 100644
+--- a/integration-cli/docker_cli_cp_to_container_test.go
++++ b/integration-cli/docker_cli_cp_to_container_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
+ 	"os"
  
- 	"github.com/docker/docker/nat"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ // docker cp LOCALPATH CONTAINER:PATH
+diff --git a/integration-cli/docker_cli_cp_utils.go b/integration-cli/docker_cli_cp_utils.go
+index c26ebfd..9ed8a7d 100644
+--- a/integration-cli/docker_cli_cp_utils.go
++++ b/integration-cli/docker_cli_cp_utils.go
+@@ -10,7 +10,7 @@ import (
+ 	"strings"
+ 
+ 	"github.com/docker/docker/pkg/archive"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ type fileType uint32
+diff --git a/integration-cli/docker_cli_create_test.go b/integration-cli/docker_cli_create_test.go
+index 482e96f..9a0ad7e 100644
+--- a/integration-cli/docker_cli_create_test.go
++++ b/integration-cli/docker_cli_create_test.go
+@@ -13,7 +13,7 @@ import (
+ 	"io/ioutil"
+ 
+ 	"github.com/docker/docker/pkg/nat"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  // Make sure we can create a simple container with some args
-Index: docker.io/integration-cli/docker_cli_daemon_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_daemon_test.go
-+++ docker.io/integration-cli/docker_cli_daemon_test.go
+diff --git a/integration-cli/docker_cli_daemon_experimental_test.go b/integration-cli/docker_cli_daemon_experimental_test.go
+index dc4f792..51c51d2 100644
+--- a/integration-cli/docker_cli_daemon_experimental_test.go
++++ b/integration-cli/docker_cli_daemon_experimental_test.go
+@@ -6,7 +6,7 @@ import (
+ 	"os/exec"
+ 	"strings"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func assertNetwork(c *check.C, d *Daemon, name string) {
+diff --git a/integration-cli/docker_cli_daemon_test.go b/integration-cli/docker_cli_daemon_test.go
+index 992cd83..2dec0ec 100644
+--- a/integration-cli/docker_cli_daemon_test.go
++++ b/integration-cli/docker_cli_daemon_test.go
 @@ -17,7 +17,7 @@ import (
  
  	"github.com/docker/libnetwork/iptables"
@@ -284,12 +388,12 @@ Index: docker.io/integration-cli/docker_cli_daemon_test.go
  )
  
  func (s *DockerDaemonSuite) TestDaemonRestartWithRunningContainersPorts(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_diff_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_diff_test.go
-+++ docker.io/integration-cli/docker_cli_diff_test.go
-@@ -4,7 +4,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_diff_test.go b/integration-cli/docker_cli_diff_test.go
+index b5fc1bd..4041620 100644
+--- a/integration-cli/docker_cli_diff_test.go
++++ b/integration-cli/docker_cli_diff_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
  	"strings"
  
 -	"github.com/go-check/check"
@@ -297,11 +401,11 @@ Index: docker.io/integration-cli/docker_cli_diff_test.go
  )
  
  // ensure that an added file shows up in docker diff
-Index: docker.io/integration-cli/docker_cli_events_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_events_test.go
-+++ docker.io/integration-cli/docker_cli_events_test.go
-@@ -10,7 +10,7 @@ import (
+diff --git a/integration-cli/docker_cli_events_test.go b/integration-cli/docker_cli_events_test.go
+index 6742ea4..2bcbfcd 100644
+--- a/integration-cli/docker_cli_events_test.go
++++ b/integration-cli/docker_cli_events_test.go
+@@ -13,7 +13,7 @@ import (
  	"sync"
  	"time"
  
@@ -310,10 +414,10 @@ Index: docker.io/integration-cli/docker_cli_events_test.go
  )
  
  func (s *DockerSuite) TestEventsTimestampFormats(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_events_unix_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_events_unix_test.go
-+++ docker.io/integration-cli/docker_cli_events_unix_test.go
+diff --git a/integration-cli/docker_cli_events_unix_test.go b/integration-cli/docker_cli_events_unix_test.go
+index 1a08f2b..fd6dcd6 100644
+--- a/integration-cli/docker_cli_events_unix_test.go
++++ b/integration-cli/docker_cli_events_unix_test.go
 @@ -10,7 +10,7 @@ import (
  	"os/exec"
  	"unicode"
@@ -323,11 +427,11 @@ Index: docker.io/integration-cli/docker_cli_events_unix_test.go
  	"github.com/kr/pty"
  )
  
-Index: docker.io/integration-cli/docker_cli_exec_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_exec_test.go
-+++ docker.io/integration-cli/docker_cli_exec_test.go
-@@ -14,7 +14,7 @@ import (
+diff --git a/integration-cli/docker_cli_exec_test.go b/integration-cli/docker_cli_exec_test.go
+index 8e85988..a626a7d 100644
+--- a/integration-cli/docker_cli_exec_test.go
++++ b/integration-cli/docker_cli_exec_test.go
+@@ -15,7 +15,7 @@ import (
  	"sync"
  	"time"
  
@@ -336,10 +440,10 @@ Index: docker.io/integration-cli/docker_cli_exec_test.go
  )
  
  func (s *DockerSuite) TestExec(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_exec_unix_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_exec_unix_test.go
-+++ docker.io/integration-cli/docker_cli_exec_unix_test.go
+diff --git a/integration-cli/docker_cli_exec_unix_test.go b/integration-cli/docker_cli_exec_unix_test.go
+index 28c202c..fa0b274 100644
+--- a/integration-cli/docker_cli_exec_unix_test.go
++++ b/integration-cli/docker_cli_exec_unix_test.go
 @@ -9,7 +9,7 @@ import (
  	"strings"
  	"time"
@@ -349,12 +453,12 @@ Index: docker.io/integration-cli/docker_cli_exec_unix_test.go
  	"github.com/kr/pty"
  )
  
-Index: docker.io/integration-cli/docker_cli_experimental_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_experimental_test.go
-+++ docker.io/integration-cli/docker_cli_experimental_test.go
-@@ -6,7 +6,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_experimental_test.go b/integration-cli/docker_cli_experimental_test.go
+index 694222b..100b6c4 100644
+--- a/integration-cli/docker_cli_experimental_test.go
++++ b/integration-cli/docker_cli_experimental_test.go
+@@ -5,7 +5,7 @@ package main
+ import (
  	"strings"
  
 -	"github.com/go-check/check"
@@ -362,10 +466,10 @@ Index: docker.io/integration-cli/docker_cli_experimental_test.go
  )
  
  func (s *DockerSuite) TestExperimentalVersion(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_export_import_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_export_import_test.go
-+++ docker.io/integration-cli/docker_cli_export_import_test.go
+diff --git a/integration-cli/docker_cli_export_import_test.go b/integration-cli/docker_cli_export_import_test.go
+index a9e75de..f227755 100644
+--- a/integration-cli/docker_cli_export_import_test.go
++++ b/integration-cli/docker_cli_export_import_test.go
 @@ -5,7 +5,7 @@ import (
  	"os/exec"
  	"strings"
@@ -375,10 +479,10 @@ Index: docker.io/integration-cli/docker_cli_export_import_test.go
  )
  
  // export an image and try to import it into a new one
-Index: docker.io/integration-cli/docker_cli_help_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_help_test.go
-+++ docker.io/integration-cli/docker_cli_help_test.go
+diff --git a/integration-cli/docker_cli_help_test.go b/integration-cli/docker_cli_help_test.go
+index 3113083..2c83671 100644
+--- a/integration-cli/docker_cli_help_test.go
++++ b/integration-cli/docker_cli_help_test.go
 @@ -8,7 +8,7 @@ import (
  	"unicode"
  
@@ -388,62 +492,10 @@ Index: docker.io/integration-cli/docker_cli_help_test.go
  )
  
  func (s *DockerSuite) TestHelpTextVerify(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_history_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_history_test.go
-+++ docker.io/integration-cli/docker_cli_history_test.go
-@@ -7,7 +7,7 @@ import (
- 	"strconv"
- 	"strings"
- 
--	"github.com/go-check/check"
-+	"gopkg.in/check.v1"
- )
- 
- // This is a heisen-test.  Because the created timestamp of images and the behavior of
-Index: docker.io/integration-cli/docker_cli_images_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_images_test.go
-+++ docker.io/integration-cli/docker_cli_images_test.go
-@@ -9,7 +9,7 @@ import (
- 	"time"
- 
- 	"github.com/docker/docker/pkg/stringid"
--	"github.com/go-check/check"
-+	"gopkg.in/check.v1"
- )
- 
- func (s *DockerSuite) TestImagesEnsureImageIsListed(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_import_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_import_test.go
-+++ docker.io/integration-cli/docker_cli_import_test.go
-@@ -4,7 +4,7 @@ import (
- 	"os/exec"
- 	"strings"
- 
--	"github.com/go-check/check"
-+	"gopkg.in/check.v1"
- )
- 
- func (s *DockerSuite) TestImportDisplay(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_info_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_info_test.go
-+++ docker.io/integration-cli/docker_cli_info_test.go
-@@ -5,7 +5,7 @@ import (
- 	"strings"
- 
- 	"github.com/docker/docker/utils"
--	"github.com/go-check/check"
-+	"gopkg.in/check.v1"
- )
- 
- // ensure docker info succeeds
-Index: docker.io/integration-cli/docker_cli_inspect_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_inspect_test.go
-+++ docker.io/integration-cli/docker_cli_inspect_test.go
+diff --git a/integration-cli/docker_cli_history_test.go b/integration-cli/docker_cli_history_test.go
+index 355e4c8..7faac52 100644
+--- a/integration-cli/docker_cli_history_test.go
++++ b/integration-cli/docker_cli_history_test.go
 @@ -6,7 +6,7 @@ import (
  	"strconv"
  	"strings"
@@ -452,12 +504,25 @@ Index: docker.io/integration-cli/docker_cli_inspect_test.go
 +	"gopkg.in/check.v1"
  )
  
- func (s *DockerSuite) TestInspectImage(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_kill_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_kill_test.go
-+++ docker.io/integration-cli/docker_cli_kill_test.go
-@@ -4,7 +4,7 @@ import (
+ // This is a heisen-test.  Because the created timestamp of images and the behavior of
+diff --git a/integration-cli/docker_cli_images_test.go b/integration-cli/docker_cli_images_test.go
+index fe12f02..1bc04ef 100644
+--- a/integration-cli/docker_cli_images_test.go
++++ b/integration-cli/docker_cli_images_test.go
+@@ -8,7 +8,7 @@ import (
+ 	"time"
+ 
+ 	"github.com/docker/docker/pkg/stringid"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestImagesEnsureImageIsListed(c *check.C) {
+diff --git a/integration-cli/docker_cli_import_test.go b/integration-cli/docker_cli_import_test.go
+index ccfc452..5d25068 100644
+--- a/integration-cli/docker_cli_import_test.go
++++ b/integration-cli/docker_cli_import_test.go
+@@ -7,7 +7,7 @@ import (
  	"os/exec"
  	"strings"
  
@@ -465,24 +530,89 @@ Index: docker.io/integration-cli/docker_cli_kill_test.go
 +	"gopkg.in/check.v1"
  )
  
- func (s *DockerSuite) TestKillContainer(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_links_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_links_test.go
-+++ docker.io/integration-cli/docker_cli_links_test.go
-@@ -10,7 +10,7 @@ import (
+ func (s *DockerSuite) TestImportDisplay(c *check.C) {
+diff --git a/integration-cli/docker_cli_info_test.go b/integration-cli/docker_cli_info_test.go
+index 86719f4..134c5c6 100644
+--- a/integration-cli/docker_cli_info_test.go
++++ b/integration-cli/docker_cli_info_test.go
+@@ -4,7 +4,7 @@ import (
  	"strings"
+ 
+ 	"github.com/docker/docker/utils"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ // ensure docker info succeeds
+diff --git a/integration-cli/docker_cli_inspect_experimental_test.go b/integration-cli/docker_cli_inspect_experimental_test.go
+index fada86e..4c4f98b 100644
+--- a/integration-cli/docker_cli_inspect_experimental_test.go
++++ b/integration-cli/docker_cli_inspect_experimental_test.go
+@@ -4,7 +4,7 @@ package main
+ 
+ import (
+ 	"github.com/docker/docker/api/types"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestInspectNamedMountPoint(c *check.C) {
+diff --git a/integration-cli/docker_cli_inspect_test.go b/integration-cli/docker_cli_inspect_test.go
+index 3e42d0c..c52c2c8 100644
+--- a/integration-cli/docker_cli_inspect_test.go
++++ b/integration-cli/docker_cli_inspect_test.go
+@@ -8,7 +8,7 @@ import (
  	"time"
+ 
+ 	"github.com/docker/docker/api/types"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestInspectImage(c *check.C) {
+diff --git a/integration-cli/docker_cli_kill_test.go b/integration-cli/docker_cli_kill_test.go
+index 685f4f5..a3989b0 100644
+--- a/integration-cli/docker_cli_kill_test.go
++++ b/integration-cli/docker_cli_kill_test.go
+@@ -5,7 +5,7 @@ import (
+ 	"net/http"
+ 	"strings"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestKillContainer(c *check.C) {
+diff --git a/integration-cli/docker_cli_links_test.go b/integration-cli/docker_cli_links_test.go
+index 568f20a..e76f83d 100644
+--- a/integration-cli/docker_cli_links_test.go
++++ b/integration-cli/docker_cli_links_test.go
+@@ -2,7 +2,7 @@ package main
+ 
+ import (
+ 	"fmt"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ 	"reflect"
+ 	"regexp"
+ 	"strings"
+diff --git a/integration-cli/docker_cli_links_unix_test.go b/integration-cli/docker_cli_links_unix_test.go
+index 67a4464..bb886df 100644
+--- a/integration-cli/docker_cli_links_unix_test.go
++++ b/integration-cli/docker_cli_links_unix_test.go
+@@ -7,7 +7,7 @@ import (
+ 	"os"
+ 	"strings"
  
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  func (s *DockerSuite) TestLinksEtcHostsRegularFile(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_login_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_login_test.go
-+++ docker.io/integration-cli/docker_cli_login_test.go
+diff --git a/integration-cli/docker_cli_login_test.go b/integration-cli/docker_cli_login_test.go
+index 3b4431d..409a007 100644
+--- a/integration-cli/docker_cli_login_test.go
++++ b/integration-cli/docker_cli_login_test.go
 @@ -4,7 +4,7 @@ import (
  	"bytes"
  	"os/exec"
@@ -492,10 +622,10 @@ Index: docker.io/integration-cli/docker_cli_login_test.go
  )
  
  func (s *DockerSuite) TestLoginWithoutTTY(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_logs_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_logs_test.go
-+++ docker.io/integration-cli/docker_cli_logs_test.go
+diff --git a/integration-cli/docker_cli_logs_test.go b/integration-cli/docker_cli_logs_test.go
+index 6c94217..076e227 100644
+--- a/integration-cli/docker_cli_logs_test.go
++++ b/integration-cli/docker_cli_logs_test.go
 @@ -11,7 +11,7 @@ import (
  	"time"
  
@@ -505,12 +635,12 @@ Index: docker.io/integration-cli/docker_cli_logs_test.go
  )
  
  // This used to work, it test a log of PageSize-1 (gh#4851)
-Index: docker.io/integration-cli/docker_cli_nat_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_nat_test.go
-+++ docker.io/integration-cli/docker_cli_nat_test.go
-@@ -7,7 +7,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_nat_test.go b/integration-cli/docker_cli_nat_test.go
+index a0773fe..d1044f5 100644
+--- a/integration-cli/docker_cli_nat_test.go
++++ b/integration-cli/docker_cli_nat_test.go
+@@ -6,7 +6,7 @@ import (
+ 	"net"
  	"strings"
  
 -	"github.com/go-check/check"
@@ -518,12 +648,25 @@ Index: docker.io/integration-cli/docker_cli_nat_test.go
  )
  
  func startServerContainer(c *check.C, msg string, port int) string {
-Index: docker.io/integration-cli/docker_cli_pause_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_pause_test.go
-+++ docker.io/integration-cli/docker_cli_pause_test.go
-@@ -5,7 +5,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_network_test.go b/integration-cli/docker_cli_network_test.go
+index 08b225d..d931add 100644
+--- a/integration-cli/docker_cli_network_test.go
++++ b/integration-cli/docker_cli_network_test.go
+@@ -5,7 +5,7 @@ package main
+ import (
+ 	"strings"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func assertNwIsAvailable(c *check.C, name string) {
+diff --git a/integration-cli/docker_cli_pause_test.go b/integration-cli/docker_cli_pause_test.go
+index 4e32dfc..72c9b4c 100644
+--- a/integration-cli/docker_cli_pause_test.go
++++ b/integration-cli/docker_cli_pause_test.go
+@@ -4,7 +4,7 @@ import (
+ 	"fmt"
  	"strings"
  
 -	"github.com/go-check/check"
@@ -531,11 +674,11 @@ Index: docker.io/integration-cli/docker_cli_pause_test.go
  )
  
  func (s *DockerSuite) TestPause(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_port_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_port_test.go
-+++ docker.io/integration-cli/docker_cli_port_test.go
-@@ -8,7 +8,7 @@ import (
+diff --git a/integration-cli/docker_cli_port_test.go b/integration-cli/docker_cli_port_test.go
+index 63bfc9a..4eb5d44 100644
+--- a/integration-cli/docker_cli_port_test.go
++++ b/integration-cli/docker_cli_port_test.go
+@@ -6,7 +6,7 @@ import (
  	"sort"
  	"strings"
  
@@ -544,10 +687,23 @@ Index: docker.io/integration-cli/docker_cli_port_test.go
  )
  
  func (s *DockerSuite) TestPortList(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_proxy_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_proxy_test.go
-+++ docker.io/integration-cli/docker_cli_proxy_test.go
+diff --git a/integration-cli/docker_cli_port_unix_test.go b/integration-cli/docker_cli_port_unix_test.go
+index 0988ca9..4cbf0ee 100644
+--- a/integration-cli/docker_cli_port_unix_test.go
++++ b/integration-cli/docker_cli_port_unix_test.go
+@@ -6,7 +6,7 @@ import (
+ 	"net"
+ 	"strings"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func (s *DockerSuite) TestPortHostBinding(c *check.C) {
+diff --git a/integration-cli/docker_cli_proxy_test.go b/integration-cli/docker_cli_proxy_test.go
+index 8b55c67..45737f0 100644
+--- a/integration-cli/docker_cli_proxy_test.go
++++ b/integration-cli/docker_cli_proxy_test.go
 @@ -5,7 +5,7 @@ import (
  	"os/exec"
  	"strings"
@@ -557,11 +713,11 @@ Index: docker.io/integration-cli/docker_cli_proxy_test.go
  )
  
  func (s *DockerSuite) TestCliProxyDisableProxyUnixSock(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_ps_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_ps_test.go
-+++ docker.io/integration-cli/docker_cli_ps_test.go
-@@ -8,7 +8,7 @@ import (
+diff --git a/integration-cli/docker_cli_ps_test.go b/integration-cli/docker_cli_ps_test.go
+index 3b8f6f9..25a2e87 100644
+--- a/integration-cli/docker_cli_ps_test.go
++++ b/integration-cli/docker_cli_ps_test.go
+@@ -11,7 +11,7 @@ import (
  	"strings"
  	"time"
  
@@ -570,23 +726,23 @@ Index: docker.io/integration-cli/docker_cli_ps_test.go
  )
  
  func (s *DockerSuite) TestPsListContainers(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_pull_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_pull_test.go
-+++ docker.io/integration-cli/docker_cli_pull_test.go
-@@ -5,7 +5,7 @@ import (
- 	"os/exec"
- 	"strings"
+diff --git a/integration-cli/docker_cli_pull_test.go b/integration-cli/docker_cli_pull_test.go
+index 67965ab..76165db 100644
+--- a/integration-cli/docker_cli_pull_test.go
++++ b/integration-cli/docker_cli_pull_test.go
+@@ -8,7 +8,7 @@ import (
+ 
+ 	"io/ioutil"
  
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  // See issue docker/docker#8141
-Index: docker.io/integration-cli/docker_cli_push_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_push_test.go
-+++ docker.io/integration-cli/docker_cli_push_test.go
+diff --git a/integration-cli/docker_cli_push_test.go b/integration-cli/docker_cli_push_test.go
+index 111e9f3..a087258 100644
+--- a/integration-cli/docker_cli_push_test.go
++++ b/integration-cli/docker_cli_push_test.go
 @@ -9,7 +9,7 @@ import (
  	"strings"
  	"time"
@@ -595,12 +751,12 @@ Index: docker.io/integration-cli/docker_cli_push_test.go
 +	"gopkg.in/check.v1"
  )
  
- // pulling an image from the central registry should work
-Index: docker.io/integration-cli/docker_cli_rename_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_rename_test.go
-+++ docker.io/integration-cli/docker_cli_rename_test.go
-@@ -5,7 +5,7 @@ import (
+ // Pushing an image to a private registry.
+diff --git a/integration-cli/docker_cli_rename_test.go b/integration-cli/docker_cli_rename_test.go
+index cac9f3a..3ecc814 100644
+--- a/integration-cli/docker_cli_rename_test.go
++++ b/integration-cli/docker_cli_rename_test.go
+@@ -4,7 +4,7 @@ import (
  	"strings"
  
  	"github.com/docker/docker/pkg/stringid"
@@ -609,11 +765,11 @@ Index: docker.io/integration-cli/docker_cli_rename_test.go
  )
  
  func (s *DockerSuite) TestRenameStoppedContainer(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_restart_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_restart_test.go
-+++ docker.io/integration-cli/docker_cli_restart_test.go
-@@ -5,7 +5,7 @@ import (
+diff --git a/integration-cli/docker_cli_restart_test.go b/integration-cli/docker_cli_restart_test.go
+index 4cabeb9..c558c3d 100644
+--- a/integration-cli/docker_cli_restart_test.go
++++ b/integration-cli/docker_cli_restart_test.go
+@@ -4,7 +4,7 @@ import (
  	"strings"
  	"time"
  
@@ -622,12 +778,12 @@ Index: docker.io/integration-cli/docker_cli_restart_test.go
  )
  
  func (s *DockerSuite) TestRestartStoppedContainer(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_rm_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_rm_test.go
-+++ docker.io/integration-cli/docker_cli_rm_test.go
-@@ -5,7 +5,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_rm_test.go b/integration-cli/docker_cli_rm_test.go
+index 0e57551..69104bf 100644
+--- a/integration-cli/docker_cli_rm_test.go
++++ b/integration-cli/docker_cli_rm_test.go
+@@ -4,7 +4,7 @@ import (
+ 	"os"
  	"strings"
  
 -	"github.com/go-check/check"
@@ -635,10 +791,10 @@ Index: docker.io/integration-cli/docker_cli_rm_test.go
  )
  
  func (s *DockerSuite) TestRmContainerWithRemovedVolume(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_rmi_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_rmi_test.go
-+++ docker.io/integration-cli/docker_cli_rmi_test.go
+diff --git a/integration-cli/docker_cli_rmi_test.go b/integration-cli/docker_cli_rmi_test.go
+index 8d9f94f..48faf9c 100644
+--- a/integration-cli/docker_cli_rmi_test.go
++++ b/integration-cli/docker_cli_rmi_test.go
 @@ -5,7 +5,7 @@ import (
  	"os/exec"
  	"strings"
@@ -648,23 +804,23 @@ Index: docker.io/integration-cli/docker_cli_rmi_test.go
  )
  
  func (s *DockerSuite) TestRmiWithContainerFails(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_run_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_run_test.go
-+++ docker.io/integration-cli/docker_cli_run_test.go
+diff --git a/integration-cli/docker_cli_run_test.go b/integration-cli/docker_cli_run_test.go
+index 9288957..a04d03f 100644
+--- a/integration-cli/docker_cli_run_test.go
++++ b/integration-cli/docker_cli_run_test.go
 @@ -20,7 +20,7 @@ import (
  
- 	"github.com/docker/docker/nat"
+ 	"github.com/docker/docker/pkg/nat"
  	"github.com/docker/libnetwork/resolvconf"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  // "test123" should be printed by docker run
-Index: docker.io/integration-cli/docker_cli_run_unix_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_run_unix_test.go
-+++ docker.io/integration-cli/docker_cli_run_unix_test.go
+diff --git a/integration-cli/docker_cli_run_unix_test.go b/integration-cli/docker_cli_run_unix_test.go
+index 295bace..140b2ba 100644
+--- a/integration-cli/docker_cli_run_unix_test.go
++++ b/integration-cli/docker_cli_run_unix_test.go
 @@ -14,7 +14,7 @@ import (
  	"time"
  
@@ -674,10 +830,10 @@ Index: docker.io/integration-cli/docker_cli_run_unix_test.go
  	"github.com/kr/pty"
  )
  
-Index: docker.io/integration-cli/docker_cli_save_load_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_save_load_test.go
-+++ docker.io/integration-cli/docker_cli_save_load_test.go
+diff --git a/integration-cli/docker_cli_save_load_test.go b/integration-cli/docker_cli_save_load_test.go
+index 5b4b64d..eb0d63f 100644
+--- a/integration-cli/docker_cli_save_load_test.go
++++ b/integration-cli/docker_cli_save_load_test.go
 @@ -10,7 +10,7 @@ import (
  	"sort"
  	"strings"
@@ -687,25 +843,25 @@ Index: docker.io/integration-cli/docker_cli_save_load_test.go
  )
  
  // save a repo using gz compression and try to load it using stdout
-Index: docker.io/integration-cli/docker_cli_save_load_unix_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_save_load_unix_test.go
-+++ docker.io/integration-cli/docker_cli_save_load_unix_test.go
-@@ -9,7 +9,7 @@ import (
+diff --git a/integration-cli/docker_cli_save_load_unix_test.go b/integration-cli/docker_cli_save_load_unix_test.go
+index 2bca3b8..991b940 100644
+--- a/integration-cli/docker_cli_save_load_unix_test.go
++++ b/integration-cli/docker_cli_save_load_unix_test.go
+@@ -8,7 +8,7 @@ import (
+ 	"os"
  	"os/exec"
  
- 	"github.com/kr/pty"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
+ 	"github.com/kr/pty"
  )
  
- // save a repo and try to load it using stdout
-Index: docker.io/integration-cli/docker_cli_search_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_search_test.go
-+++ docker.io/integration-cli/docker_cli_search_test.go
-@@ -4,7 +4,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_search_test.go b/integration-cli/docker_cli_search_test.go
+index d89c05c..40db0df 100644
+--- a/integration-cli/docker_cli_search_test.go
++++ b/integration-cli/docker_cli_search_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
  	"strings"
  
 -	"github.com/go-check/check"
@@ -713,11 +869,24 @@ Index: docker.io/integration-cli/docker_cli_search_test.go
  )
  
  // search for repos named  "registry" on the central registry
-Index: docker.io/integration-cli/docker_cli_start_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_start_test.go
-+++ docker.io/integration-cli/docker_cli_start_test.go
+diff --git a/integration-cli/docker_cli_service_test.go b/integration-cli/docker_cli_service_test.go
+index aaf5e81..91b7b8b 100644
+--- a/integration-cli/docker_cli_service_test.go
++++ b/integration-cli/docker_cli_service_test.go
 @@ -6,7 +6,7 @@ import (
+ 	"fmt"
+ 	"strings"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func assertSrvIsAvailable(c *check.C, sname, name string) {
+diff --git a/integration-cli/docker_cli_start_test.go b/integration-cli/docker_cli_start_test.go
+index ce5c48e..8027735 100644
+--- a/integration-cli/docker_cli_start_test.go
++++ b/integration-cli/docker_cli_start_test.go
+@@ -5,7 +5,7 @@ import (
  	"strings"
  	"time"
  
@@ -726,11 +895,11 @@ Index: docker.io/integration-cli/docker_cli_start_test.go
  )
  
  // Regression test for https://github.com/docker/docker/issues/7843
-Index: docker.io/integration-cli/docker_cli_start_volume_driver_unix_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_start_volume_driver_unix_test.go
-+++ docker.io/integration-cli/docker_cli_start_volume_driver_unix_test.go
-@@ -13,7 +13,7 @@ import (
+diff --git a/integration-cli/docker_cli_start_volume_driver_unix_test.go b/integration-cli/docker_cli_start_volume_driver_unix_test.go
+index 71f9f2d..1fddee0 100644
+--- a/integration-cli/docker_cli_start_volume_driver_unix_test.go
++++ b/integration-cli/docker_cli_start_volume_driver_unix_test.go
+@@ -12,7 +12,7 @@ import (
  	"path/filepath"
  	"strings"
  
@@ -739,10 +908,10 @@ Index: docker.io/integration-cli/docker_cli_start_volume_driver_unix_test.go
  )
  
  func init() {
-Index: docker.io/integration-cli/docker_cli_stats_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_stats_test.go
-+++ docker.io/integration-cli/docker_cli_stats_test.go
+diff --git a/integration-cli/docker_cli_stats_test.go b/integration-cli/docker_cli_stats_test.go
+index 2504028..7cd6367 100644
+--- a/integration-cli/docker_cli_stats_test.go
++++ b/integration-cli/docker_cli_stats_test.go
 @@ -5,7 +5,7 @@ import (
  	"strings"
  	"time"
@@ -752,11 +921,11 @@ Index: docker.io/integration-cli/docker_cli_stats_test.go
  )
  
  func (s *DockerSuite) TestCliStatsNoStream(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_tag_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_tag_test.go
-+++ docker.io/integration-cli/docker_cli_tag_test.go
-@@ -5,7 +5,7 @@ import (
+diff --git a/integration-cli/docker_cli_tag_test.go b/integration-cli/docker_cli_tag_test.go
+index 23f2aef..109dae3 100644
+--- a/integration-cli/docker_cli_tag_test.go
++++ b/integration-cli/docker_cli_tag_test.go
+@@ -4,7 +4,7 @@ import (
  	"strings"
  
  	"github.com/docker/docker/pkg/stringutils"
@@ -765,12 +934,12 @@ Index: docker.io/integration-cli/docker_cli_tag_test.go
  )
  
  // tagging a named image in a new unprefixed repo should work
-Index: docker.io/integration-cli/docker_cli_top_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_top_test.go
-+++ docker.io/integration-cli/docker_cli_top_test.go
-@@ -4,7 +4,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_top_test.go b/integration-cli/docker_cli_top_test.go
+index 667a6c8..cbca969 100644
+--- a/integration-cli/docker_cli_top_test.go
++++ b/integration-cli/docker_cli_top_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
  	"strings"
  
 -	"github.com/go-check/check"
@@ -778,12 +947,12 @@ Index: docker.io/integration-cli/docker_cli_top_test.go
  )
  
  func (s *DockerSuite) TestTopMultipleArgs(c *check.C) {
-Index: docker.io/integration-cli/docker_cli_version_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_version_test.go
-+++ docker.io/integration-cli/docker_cli_version_test.go
-@@ -4,7 +4,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/docker_cli_version_test.go b/integration-cli/docker_cli_version_test.go
+index f2d8b65..b1ea96c 100644
+--- a/integration-cli/docker_cli_version_test.go
++++ b/integration-cli/docker_cli_version_test.go
+@@ -3,7 +3,7 @@ package main
+ import (
  	"strings"
  
 -	"github.com/go-check/check"
@@ -791,10 +960,10 @@ Index: docker.io/integration-cli/docker_cli_version_test.go
  )
  
  // ensure docker version works
-Index: docker.io/integration-cli/docker_cli_wait_test.go
-===================================================================
---- docker.io.orig/integration-cli/docker_cli_wait_test.go
-+++ docker.io/integration-cli/docker_cli_wait_test.go
+diff --git a/integration-cli/docker_cli_wait_test.go b/integration-cli/docker_cli_wait_test.go
+index 167ea1a..0503fbb 100644
+--- a/integration-cli/docker_cli_wait_test.go
++++ b/integration-cli/docker_cli_wait_test.go
 @@ -6,7 +6,7 @@ import (
  	"strings"
  	"time"
@@ -804,11 +973,11 @@ Index: docker.io/integration-cli/docker_cli_wait_test.go
  )
  
  // non-blocking wait with 0 exit code
-Index: docker.io/integration-cli/docker_utils.go
-===================================================================
---- docker.io.orig/integration-cli/docker_utils.go
-+++ docker.io/integration-cli/docker_utils.go
-@@ -23,7 +23,7 @@ import (
+diff --git a/integration-cli/docker_utils.go b/integration-cli/docker_utils.go
+index e80015d..fcb3242 100644
+--- a/integration-cli/docker_utils.go
++++ b/integration-cli/docker_utils.go
+@@ -24,7 +24,7 @@ import (
  	"github.com/docker/docker/opts"
  	"github.com/docker/docker/pkg/ioutils"
  	"github.com/docker/docker/pkg/stringutils"
@@ -817,29 +986,42 @@ Index: docker.io/integration-cli/docker_utils.go
  )
  
  // Daemon represents a Docker daemon for the testing framework.
-Index: docker.io/integration-cli/registry.go
-===================================================================
---- docker.io.orig/integration-cli/registry.go
-+++ docker.io/integration-cli/registry.go
-@@ -8,7 +8,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/registry.go b/integration-cli/registry.go
+index 35e1b4e..4aee021 100644
+--- a/integration-cli/registry.go
++++ b/integration-cli/registry.go
+@@ -9,7 +9,7 @@ import (
  	"path/filepath"
  
+ 	"github.com/docker/distribution/digest"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
  const v2binary = "registry-v2"
-Index: docker.io/integration-cli/requirements.go
-===================================================================
---- docker.io.orig/integration-cli/requirements.go
-+++ docker.io/integration-cli/requirements.go
-@@ -9,7 +9,7 @@ import (
- 	"os/exec"
+diff --git a/integration-cli/requirements.go b/integration-cli/requirements.go
+index ce080d5..a08febe 100644
+--- a/integration-cli/requirements.go
++++ b/integration-cli/requirements.go
+@@ -10,7 +10,7 @@ import (
  	"strings"
+ 	"time"
  
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
  
- type TestCondition func() bool
+ type testCondition func() bool
+diff --git a/integration-cli/trust_server.go b/integration-cli/trust_server.go
+index 89d88a8..dcd245d 100644
+--- a/integration-cli/trust_server.go
++++ b/integration-cli/trust_server.go
+@@ -12,7 +12,7 @@ import (
+ 	"time"
+ 
+ 	"github.com/docker/docker/pkg/tlsconfig"
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ var notaryBinary = "notary-server"

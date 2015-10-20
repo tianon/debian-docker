@@ -3,11 +3,11 @@ Forwarded: not-needed
 Author: Tianon Gravi <admwiggin@gmail.com>
 Reviewed-by: Paul Tagliamonte <paultag@debian.org>
 
-Index: docker.io/daemon/daemon.go
-===================================================================
---- docker.io.orig/daemon/daemon.go
-+++ docker.io/daemon/daemon.go
-@@ -1184,7 +1184,7 @@ func checkKernel() error {
+diff --git a/daemon/daemon_unix.go b/daemon/daemon_unix.go
+index 1bc394c..96e3e62 100644
+--- a/daemon/daemon_unix.go
++++ b/daemon/daemon_unix.go
+@@ -110,7 +110,7 @@ func checkKernel() error {
  	} else {
  		if kernel.CompareKernelVersion(k, &kernel.KernelVersionInfo{Kernel: 3, Major: 10, Minor: 0}) < 0 {
  			if os.Getenv("DOCKER_NOWARN_KERNEL_VERSION") == "" {
