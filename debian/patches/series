@@ -10,3 +10,7 @@ change-system-unit-env-file.patch
 
 # change "github.com/go-check/check" to "gopkg.in/check.v1"
 check-v1.patch
+
+15404.patch
+distribution-2.1.1.patch
+runc-0.0.4.patch
