@@ -89,11 +89,22 @@ Description: Docker container engine - Vim highlighting syntax files
  This package provides syntax files for the Vim editor for editing Dockerfiles
  from the Docker container engine.
 
-Package: golang-docker-dev
+Package: golang-github-docker-docker-dev
 Architecture: all
 Depends: ${misc:Depends}
 Built-Using: ${misc:Built-Using}
+Replaces: golang-docker-dev (<< 1.8.2~dfsg1-1~)
+Breaks: golang-docker-dev (<< 1.8.2~dfsg1-1~)
+Provides: golang-docker-dev
 Description: Externally reusable Go packages included with Docker
  These packages are intentionally developed by upstream in such a way that they
  are reusable to projects outside Docker and only rely on each other or other
  external dependencies to be built.
+
+Package: golang-docker-dev
+Section: oldlibs
+Architecture: all
+Depends: ${misc:Depends}, golang-github-docker-docker-dev
+Description: Transitional package for golang-github-docker-docker-dev
+ This is a transitional package to ease upgrades to the
+ golang-github-docker-docker-dev package. It can safely be removed.

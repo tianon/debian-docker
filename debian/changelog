@@ -1,6 +1,7 @@
 docker.io (1.8.2~dfsg1-1) UNRELEASED; urgency=medium
 
   * Update to 1.8.2 upstream release
+  * Rename golang-docker-dev package to golang-github-docker-docker-dev
 
  -- Tianon Gravi <tianon@debian.org>  Tue, 01 Sep 2015 05:15:14 -0700
 
