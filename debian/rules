@@ -24,7 +24,8 @@ export DOCKER_GITCOMMIT = $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION
 export DOCKER_INITPATH = /usr/lib/docker.io/dockerinit
 
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
-export DOCKER_BUILDTAGS = apparmor
+# same story with SELinux
+export DOCKER_BUILDTAGS = apparmor selinux
 
 
 APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)
