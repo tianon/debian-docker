@@ -1,4 +1,4 @@
-docker.io (1.8.2~dfsg1-1) UNRELEASED; urgency=medium
+docker.io (1.8.2~ds1-1) UNRELEASED; urgency=medium
 
   * Update to 1.8.2 upstream release
   * Rename golang-docker-dev package to golang-github-docker-docker-dev

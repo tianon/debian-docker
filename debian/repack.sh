@@ -31,12 +31,12 @@ cat "$dir"/debian/repack/prune/* | while read file; do
 done
 
 dfsgfilename="$filename"
-if [[ "$dfsgfilename" != *dfsg* ]]; then
+if [[ "$dfsgfilename" != *ds* ]]; then
 	pkg="$(dpkg-parsechangelog -l"$dir"/debian/changelog -SSource)"
 	ver="$(dpkg-parsechangelog -l"$dir"/debian/changelog -SVersion)"
 	origVer="${ver%-*}" # strip everything from the last dash
 	origVer="$(echo "$origVer" | sed -r 's/^[0-9]+://')" # strip epoch
-	upstreamVer="${origVer%%[+~]dfsg*}"
+	upstreamVer="${origVer%%[+~]ds*}"
 	dfsgBits="${origVer#$upstreamVer}"
 	
 	dfsgfilename="${dfsgfilename/.orig/$dfsgBits.orig}"
