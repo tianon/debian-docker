@@ -93,8 +93,8 @@ Package: golang-github-docker-docker-dev
 Architecture: all
 Depends: ${misc:Depends}
 Built-Using: ${misc:Built-Using}
-Replaces: golang-docker-dev (<< 1.8.2~dfsg1-1~)
-Breaks: golang-docker-dev (<< 1.8.2~dfsg1-1~)
+Replaces: golang-docker-dev (<< 1.8.2~ds1-1~)
+Breaks: golang-docker-dev (<< 1.8.2~ds1-1~)
 Provides: golang-docker-dev
 Description: Externally reusable Go packages included with Docker
  These packages are intentionally developed by upstream in such a way that they
