@@ -11,10 +11,11 @@ Build-Depends: bash-completion,
                debhelper (>=9),
                dh-systemd,
                go-md2man (>= 1.0.3~),
-               golang-code.google-p-gosqlite-dev (>= 0.0~hg20130530~) | golang-gosqlite-dev (>= 0.0~hg20130530~),
+               golang-context-dev (>= 0.0~git20140604~) | golang-github-gorilla-context-dev (>= 0.0~git20140604~),
+               golang-dbus-dev (>= 2~) | golang-github-godbus-dbus-dev (>= 2~),
+               golang-etcd-dev (>= 2.0.0~) | golang-github-coreos-go-etcd-dev (>= 2.0.0~),
+               golang-fsnotify-dev (>= 1.2.0~) | golang-gopkg-fsnotify.v1-dev (>= 1.2.0~),
                golang-github-armon-go-metrics-dev (>= 0.0~git20150106~),
-               golang-github-burntsushi-toml-dev (>= 0.0~git20150127~) | golang-toml-dev (>= 0.0~git20150127~),
-               golang-github-coreos-go-etcd-dev (>= 2.0.0~) | golang-etcd-dev (>= 2.0.0~),
                golang-github-coreos-go-systemd-dev (>= 2~),
                golang-github-docker-distribution-dev (>= 0.0~git20150827~),
                golang-github-docker-libkv-dev (>= 0.0~git20150619~),
@@ -22,27 +23,26 @@ Build-Depends: bash-completion,
                golang-github-docker-notary-dev (>= 0.0~git20150801~),
                golang-github-endophage-gotuf-dev (>= 0.0~git20150811~),
                golang-github-fluent-fluent-logger-golang-dev (>= 1.0.0~),
-               golang-github-godbus-dbus-dev (>= 2~) | golang-dbus-dev (>= 2~),
-               golang-github-golang-protobuf-dev (>= 0.0~git20150325~) | golang-goprotobuf-dev (>= 0.0~git20150325~),
-               golang-github-gorilla-context-dev (>= 0.0~git20140604~) | golang-context-dev (>= 0.0~git20140604~),
                golang-github-gorilla-mux-dev (>= 0.0~git20140926~),
                golang-github-graylog2-go-gelf-dev (>= 0.0~git20150610~),
                golang-github-hashicorp-go-msgpack-dev (>= 0.0~git20140221~),
                golang-github-hashicorp-serf-dev (>= 0.0~git20150212~),
-               golang-github-kr-pty-dev (>= 0.0~git20150511~) | golang-pty-dev (>= 0.0~git20150511~),
                golang-github-mattn-go-sqlite3-dev (>= 0.0~git20150629~),
-               golang-github-mistifyio-go-zfs-dev (>= 2.1.1~) | golang-go-zfs-dev (>= 2.1.1~),
                golang-github-opencontainers-runc-dev (>= 0.0.2.1~),
                golang-github-samuel-go-zookeeper-dev (>= 0.0~git20150415~),
                golang-github-sirupsen-logrus-dev (>= 0.8.2~) | golang-logrus-dev (>= 0.8.2~),
-               golang-github-syndtr-gocapability-dev (>= 0.0~git20150506~) | golang-gocapability-dev (>= 0.0~git20150506~),
-               golang-github-tchap-go-patricia-dev (>= 2.1.0~) | golang-go-patricia-dev (>= 2.1.0~),
                golang-github-tent-canonical-json-go-dev (>= 0.0~git20130607~),
                golang-github-vbatts-tar-split-dev (>= 0.9.6~),
                golang-github-vishvananda-netlink-dev (>= 0.0~git20150815~),
                golang-github-vishvananda-netns-dev (>= 0.0~git20150630~),
+               golang-go-patricia-dev (>= 2.1.0~) | golang-github-tchap-go-patricia-dev (>= 2.1.0~),
+               golang-go-zfs-dev (>= 2.1.1~) | golang-github-mistifyio-go-zfs-dev (>= 2.1.1~),
+               golang-gocapability-dev (>= 0.0~git20150506~) | golang-github-syndtr-gocapability-dev (>= 0.0~git20150506~),
                golang-golang-x-net-dev (>= 0.0~git20150610~),
-               golang-gopkg-fsnotify.v1-dev (>= 1.2.0~) | golang-fsnotify-dev (>= 1.2.0~),
+               golang-goprotobuf-dev (>= 0.0~git20150325~) | golang-github-golang-protobuf-dev (>= 0.0~git20150325~),
+               golang-gosqlite-dev (>= 0.0~hg20130530~) | golang-code.google-p-gosqlite-dev (>= 0.0~hg20130530~),
+               golang-pty-dev (>= 0.0~git20150511~) | golang-github-kr-pty-dev (>= 0.0~git20150511~),
+               golang-toml-dev (>= 0.0~git20150127~) | golang-github-burntsushi-toml-dev (>= 0.0~git20150127~),
                libapparmor-dev,
                libdevmapper-dev (>= 2:1.02.68~)
 Standards-Version: 3.9.6
@@ -104,7 +104,7 @@ Description: Externally reusable Go packages included with Docker
 Package: golang-docker-dev
 Section: oldlibs
 Architecture: all
-Depends: ${misc:Depends}, golang-github-docker-docker-dev
+Depends: golang-github-docker-docker-dev, ${misc:Depends}
 Description: Transitional package for golang-github-docker-docker-dev
  This is a transitional package to ease upgrades to the
  golang-github-docker-docker-dev package. It can safely be removed.
