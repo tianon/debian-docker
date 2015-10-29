@@ -1,8 +1,8 @@
-docker.io (1.8.2~ds1-2) UNRELEASED; urgency=medium
+docker.io (1.8.2~ds1-2) unstable; urgency=medium
 
   * Swap Build-Depends order to appease buildds (Closes: #803136)
 
- -- Tianon Gravi <tianon@debian.org>  Thu, 29 Oct 2015 07:17:28 -0700
+ -- Tianon Gravi <tianon@debian.org>  Thu, 29 Oct 2015 07:23:10 -0700
 
 docker.io (1.8.2~ds1-1) unstable; urgency=medium
 
