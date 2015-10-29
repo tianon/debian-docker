@@ -1,5 +1,5 @@
 diff --git a/integration-cli/check_test.go b/integration-cli/check_test.go
-index 5061008..10a56e2 100644
+index defa02e..f9e2c67 100644
 --- a/integration-cli/check_test.go
 +++ b/integration-cli/check_test.go
 @@ -3,7 +3,7 @@ package main
@@ -727,13 +727,13 @@ index 3b8f6f9..25a2e87 100644
  
  func (s *DockerSuite) TestPsListContainers(c *check.C) {
 diff --git a/integration-cli/docker_cli_pull_test.go b/integration-cli/docker_cli_pull_test.go
-index 67965ab..76165db 100644
+index 8bfca8d..581366b 100644
 --- a/integration-cli/docker_cli_pull_test.go
 +++ b/integration-cli/docker_cli_pull_test.go
-@@ -8,7 +8,7 @@ import (
+@@ -11,7 +11,7 @@ import (
+ 	"time"
  
- 	"io/ioutil"
- 
+ 	"github.com/docker/distribution/digest"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
  )
@@ -947,6 +947,19 @@ index 667a6c8..cbca969 100644
  )
  
  func (s *DockerSuite) TestTopMultipleArgs(c *check.C) {
+diff --git a/integration-cli/docker_cli_v2_only.go b/integration-cli/docker_cli_v2_only.go
+index aa3d6a2..539f459 100644
+--- a/integration-cli/docker_cli_v2_only.go
++++ b/integration-cli/docker_cli_v2_only.go
+@@ -6,7 +6,7 @@ import (
+ 	"net/http"
+ 	"os"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ func makefile(contents string) (string, func(), error) {
 diff --git a/integration-cli/docker_cli_version_test.go b/integration-cli/docker_cli_version_test.go
 index f2d8b65..b1ea96c 100644
 --- a/integration-cli/docker_cli_version_test.go
@@ -999,6 +1012,19 @@ index 35e1b4e..4aee021 100644
  )
  
  const v2binary = "registry-v2"
+diff --git a/integration-cli/registry_mock.go b/integration-cli/registry_mock.go
+index e5fb64c..9599eb2 100644
+--- a/integration-cli/registry_mock.go
++++ b/integration-cli/registry_mock.go
+@@ -7,7 +7,7 @@ import (
+ 	"strings"
+ 	"sync"
+ 
+-	"github.com/go-check/check"
++	"gopkg.in/check.v1"
+ )
+ 
+ type handlerFunc func(w http.ResponseWriter, r *http.Request)
 diff --git a/integration-cli/requirements.go b/integration-cli/requirements.go
 index ce080d5..a08febe 100644
 --- a/integration-cli/requirements.go
