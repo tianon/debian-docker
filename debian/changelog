@@ -1,8 +1,8 @@
-docker.io (1.8.3~ds1-1) UNRELEASED; urgency=medium
+docker.io (1.8.3~ds1-1) unstable; urgency=medium
 
   * Update to 1.8.3 upstream release (CVE-2014-8178, CVE-2014-8179)
 
- -- Tianon Gravi <tianon@debian.org>  Thu, 29 Oct 2015 15:20:09 -0700
+ -- Tianon Gravi <tianon@debian.org>  Thu, 29 Oct 2015 19:40:51 -0700
 
 docker.io (1.8.2~ds1-2) unstable; urgency=medium
 
