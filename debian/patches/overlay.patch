@@ -1,3 +1,7 @@
+Description: move "overlay" to a higher priority (now that AUFS is not supported in Debian kernels)
+Author: Tianon Gravi <tianon@debian.org>
+Forwarded: no
+
 diff --git a/daemon/graphdriver/driver_linux.go b/daemon/graphdriver/driver_linux.go
 index 410a62f..eab78e7 100644
 --- a/daemon/graphdriver/driver_linux.go
