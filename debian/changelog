@@ -1,5 +1,6 @@
-docker.io (1.8.3~ds1-3) UNRELEASED; urgency=medium
+docker.io (1.10.3~ds1-1) UNRELEASED; urgency=medium
 
+  * Update to 1.10.3 upstream release
   * Add NEWS file describing the AUFS issue and the unfortunate possible
     "solutions" (Closes: #799386, #805725)
   * Add "/etc/docker" to the directories explicitly installed by the package
