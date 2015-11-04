@@ -1,0 +1,14 @@
+diff --git a/daemon/graphdriver/driver_linux.go b/daemon/graphdriver/driver_linux.go
+index 410a62f..eab78e7 100644
+--- a/daemon/graphdriver/driver_linux.go
++++ b/daemon/graphdriver/driver_linux.go
+@@ -48,8 +48,8 @@ var (
+ 		"aufs",
+ 		"btrfs",
+ 		"zfs",
+-		"devicemapper",
+ 		"overlay",
++		"devicemapper",
+ 		"vfs",
+ 	}
+ 

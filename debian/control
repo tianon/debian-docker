@@ -53,15 +53,14 @@ Vcs-Browser: http://anonscm.debian.org/cgit/docker/docker.io.git
 Package: docker.io
 Architecture: linux-any
 Depends: adduser, iptables, ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
-Recommends: aufs-tools,
-            ca-certificates,
+Recommends: ca-certificates,
             cgroupfs-mount | cgroup-lite,
             git,
             xz-utils,
             ${apparmor:Recommends}
 Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
-Suggests: btrfs-tools, debootstrap, lxc, rinse, zfs-fuse | zfsutils
+Suggests: aufs-tools, btrfs-tools, debootstrap, lxc, rinse, zfs-fuse | zfsutils
 Built-Using: ${misc:Built-Using}, ${libc:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at
