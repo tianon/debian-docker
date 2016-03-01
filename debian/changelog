@@ -1,3 +1,12 @@
+docker.io (1.10.2-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Upload to xenial
+  * Update to 1.10.2 upstream release
+    - includes upstream's vendored bits (explicitly relying on upstream for
+      security updates and support)
+
+ -- Tianon Gravi <tianon@debian.org>  Tue, 01 Mar 2016 14:21:20 -0800
+
 docker.io (1.8.3~ds1-2) unstable; urgency=medium
 
   * Move "overlay" higher in priority (Closes: #799087)

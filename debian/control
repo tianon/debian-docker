@@ -56,6 +56,7 @@ Depends: adduser, iptables, ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
 Recommends: ca-certificates,
             cgroupfs-mount | cgroup-lite,
             git,
+            ubuntu-fan,
             xz-utils,
             ${apparmor:Recommends}
 Replaces: docker (<< 1.5~)
