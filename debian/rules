@@ -27,6 +27,9 @@ export DOCKER_INITPATH = /usr/lib/docker.io/dockerinit
 # same story with SELinux
 export DOCKER_BUILDTAGS = apparmor selinux
 
+# since "gccgo" doesn't ship the "dist" go tool (and isn't likely to start), let's use that for now to detect gc vs gccgo
+DOCKER_BUILD_TARGET := $(shell go tool dist env > /dev/null 2>&1 && echo dynbinary || echo dyngccgo)
+
 
 APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)
 BUILT_LIBC := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)
@@ -62,7 +65,7 @@ override_dh_auto_build:
 	
 	# build "docker" and "dockerinit"
 	GOPATH="$$GOPATH:$(GOPATH_PACKAGED)" \
-	./hack/make.sh dynbinary
+	./hack/make.sh $(DOCKER_BUILD_TARGET)
 	
 	# compile man pages
 	./man/md2man-all.sh -q
@@ -71,11 +74,11 @@ override_dh_auto_build:
 override_dh_auto_install:
 	# install docker binary
 	mkdir -p debian/docker.io/$(dir $(DOCKER_BINPATH))
-	cp -aT bundles/$(DOCKER_VERSION)/dynbinary/docker-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_BINPATH)
+	cp -aT bundles/$(DOCKER_VERSION)/$(DOCKER_BUILD_TARGET)/docker-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_BINPATH)
 	
 	# install dockerinit binary
 	mkdir -p debian/docker.io/$(dir $(DOCKER_INITPATH))
-	cp -aT bundles/$(DOCKER_VERSION)/dynbinary/dockerinit-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_INITPATH)
+	cp -aT bundles/$(DOCKER_VERSION)/$(DOCKER_BUILD_TARGET)/dockerinit-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_INITPATH)
 	
 	# Most of the source of docker does not make a library,
 	#   so only ship the reusable parts (and in a separate package).
