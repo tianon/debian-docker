@@ -14,7 +14,12 @@ DEV_GOPKGS = \
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 export GOPATH = $(CURDIR)/.gopath
-GOPATH_PACKAGED = /usr/share/gocode
+GOPATH_PACKAGED := /usr/share/gocode
+
+# if we've got the vendored source not purged, let's use it (normally purged via debian/repack.sh)
+ifneq (, $(wildcard $(CURDIR)/vendor/src))
+	GOPATH_PACKAGED := $(GOPATH_PACKAGED):$(CURDIR)/vendor
+endif
 
 # a few helpful variables for deduplication
 DOCKER_BINPATH = /usr/bin/docker
