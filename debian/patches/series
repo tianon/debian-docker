@@ -8,15 +8,14 @@ fatal-error-old-kernels.patch
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
 
-# change "github.com/go-check/check" to "gopkg.in/check.v1"
-check-v1.patch
-
-15404.patch
-distribution-2.1.1.patch
-runc-0.0.4.patch
-
 overlay.patch
-cgroupdriver-cgroupfs.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
+# Upstreamed as of 1.10.2:
+#  15404.patch
+#  cgroupdriver-cgroupfs.patch
+# Not necessary thanks to vendoring
+#  distribution-2.1.1.patch
+#  runc-0.0.4.patch
+#  check-v1.patch
