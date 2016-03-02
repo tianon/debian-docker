@@ -14,90 +14,46 @@ container doing just a echo hello, every seconds, then upgrade. The container ca
 start again.
 
 diff --git a/contrib/init/sysvinit-debian/docker b/contrib/init/sysvinit-debian/docker
-index fc4b05b..d1a1158 100755
+index 0a5ffc8..d1a1158 100755
 --- a/contrib/init/sysvinit-debian/docker
 +++ b/contrib/init/sysvinit-debian/docker
-@@ -59,27 +59,11 @@ fail_unless_root() {
+@@ -59,12 +59,21 @@ fail_unless_root() {
  	fi
  }
  
--cgroupfs_mount() {
--	# see also https://github.com/tianon/cgroupfs-mount/blob/master/cgroupfs-mount
--	if grep -v '^#' /etc/fstab | grep -q cgroup \
--		|| [ ! -e /proc/cgroups ] \
--		|| [ ! -d /sys/fs/cgroup ]; then
--		return
--	fi
--	if ! mountpoint -q /sys/fs/cgroup; then
--		mount -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup
--	fi
--	(
--		cd /sys/fs/cgroup
--		for sys in $(awk '!/^#/ { if ($4 == 1) print $1 }' /proc/cgroups); do
--			mkdir -p $sys
--			if ! mountpoint -q $sys; then
--				if ! mount -n -t cgroup -o $sys cgroup $sys; then
--					rmdir $sys || true
--				fi
--			fi
--		done
--	)
 +devicemapper_umount() {
 +	# Cleanup any stale mounts left from previous shutdown
 +	# see https://bugs.launchpad.net/ubuntu/+source/docker.io/+bug/1404300
 +	grep "mapper/docker" /proc/mounts | awk '{ print $2 }' | \
 +		xargs -r umount || true
- }
- 
++}
++
  case "$1" in
-@@ -88,7 +72,7 @@ case "$1" in
+ 	start)
+ 		check_init
  		
  		fail_unless_root
  
--		cgroupfs_mount
 +		devicemapper_umount
- 
++
  		touch "$DOCKER_LOGFILE"
  		chgrp docker "$DOCKER_LOGFILE"
+ 
 diff --git a/contrib/init/upstart/docker.conf b/contrib/init/upstart/docker.conf
-index b403408..e8f718a 100644
+index 4414e4b..e8f718a 100644
 --- a/contrib/init/upstart/docker.conf
 +++ b/contrib/init/upstart/docker.conf
-@@ -7,31 +7,15 @@ limit nproc 524288 1048576
+@@ -7,6 +7,13 @@ limit nproc 524288 1048576
  
  respawn
  
--kill timeout 20
--
- pre-start script
--	# see also https://github.com/tianon/cgroupfs-mount/blob/master/cgroupfs-mount
--	if grep -v '^#' /etc/fstab | grep -q cgroup \
--		|| [ ! -e /proc/cgroups ] \
--		|| [ ! -d /sys/fs/cgroup ]; then
--		exit 0
--	fi
--	if ! mountpoint -q /sys/fs/cgroup; then
--		mount -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup
--	fi
--	(
--		cd /sys/fs/cgroup
--		for sys in $(awk '!/^#/ { if ($4 == 1) print $1 }' /proc/cgroups); do
--			mkdir -p $sys
--			if ! mountpoint -q $sys; then
--				if ! mount -n -t cgroup -o $sys cgroup $sys; then
--					rmdir $sys || true
--				fi
--			fi
--		done
--	)
++pre-start script
 +	# Cleanup any stale mounts left from previous shutdown
 +	# see https://bugs.launchpad.net/ubuntu/+source/docker.io/+bug/1404300
 +	grep "mapper/docker" /proc/mounts | awk '{ print $2 }' | \
 +		xargs -r umount || true
- end script
- 
-+kill timeout 20
++end script
 +
+ kill timeout 20
+ 
  script
- 	# modify these in /etc/default/$UPSTART_JOB (/etc/default/docker)
- 	DOCKER=/usr/bin/$UPSTART_JOB
