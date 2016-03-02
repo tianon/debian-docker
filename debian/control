@@ -1,7 +1,8 @@
 Source: docker.io
 Section: admin
 Priority: optional
-Maintainer: Paul Tagliamonte <paultag@debian.org>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Paul Tagliamonte <paultag@debian.org>
 Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>,
            Tianon Gravi <tianon@debian.org>,
            Johan Euphrosine <proppy@google.com>
