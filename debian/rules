@@ -8,8 +8,7 @@ MULTI_ORIG_GOPKGS = \
 	github.com/docker/libnetwork
 
 # the list of Go packages to include in golang-github-docker-docker-dev
-DEV_GOPKGS = \
-	github.com/docker/docker/autogen/dockerversion \
+DEV_GOPKGS := \
 	github.com/docker/docker/pkg
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
