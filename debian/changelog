@@ -2,6 +2,8 @@ docker.io (1.8.3~ds1-3) UNRELEASED; urgency=medium
 
   * Add NEWS file describing the AUFS issue and the unfortunate possible
     "solutions" (Closes: #799386, #805725)
+  * Add "/etc/docker" to the directories explicitly installed by the package
+    to help combat issues like #806261
 
  -- Tianon Gravi <tianon@debian.org>  Tue, 01 Dec 2015 01:12:21 -0800
 
