@@ -21,6 +21,7 @@ DOCKER_BINPATH := /usr/bin/docker
 DOCKER_VERSION := $(shell cat VERSION)
 
 export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
+export BUILDTIME := $(shell dpkg-parsechangelog -SDate)
 export DOCKER_INITPATH := /usr/lib/docker.io/dockerinit
 
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
