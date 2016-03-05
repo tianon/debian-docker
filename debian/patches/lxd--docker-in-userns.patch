@@ -1,0 +1,187 @@
+Description: Docker-in-userns enablement
+Origin: https://github.com/docker/docker/compare/v1.10.2...ab8e54bbea5248d71c932a4b21696e42292e13bb
+Author: Serge Hallyn <serge.hallyn@ubuntu.com>
+
+diff --git a/daemon/graphdriver/overlay/copy.go b/daemon/graphdriver/overlay/copy.go
+index def4d43..0ea9438 100644
+--- a/daemon/graphdriver/overlay/copy.go
++++ b/daemon/graphdriver/overlay/copy.go
+@@ -11,6 +11,7 @@ import (
+ 	"time"
+ 
+ 	"github.com/docker/docker/pkg/system"
++	rsystem "github.com/opencontainers/runc/libcontainer/system"
+ )
+ 
+ type copyFlags int
+@@ -105,6 +106,10 @@ func copyDir(srcDir, dstDir string, flags copyFlags) error {
+ 		case os.ModeNamedPipe:
+ 			fallthrough
+ 		case os.ModeSocket:
++			if rsystem.RunningInUserNS() {
++				// cannot create a device if running in user namespace
++				return nil
++			}
+ 			if err := syscall.Mkfifo(dstPath, stat.Mode); err != nil {
+ 				return err
+ 			}
+diff --git a/pkg/archive/archive.go b/pkg/archive/archive.go
+index 1281683..63779f7 100644
+--- a/pkg/archive/archive.go
++++ b/pkg/archive/archive.go
+@@ -53,6 +53,7 @@ type (
+ 		// For each include when creating an archive, the included name will be
+ 		// replaced with the matching name from this map.
+ 		RebaseNames map[string]string
++		InUserNS	 bool
+ 	}
+ 
+ 	// Archiver allows the reuse of most utility functions of this package
+@@ -349,7 +350,7 @@ func (ta *tarAppender) addTarFile(path, name string) error {
+ 	return nil
+ }
+ 
+-func createTarFile(path, extractDir string, hdr *tar.Header, reader io.Reader, Lchown bool, chownOpts *TarChownOptions) error {
++func createTarFile(path, extractDir string, hdr *tar.Header, reader io.Reader, Lchown bool, chownOpts *TarChownOptions, inUserns bool) error {
+ 	// hdr.Mode is in linux format, which we can use for sycalls,
+ 	// but for os.Foo() calls we need the mode converted to os.FileMode,
+ 	// so use hdrInfo.Mode() (they differ for e.g. setuid bits)
+@@ -377,7 +378,16 @@ func createTarFile(path, extractDir string, hdr *tar.Header, reader io.Reader, L
+ 		}
+ 		file.Close()
+ 
+-	case tar.TypeBlock, tar.TypeChar, tar.TypeFifo:
++	case tar.TypeBlock, tar.TypeChar:
++		if inUserns { // cannot create devices in a userns
++			return nil;
++		}
++		// Handle this is an OS-specific way
++		if err := handleTarTypeBlockCharFifo(hdr, path); err != nil {
++			return err
++		}
++
++	case  tar.TypeFifo:
+ 		// Handle this is an OS-specific way
+ 		if err := handleTarTypeBlockCharFifo(hdr, path); err != nil {
+ 			return err
+@@ -727,7 +737,7 @@ loop:
+ 			hdr.Gid = xGID
+ 		}
+ 
+-		if err := createTarFile(path, dest, hdr, trBuf, !options.NoLchown, options.ChownOpts); err != nil {
++		if err := createTarFile(path, dest, hdr, trBuf, !options.NoLchown, options.ChownOpts, options.InUserNS); err != nil {
+ 			return err
+ 		}
+ 
+diff --git a/pkg/archive/archive_test.go b/pkg/archive/archive_test.go
+index 0a89902..b5c725f 100644
+--- a/pkg/archive/archive_test.go
++++ b/pkg/archive/archive_test.go
+@@ -763,7 +763,7 @@ func TestTypeXGlobalHeaderDoesNotFail(t *testing.T) {
+ 		t.Fatal(err)
+ 	}
+ 	defer os.RemoveAll(tmpDir)
+-	err = createTarFile(filepath.Join(tmpDir, "pax_global_header"), tmpDir, &hdr, nil, true, nil)
++	err = createTarFile(filepath.Join(tmpDir, "pax_global_header"), tmpDir, &hdr, nil, true, nil, false)
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+diff --git a/pkg/archive/archive_unix.go b/pkg/archive/archive_unix.go
+index fbc3bb8..7083f2f 100644
+--- a/pkg/archive/archive_unix.go
++++ b/pkg/archive/archive_unix.go
+@@ -10,6 +10,7 @@ import (
+ 	"syscall"
+ 
+ 	"github.com/docker/docker/pkg/system"
++	rsystem "github.com/opencontainers/runc/libcontainer/system"
+ )
+ 
+ // fixVolumePathPrefix does platform specific processing to ensure that if
+@@ -80,6 +81,11 @@ func minor(device uint64) uint64 {
+ // handleTarTypeBlockCharFifo is an OS-specific helper function used by
+ // createTarFile to handle the following types of header: Block; Char; Fifo
+ func handleTarTypeBlockCharFifo(hdr *tar.Header, path string) error {
++	if rsystem.RunningInUserNS() {
++		// cannot create a device if running in user namespace
++		return nil
++	}
++
+ 	mode := uint32(hdr.Mode & 07777)
+ 	switch hdr.Typeflag {
+ 	case tar.TypeBlock:
+diff --git a/pkg/archive/diff.go b/pkg/archive/diff.go
+index 1b08ad3..26da677 100644
+--- a/pkg/archive/diff.go
++++ b/pkg/archive/diff.go
+@@ -111,7 +111,7 @@ func UnpackLayer(dest string, layer Reader, options *TarOptions) (size int64, er
+ 					}
+ 					defer os.RemoveAll(aufsTempdir)
+ 				}
+-				if err := createTarFile(filepath.Join(aufsTempdir, basename), dest, hdr, tr, true, nil); err != nil {
++				if err := createTarFile(filepath.Join(aufsTempdir, basename), dest, hdr, tr, true, nil, options.InUserNS); err != nil {
+ 					return 0, err
+ 				}
+ 			}
+@@ -219,7 +219,7 @@ func UnpackLayer(dest string, layer Reader, options *TarOptions) (size int64, er
+ 				}
+ 				srcHdr.Gid = xGID
+ 			}
+-			if err := createTarFile(path, dest, srcHdr, srcData, true, nil); err != nil {
++			if err := createTarFile(path, dest, srcHdr, srcData, true, nil, options.InUserNS); err != nil {
+ 				return 0, err
+ 			}
+ 
+diff --git a/pkg/chrootarchive/archive_unix.go b/pkg/chrootarchive/archive_unix.go
+index 51a43f6..2e177e4 100644
+--- a/pkg/chrootarchive/archive_unix.go
++++ b/pkg/chrootarchive/archive_unix.go
+@@ -32,6 +32,7 @@ func untar() {
+ 	flag.Parse()
+ 
+ 	var options *archive.TarOptions
++	options.InUserNS = true
+ 
+ 	//read the options from the pipe "ExtraFiles"
+ 	if err := json.NewDecoder(os.NewFile(3, "options")).Decode(&options); err != nil {
+diff --git a/pkg/chrootarchive/diff_unix.go b/pkg/chrootarchive/diff_unix.go
+index 4196dd4..8a269e7 100644
+--- a/pkg/chrootarchive/diff_unix.go
++++ b/pkg/chrootarchive/diff_unix.go
+@@ -15,6 +15,7 @@ import (
+ 	"github.com/docker/docker/pkg/archive"
+ 	"github.com/docker/docker/pkg/reexec"
+ 	"github.com/docker/docker/pkg/system"
++	rsystem "github.com/opencontainers/runc/libcontainer/system"
+ )
+ 
+ type applyLayerResponse struct {
+@@ -34,6 +35,7 @@ func applyLayer() {
+ 	runtime.LockOSThread()
+ 	flag.Parse()
+ 
++	inUserns := rsystem.RunningInUserNS()
+ 	if err := chroot(flag.Arg(0)); err != nil {
+ 		fatal(err)
+ 	}
+@@ -49,6 +51,10 @@ func applyLayer() {
+ 		fatal(err)
+ 	}
+ 
++	if inUserns {
++		options.InUserNS = true
++	}
++
+ 	if tmpDir, err = ioutil.TempDir("/", "temp-docker-extract"); err != nil {
+ 		fatal(err)
+ 	}
+@@ -86,6 +92,9 @@ func applyLayerHandler(dest string, layer archive.Reader, options *archive.TarOp
+ 	}
+ 	if options == nil {
+ 		options = &archive.TarOptions{}
++		if rsystem.RunningInUserNS() {
++			options.InUserNS = true
++		}
+ 	}
+ 	if options.ExcludePatterns == nil {
+ 		options.ExcludePatterns = []string{}
