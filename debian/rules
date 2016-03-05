@@ -1,10 +1,10 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-DOCKER_GOPKG = github.com/docker/docker
+DOCKER_GOPKG := github.com/docker/docker
 
 # MUST STAY IN SYNC WITH LIST IN "debian/helpers/download-libcontainer"
-MULTI_ORIG_GOPKGS = \
+MULTI_ORIG_GOPKGS := \
 	github.com/docker/libnetwork
 
 # the list of Go packages to include in golang-github-docker-docker-dev
@@ -12,7 +12,7 @@ DEV_GOPKGS := \
 	github.com/docker/docker/pkg
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
-export GOPATH = $(CURDIR)/.gopath
+export GOPATH := $(CURDIR)/.gopath
 GOPATH_PACKAGED := /usr/share/gocode
 
 # if we've got the vendored source not purged, let's use it (normally purged via debian/repack.sh)
@@ -21,21 +21,21 @@ ifneq (, $(wildcard $(CURDIR)/vendor/src))
 endif
 
 # a few helpful variables for deduplication
-DOCKER_BINPATH = /usr/bin/docker
-DOCKER_VERSION = $(shell cat VERSION)
+DOCKER_BINPATH := /usr/bin/docker
+DOCKER_VERSION := $(shell cat VERSION)
 
-export DOCKER_GITCOMMIT = $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
-export DOCKER_INITPATH = /usr/lib/docker.io/dockerinit
+export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
+export DOCKER_INITPATH := /usr/lib/docker.io/dockerinit
 
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
 # same story with SELinux
-export DOCKER_BUILDTAGS = apparmor selinux
+export DOCKER_BUILDTAGS := apparmor selinux
 
 # since "gccgo" doesn't ship the "dist" go tool (and isn't likely to start), let's use that for now to detect gc vs gccgo
 DOCKER_BUILD_TARGET := $(shell go tool dist env > /dev/null 2>&1 && echo dynbinary || echo dyngccgo)
 
 
-APPARMOR_RECOMMENDS = $(shell dpkg-vendor --is Ubuntu && echo apparmor)
+APPARMOR_RECOMMENDS := $(shell dpkg-vendor --is Ubuntu && echo apparmor)
 BUILT_LIBC := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)
 
 override_dh_gencontrol:
