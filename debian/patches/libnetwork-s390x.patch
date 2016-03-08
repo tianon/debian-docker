@@ -7,7 +7,7 @@ index 739d9c6..224e577 100644
 +++ b/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_armppc64.go
 @@ -1,4 +1,4 @@
 -// +build arm ppc64 ppc64le
-+// +build arm ppc64 ppc64le s390x,!go1.5
++// +build arm ppc64 ppc64le s390x,go1.6
  
  package bridge
  
@@ -17,7 +17,7 @@ index df52695..9ad108d 100644
 +++ b/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_notarm.go
 @@ -1,4 +1,4 @@
 -// +build !arm,!ppc64,!ppc64le
-+// +build !arm,!ppc64,!ppc64le s390x,go1.5
++// +build !arm,!ppc64,!ppc64le s390x,!go1.6
  
  package bridge
  
