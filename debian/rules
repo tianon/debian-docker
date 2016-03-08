@@ -121,9 +121,6 @@ override_dh_auto_clean:
 	# bundles is created by hack/make.sh
 	# man/man*/ is created by man/md2man-all.sh
 	rm -rf autogen bundles man/man*/
-	
-	# TODO FIGURE OUT WHY THIS IS CREATED AND SEND A PR UPSTREAM!!!
-	rm -f a.out
 
 
 %:
