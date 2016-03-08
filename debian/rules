@@ -13,8 +13,16 @@ DEV_GOPKGS = \
 	github.com/docker/docker/pkg
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
-export GOPATH := $(CURDIR)/.gopath
+OUR_GOPATH := $(CURDIR)/.gopath
 GOPATH_PACKAGED := /usr/share/gocode
+EXTRA_GOPATH := $(GOPATH_PACKAGED)
+
+# if we've got the vendored source not purged, let's use it (normally purged via debian/repack.sh)
+ifneq (, $(wildcard $(CURDIR)/vendor/src))
+	EXTRA_GOPATH := $(CURDIR)/vendor
+endif
+
+export GOPATH := $(OUR_GOPATH):$(EXTRA_GOPATH)
 
 # a few helpful variables for deduplication
 DOCKER_BINPATH := /usr/bin/docker
@@ -39,21 +47,20 @@ override_dh_gencontrol:
 
 
 setup-gopath:
-	# make sure we have our multitarball deps (from tarballs or from vendor/ in nightlies)
-	@set -ex; \
-		for package in $(MULTI_ORIG_GOPKGS); do \
-			[ -d $$(basename $$package) ] || { [ -d vendor/src/$$package ] && ln -sf vendor/src/$$package $$(basename $$package); }; \
-		done
-	
 	# we need to make sure all deps are in our GOPATH
-	mkdir -p "$(GOPATH)"
+	mkdir -p "$(OUR_GOPATH)"
 	@set -ex; \
 		for package in $(DOCKER_GOPKG) $(MULTI_ORIG_GOPKGS); do \
+			for gopath in $(subst :, ,$(GOPATH)); do \
+				if [ -d "$$gopath/src/$$package" ]; then \
+					continue 2; \
+				fi; \
+			done; \
 			[ $$package = $(DOCKER_GOPKG) ] \
 				&& src=. \
 				|| src=$$(basename $$package); \
-			mkdir -p "$$GOPATH/src/$$(dirname $$package)"; \
-			ln -sfT "$$(readlink -f "$$src")" "$$GOPATH/src/$$package"; \
+			mkdir -p "$(OUR_GOPATH)/src/$$(dirname $$package)"; \
+			ln -sfT "$$(readlink -f "$$src")" "$(OUR_GOPATH)/src/$$package"; \
 		done
 
 override_dh_auto_build:
@@ -62,7 +69,6 @@ override_dh_auto_build:
 	./debian/rules setup-gopath
 	
 	# build "docker" and "dockerinit"
-	GOPATH="$$GOPATH:$(GOPATH_PACKAGED)" \
 	./hack/make.sh dynbinary
 	
 	# compile man pages
@@ -83,7 +89,7 @@ override_dh_auto_install:
 	@set -ex; \
 		for package in $(DEV_GOPKGS); do \
 			mkdir -p "debian/golang-github-docker-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
-			cp -aT "$$(readlink -f "$$GOPATH/src/$$package")" "debian/golang-github-docker-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
+			cp -aT "$$(readlink -f "$(OUR_GOPATH)/src/$$package")" "debian/golang-github-docker-docker-dev/$(GOPATH_PACKAGED)/src/$$package"; \
 		done
 
 
@@ -107,8 +113,8 @@ override_dh_installudev:
 override_dh_auto_clean:
 	dh_auto_clean
 	
-	# GOPATH is created by us
-	rm -rf "$(GOPATH)"
+	# OUR_GOPATH is created by us
+	rm -rf "$(OUR_GOPATH)"
 	
 	# autogen is created by hack/make.sh
 	# bundles is created by hack/make.sh
