@@ -1,0 +1,23 @@
+Description: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67198 but for s390x
+Author: Tianon Gravi <tianon@debian.org>
+
+diff --git a/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_armppc64.go b/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_armppc64.go
+index 739d9c6..224e577 100644
+--- a/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_armppc64.go
++++ b/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_armppc64.go
+@@ -1,4 +1,4 @@
+-// +build arm ppc64 ppc64le
++// +build arm ppc64 ppc64le s390x,!go1.5
+ 
+ package bridge
+ 
+diff --git a/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_notarm.go b/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_notarm.go
+index df52695..9ad108d 100644
+--- a/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_notarm.go
++++ b/vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_notarm.go
+@@ -1,4 +1,4 @@
+-// +build !arm,!ppc64,!ppc64le
++// +build !arm,!ppc64,!ppc64le s390x,go1.5
+ 
+ package bridge
+ 
