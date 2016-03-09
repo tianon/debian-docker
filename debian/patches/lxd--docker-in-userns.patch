@@ -1,6 +1,6 @@
 Description: Docker-in-userns enablement
-Origin: https://github.com/docker/docker/compare/v1.10.2...ab8e54bbea5248d71c932a4b21696e42292e13bb
-Author: Serge Hallyn <serge.hallyn@ubuntu.com>
+Origin: https://github.com/docker/docker/compare/v1.10.2...ab8e54bbea5248d71c932a4b21696e42292e13bb, https://github.com/docker/docker/pull/20902, https://github.com/opencontainers/runc/pull/620
+Author: Serge Hallyn <serge.hallyn@ubuntu.com>, Tianon Gravi <tianon@dockerproject.org>, Phil Estes <estesp@linux.vnet.ibm.com>
 
 diff --git a/daemon/graphdriver/overlay/copy.go b/daemon/graphdriver/overlay/copy.go
 index def4d43..0ea9438 100644
@@ -173,3 +173,18 @@ index 4196dd4..8a269e7 100644
  	}
  	if options.ExcludePatterns == nil {
  		options.ExcludePatterns = []string{}
+diff --git a/vendor/src/github.com/opencontainers/runc/libcontainer/system/unsupported.go b/vendor/src/github.com/opencontainers/runc/libcontainer/system/unsupported.go
+new file mode 100644
+index 0000000..e7cfd62
+--- /dev/null
++++ b/vendor/src/github.com/opencontainers/runc/libcontainer/system/unsupported.go
+@@ -0,0 +1,9 @@
++// +build !linux
++
++package system
++
++// RunningInUserNS is a stub for non-Linux systems
++// Always returns false
++func RunningInUserNS() bool {
++	return false
++}
