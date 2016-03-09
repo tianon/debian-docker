@@ -14,6 +14,7 @@ overlay.patch
 devicemapper-cleanup.patch
 lxd--20631--libcontainer-bump.patch
 lxd--docker-in-userns.patch
+lxd--runc-617.patch
 libnetwork-s390x.patch
 # Upstreamed as of 1.10.2:
 #  15404.patch
