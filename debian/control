@@ -20,7 +20,7 @@ Vcs-Git: git://anonscm.debian.org/docker/docker.io.git
 Vcs-Browser: http://anonscm.debian.org/cgit/docker/docker.io.git
 
 Package: docker.io
-Architecture: linux-any
+Architecture: any-amd64 any-arm64 any-armhf any-i386 any-ppc64el any-s390x
 Depends: adduser, iptables, ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
 Recommends: ca-certificates,
             cgroupfs-mount | cgroup-lite,
