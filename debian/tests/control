@@ -1,3 +1,3 @@
 Tests: integration
-Depends: ca-certificates, curl, git, golang-check.v1-dev, @, @builddeps@
+Depends: ca-certificates, curl, git, golang-check.v1-dev, jq, @, @builddeps@
 Restrictions: allow-stderr isolation-machine needs-root rw-build-tree

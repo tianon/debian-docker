@@ -2,6 +2,7 @@ docker.io (1.10.2-0ubuntu4) UNRELEASED; urgency=medium
 
   * Update "Homepage" to "dockerproject.org" (versus ".com" which now redirects)
   * Update "Vcs-Browser" to use https
+  * Add missing "jq" to DEP8 test dependencies
 
  -- Tianon Gravi <tianon@debian.org>  Thu, 10 Mar 2016 15:37:59 -0800
 
