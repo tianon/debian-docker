@@ -1,3 +1,9 @@
+docker.io (1.10.2-0ubuntu3) UNRELEASED; urgency=medium
+
+  * Drop "any-" prefix from Architectures since we only support Linux
+
+ -- Tianon Gravi <tianon@debian.org>  Thu, 10 Mar 2016 08:19:11 -0800
+
 docker.io (1.10.2-0ubuntu2) xenial; urgency=medium
 
   * debian/control:
