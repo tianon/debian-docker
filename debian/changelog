@@ -1,8 +1,10 @@
-docker.io (1.10.2-0ubuntu3) UNRELEASED; urgency=medium
+docker.io (1.10.2-0ubuntu3) xenial; urgency=medium
 
-  * Drop "any-" prefix from Architectures since we only support Linux
+  * debian/control:
+    - drop the any- prefix on build arches;  seems that any-armhf isn't
+      defined, so armhf builds did not trigger
 
- -- Tianon Gravi <tianon@debian.org>  Thu, 10 Mar 2016 08:19:11 -0800
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Mar 2016 14:41:00 -0500
 
 docker.io (1.10.2-0ubuntu2) xenial; urgency=medium
 
