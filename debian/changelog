@@ -4,6 +4,8 @@ docker.io (1.8.3~ds1-3) UNRELEASED; urgency=medium
     "solutions" (Closes: #799386, #805725)
   * Add "/etc/docker" to the directories explicitly installed by the package
     to help combat issues like #806261
+  * Update "Homepage" to "dockerproject.org" (versus ".com" which now redirects)
+  * Update "Vcs-Browser" to use https
 
  -- Tianon Gravi <tianon@debian.org>  Tue, 01 Dec 2015 01:12:21 -0800
 
