@@ -1,0 +1,198 @@
+From a667cd88c3dc9262f4ef4e2a317c10f6cdcdf5ae Mon Sep 17 00:00:00 2001
+From: Tianon Gravi <admwiggin@gmail.com>
+Date: Thu, 10 Mar 2016 19:19:33 -0800
+Subject: [PATCH 1/2] Adjust "hack/make/.detect-daemon-osarch" to be the source
+ of truth for "platform detection"
+
+Instead of being split between three files, let's let `hack/make/.detect-daemon-osarch` be our single source of truth for multiarch detection/vars.  Not only does it make it slightly easier to make sure we change everything properly when these bits have to change, but it also makes it so that all bits of `hack/make.sh` (especially `hack/make/.ensure-frozen-images`) work properly outside the context of the `Makefile` on all platforms.
+
+Signed-off-by: Andrew "Tianon" Page <admwiggin@gmail.com>
+---
+ Makefile                        | 27 ++----------------
+ hack/make/.detect-daemon-osarch | 63 ++++++++++++++++++++++++++++++-----------
+ hack/make/.ensure-frozen-images | 26 ++++-------------
+ 3 files changed, 53 insertions(+), 63 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index ceadb9a..51c6bb1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,30 +1,8 @@
+ .PHONY: all binary build cross default docs docs-build docs-shell shell test test-docker-py test-integration-cli test-unit validate
+ 
+ # get OS/Arch of docker engine
+-DOCKER_OSARCH := $(shell bash -c 'source hack/make/.detect-daemon-osarch && echo $${DOCKER_ENGINE_OSARCH:+$$DOCKER_CLIENT_OSARCH}')
+-# default for linux/amd64 and others
+-DOCKERFILE := Dockerfile
+-# switch to different Dockerfile for linux/arm
+-ifeq ($(DOCKER_OSARCH), linux/arm)
+-	DOCKERFILE := Dockerfile.armhf
+-else
+-ifeq ($(DOCKER_OSARCH), linux/arm64)
+-	DOCKERFILE := Dockerfile.aarch64
+-else
+-ifeq ($(DOCKER_OSARCH), linux/ppc64le)
+-	DOCKERFILE := Dockerfile.ppc64le
+-else
+-ifeq ($(DOCKER_OSARCH), linux/s390x)
+-	DOCKERFILE := Dockerfile.s390x
+-else
+-ifeq ($(DOCKER_OSARCH), windows/amd64)
+-	DOCKERFILE := Dockerfile.windows
+-endif
+-endif
+-endif
+-endif
+-endif
+-export DOCKERFILE
++DOCKER_OSARCH := $(shell bash -c 'source hack/make/.detect-daemon-osarch && echo $${DOCKER_ENGINE_OSARCH:-$$DOCKER_CLIENT_OSARCH}')
++DOCKERFILE := $(shell bash -c 'source hack/make/.detect-daemon-osarch && echo $${DOCKERFILE}')
+ 
+ # env vars passed through directly to Docker's build scripts
+ # to allow things like `make DOCKER_CLIENTONLY=1 binary` easily
+@@ -34,7 +12,6 @@ DOCKER_ENVS := \
+ 	-e DOCKER_CLIENTONLY \
+ 	-e DOCKER_DEBUG \
+ 	-e DOCKER_EXPERIMENTAL \
+-	-e DOCKERFILE \
+ 	-e DOCKER_GRAPHDRIVER \
+ 	-e DOCKER_REMAP_ROOT \
+ 	-e DOCKER_STORAGE_OPTS \
+diff --git a/hack/make/.detect-daemon-osarch b/hack/make/.detect-daemon-osarch
+index 5c6d3f5..9a51267 100644
+--- a/hack/make/.detect-daemon-osarch
++++ b/hack/make/.detect-daemon-osarch
+@@ -1,34 +1,63 @@
+ #!/bin/bash
+ set -e
+ 
++docker-version-osarch() {
++	local target="$1" # "Client" or "Server"
++	local fmtStr="{{.${target}.Os}}/{{.${target}.Arch}}"
++	if docker version -f "$fmtStr" 2>/dev/null; then
++		# if "docker version -f" works, let's just use that!
++		return
++	fi
++	docker version | awk '
++		$1 ~ /^(Client|Server):$/ { section = 0 }
++		$1 == "'"$target"':" { section = 1; next }
++		section && $1 == "OS/Arch:" { print $2 }
++	'
++}
++
+ # Retrieve OS/ARCH of docker daemon, eg. linux/amd64
+-export DOCKER_ENGINE_OSARCH="$(docker version | awk '
+-	$1 == "Client:" { server = 0; next }
+-	$1 == "Server:" { server = 1; next }
+-	server && $1 == "OS/Arch:" { print $2 }
+-')"
++export DOCKER_ENGINE_OSARCH="$(docker-version-osarch 'Server')"
+ export DOCKER_ENGINE_GOOS="${DOCKER_ENGINE_OSARCH%/*}"
+ export DOCKER_ENGINE_GOARCH="${DOCKER_ENGINE_OSARCH##*/}"
+ DOCKER_ENGINE_GOARCH=${DOCKER_ENGINE_GOARCH:=amd64}
+ 
+ # and the client, just in case
+-export DOCKER_CLIENT_OSARCH="$(docker version | awk '
+-	$1 == "Client:" { client = 1; next }
+-	$1 == "Server:" { client = 0; next }
+-	client && $1 == "OS/Arch:" { print $2 }
+-')"
++export DOCKER_CLIENT_OSARCH="$(docker-version-osarch 'Client')"
++export DOCKER_CLIENT_GOOS="${DOCKER_CLIENT_OSARCH%/*}"
++export DOCKER_CLIENT_GOARCH="${DOCKER_CLIENT_OSARCH##*/}"
++DOCKER_CLIENT_GOARCH=${DOCKER_CLIENT_GOARCH:=amd64}
+ 
+ # Retrieve the architecture used in contrib/builder/(deb|rpm)/$PACKAGE_ARCH/
+-PACKAGE_ARCH="amd64"
+-case "$DOCKER_ENGINE_OSARCH" in
+-	linux/arm)
++PACKAGE_ARCH='amd64'
++case "${DOCKER_ENGINE_GOARCH:-$DOCKER_CLIENT_GOARCH}" in
++	arm)
+ 		PACKAGE_ARCH='armhf'
+ 		;;
+-	linux/ppc64le)
+-		PACKAGE_ARCH='ppc64le'
++	arm64)
++		PACKAGE_ARCH='aarch64'
++		;;
++	amd64|ppc64le|s390x)
++		PACKAGE_ARCH="${DOCKER_ENGINE_GOARCH:-$DOCKER_CLIENT_GOARCH}"
+ 		;;
+-	linux/s390x)
+-		PACKAGE_ARCH='s390x'
++	*)
++		echo >&2 "warning: not sure how to convert '$DOCKER_ENGINE_GOARCH' to a 'Docker' arch, assuming '$PACKAGE_ARCH'"
+ 		;;
+ esac
+ export PACKAGE_ARCH
++
++DOCKERFILE='Dockerfile'
++TEST_IMAGE_NAMESPACE=
++case "$PACKAGE_ARCH" in
++	amd64)
++		case "${DOCKER_ENGINE_GOOS:-$DOCKER_CLIENT_GOOS}" in
++			windows)
++				DOCKERFILE='Dockerfile.windows'
++				;;
++		esac
++		;;
++	*)
++		DOCKERFILE="Dockerfile.$PACKAGE_ARCH"
++		TEST_IMAGE_NAMESPACE="$PACKAGE_ARCH"
++		;;
++esac
++export DOCKERFILE TEST_IMAGE_NAMESPACE
+diff --git a/hack/make/.ensure-frozen-images b/hack/make/.ensure-frozen-images
+index e3e2bdf..21c73cf 100644
+--- a/hack/make/.ensure-frozen-images
++++ b/hack/make/.ensure-frozen-images
+@@ -8,25 +8,9 @@ images=(
+ 	hello-world:latest
+ )
+ 
+-imagePrefix=
+-case "$DOCKER_ENGINE_OSARCH" in
+-	linux/arm)
+-		imagePrefix='armhf'
+-		;;
+-	linux/arm64)
+-		imagePrefix='aarch64'
+-		;;
+-	linux/ppc64le)
+-		imagePrefix='ppc64le'
+-		;;
+-	linux/s390x)
+-		imagePrefix='s390x'
+-		;;
+-esac
+-
+-if [ "$imagePrefix" ]; then
++if [ "$TEST_IMAGE_NAMESPACE" ]; then
+ 	for (( i = 0; i < ${#images[@]}; i++ )); do
+-		images[$i]="$imagePrefix/${images[$i]}"
++		images[$i]="$TEST_IMAGE_NAMESPACE/${images[$i]}"
+ 	done
+ fi
+ 
+@@ -57,7 +41,7 @@ if ! docker inspect "${images[@]}" &> /dev/null; then
+ 					inCont = 0;
+ 				}
+ 			}
+-		' "${DOCKERFILE:=Dockerfile}" | sh -x
++		' "$DOCKERFILE" | sh -x
+ 		# Do not use a subshell for the following command. Windows CI
+ 		# runs bash 3.x so will not trap an error in a subshell.
+ 		# http://stackoverflow.com/questions/22630363/how-does-set-e-work-with-subshells
+@@ -65,9 +49,9 @@ if ! docker inspect "${images[@]}" &> /dev/null; then
+ 	fi
+ fi
+ 
+-if [ "$imagePrefix" ]; then
++if [ "$TEST_IMAGE_NAMESPACE" ]; then
+ 	for image in "${images[@]}"; do
+-		target="${image#$imagePrefix/}"
++		target="${image#$TEST_IMAGE_NAMESPACE/}"
+ 		if [ "$target" != "$image" ]; then
+ 			# tag images to ensure that all integrations work with the defined image names
+ 			docker tag "$image" "$target"

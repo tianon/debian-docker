@@ -1,0 +1,25 @@
+From 08fe0a18f8fbb8e6aaa3760e4e6ffd6032731ca2 Mon Sep 17 00:00:00 2001
+From: John Howard <jhoward@microsoft.com>
+Date: Fri, 15 Jan 2016 11:45:13 -0800
+Subject: [PATCH] Windows: Update makefile
+
+Signed-off-by: John Howard <jhoward@microsoft.com>
+---
+ Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 7a66015..f20f4d7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -17,6 +17,10 @@ ifeq ($(DOCKER_OSARCH), linux/ppc64le)
+ else
+ ifeq ($(DOCKER_OSARCH), linux/s390x)
+ 	DOCKERFILE := Dockerfile.s390x
++else
++ifeq ($(DOCKER_OSARCH), windows/amd64)
++	DOCKERFILE := Dockerfile.windows
++endif
+ endif
+ endif
+ endif

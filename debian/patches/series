@@ -19,6 +19,10 @@ libnetwork-s390x.patch
 lxd--20631--libcontainer-bump.patch
 lxd--docker-in-userns.patch
 lxd--runc-617.patch
+multiarch--18176--arm-deb.patch
+multiarch--19013--arm64.patch
+multiarch--19373--windows.patch
+multiarch--21108--detection.patch
 # Upstreamed as of 1.10.2:
 #  15404.patch
 #  cgroupdriver-cgroupfs.patch
