@@ -1,0 +1,48 @@
+From 64b87f0daa4e341c88cb277511fdf1ff32b77fd6 Mon Sep 17 00:00:00 2001
+From: Michael Crosby <crosbymichael@gmail.com>
+Date: Tue, 23 Feb 2016 14:21:29 -0800
+Subject: [PATCH] Add "Delegate=yes" to docker's service file
+
+We need to add delegate yes to docker's service file so that it can
+manage the cgroups of the processes that it launches without systemd
+interfering with them and moving the processes after it is reloaded.
+
+```
+       Delegate=
+           Turns on delegation of further resource control partitioning to
+           processes of the unit. For unprivileged services (i.e. those
+           using the User= setting), this allows processes to create a
+           subhierarchy beneath its control group path. For privileged
+           services and scopes, this ensures the processes will have all
+           control group controllers enabled.
+```
+
+This is the proper fix for issue #20152
+
+Signed-off-by: Michael Crosby <crosbymichael@gmail.com>
+---
+ contrib/init/systemd/docker.service | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
+index 6015b74..75cb68c 100644
+--- a/contrib/init/systemd/docker.service
++++ b/contrib/init/systemd/docker.service
+@@ -6,12 +6,17 @@ Requires=docker.socket
+ 
+ [Service]
+ Type=notify
++# the default is not to use systemd for cgroups because the delegate issues still
++# exists and systemd currently does not support the cgroup feature set required
++# for containers run by docker
+ ExecStart=/usr/bin/docker daemon -H fd://
+ MountFlags=slave
+ LimitNOFILE=1048576
+ LimitNPROC=1048576
+ LimitCORE=infinity
+ TimeoutStartSec=0
++# set delegate yes so that systemd does not reset the cgroups of docker containers
++Delegate=yes
+ 
+ [Install]
+ WantedBy=multi-user.target

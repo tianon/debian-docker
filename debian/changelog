@@ -1,10 +1,18 @@
-docker.io (1.10.2-0ubuntu4) UNRELEASED; urgency=medium
+docker.io (1.10.2-0ubuntu5) UNRELEASED; urgency=medium
 
   * Update "Homepage" to "dockerproject.org" (versus ".com" which now redirects)
   * Update "Vcs-Browser" to use https
   * Add missing "jq" to DEP8 test dependencies
 
  -- Tianon Gravi <tianon@debian.org>  Thu, 10 Mar 2016 15:37:59 -0800
+
+docker.io (1.10.2-0ubuntu4) xenial; urgency=medium
+
+  * Add debian/patches/upstream-delegate.patch: Add "Delegate=yes" to docker's
+    service file, so that it can manage cgroups by itself. Patch cherry-picked
+    from upstream master. (LP: #1546214)
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Sun, 13 Mar 2016 22:50:51 +0100
 
 docker.io (1.10.2-0ubuntu3) xenial; urgency=medium
 
