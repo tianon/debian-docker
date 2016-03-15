@@ -1,4 +1,4 @@
-From 64b87f0daa4e341c88cb277511fdf1ff32b77fd6 Mon Sep 17 00:00:00 2001
+From d16737f971092767c1b9d28302a3f5aedbe2f576 Mon Sep 17 00:00:00 2001
 From: Michael Crosby <crosbymichael@gmail.com>
 Date: Tue, 23 Feb 2016 14:21:29 -0800
 Subject: [PATCH] Add "Delegate=yes" to docker's service file

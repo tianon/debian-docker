@@ -1,5 +1,7 @@
-upstream-delegate.patch
 cgroupfs-mount-convenience-copy.patch
+
+# Remove for 1.11+
+20633--systemd-delegate.patch
 
 # If upstream ever resolves https://github.com/docker/docker/issues/8969 in a
 # reasonable way, remove this patch.
@@ -13,10 +15,10 @@ overlay.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
+libnetwork-s390x.patch
 lxd--20631--libcontainer-bump.patch
 lxd--docker-in-userns.patch
 lxd--runc-617.patch
-libnetwork-s390x.patch
 # Upstreamed as of 1.10.2:
 #  15404.patch
 #  cgroupdriver-cgroupfs.patch

@@ -5,13 +5,13 @@ Bug-Debian: http://bugs.debian.org/746774
 Forwarded: no
 
 diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
-index f09c2d3..8370631 100644
+index 75cb68c..f98012c 100644
 --- a/contrib/init/systemd/docker.service
 +++ b/contrib/init/systemd/docker.service
-@@ -6,7 +6,8 @@ Requires=docker.socket
- 
- [Service]
- Type=notify
+@@ -9,7 +9,8 @@ Type=notify
+ # the default is not to use systemd for cgroups because the delegate issues still
+ # exists and systemd currently does not support the cgroup feature set required
+ # for containers run by docker
 -ExecStart=/usr/bin/docker daemon -H fd://
 +EnvironmentFile=-/etc/default/docker
 +ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
