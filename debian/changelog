@@ -1,4 +1,4 @@
-docker.io (1.10.2-0ubuntu5) UNRELEASED; urgency=medium
+docker.io (1.10.3-0ubuntu1) UNRELEASED; urgency=medium
 
   * Update "Homepage" to "dockerproject.org" (versus ".com" which now redirects)
   * Update "Vcs-Browser" to use https
@@ -6,7 +6,7 @@ docker.io (1.10.2-0ubuntu5) UNRELEASED; urgency=medium
   * Add a few multiarch build system patches to enable running the integration
     tests
 
- -- Tianon Gravi <tianon@debian.org>  Thu, 10 Mar 2016 15:37:59 -0800
+ -- Joseph Ferguson <joe@infosiftr.com>  Tue, 22 Mar 2016 09:04:45 -0700
 
 docker.io (1.10.2-0ubuntu4) xenial; urgency=medium
 
