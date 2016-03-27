@@ -51,11 +51,12 @@ setup-gopath:
 	mkdir -p "$(OUR_GOPATH)"
 	@set -ex; \
 		for package in $(DOCKER_GOPKG) $(MULTI_ORIG_GOPKGS); do \
-			for gopath in $(subst :, ,$(GOPATH)); do \
-				if [ -d "$$gopath/src/$$package" ]; then \
-					continue 2; \
-				fi; \
-			done; \
+			[ $$package = $(DOCKER_GOPKG) ] \
+				|| for gopath in $(subst :, ,$(GOPATH)); do \
+					if [ -d "$$gopath/src/$$package" ]; then \
+						continue 2; \
+					fi; \
+				done; \
 			[ $$package = $(DOCKER_GOPKG) ] \
 				&& src=. \
 				|| src=$$(basename $$package); \
