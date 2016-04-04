@@ -1,4 +1,17 @@
-docker.io (1.10.3-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (1.10.3-0ubuntu4) xenial; urgency=medium
+
+  * Drop d/patches/libnetwork-s390x.patch, no longer needed after golang
+    updates.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 04 Apr 2016 16:27:28 +1200
+
+docker.io (1.10.3-0ubuntu3) xenial; urgency=medium
+
+  * Do not use aufs in a lxd container.  (LP: #1560685)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Thu, 31 Mar 2016 21:30:49 -0500
+
+docker.io (1.10.3-0ubuntu2) xenial; urgency=medium
 
   * Add "TasksMax=infinity" patch for newer kernel+systemd
   * Add support to DEP8 test script for passing *_proxy environment variables

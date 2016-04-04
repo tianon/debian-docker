@@ -15,7 +15,6 @@ overlay.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
-libnetwork-s390x.patch
 lxd--20631--libcontainer-bump.patch
 lxd--docker-in-userns.patch
 lxd--runc-617.patch
@@ -24,6 +23,7 @@ multiarch--19013--arm64.patch
 multiarch--19373--windows.patch
 multiarch--21108--detection.patch
 21491--systemd-tasksmax.patch
+21714--no-aufs-in-userns.patch
 # Upstreamed as of 1.10.2:
 #  15404.patch
 #  cgroupdriver-cgroupfs.patch

@@ -1,0 +1,29 @@
+Index: docker.io-1.10.3/daemon/graphdriver/aufs/aufs.go
+===================================================================
+--- docker.io-1.10.3.orig/daemon/graphdriver/aufs/aufs.go
++++ docker.io-1.10.3/daemon/graphdriver/aufs/aufs.go
+@@ -44,11 +44,13 @@ import (
+ 	"github.com/docker/docker/pkg/stringid"
+ 
+ 	"github.com/opencontainers/runc/libcontainer/label"
++	rsystem "github.com/opencontainers/runc/libcontainer/system"
+ )
+ 
+ var (
+ 	// ErrAufsNotSupported is returned if aufs is not supported by the host.
+ 	ErrAufsNotSupported = fmt.Errorf("AUFS was not found in /proc/filesystems")
++	ErrAufsNested = fmt.Errorf("AUFS cannot be used in non-init user namespace")
+ 	incompatibleFsMagic = []graphdriver.FsMagic{
+ 		graphdriver.FsMagicBtrfs,
+ 		graphdriver.FsMagicAufs,
+@@ -151,6 +153,10 @@ func supportsAufs() error {
+ 	// proc/filesystems for when aufs is supported
+ 	exec.Command("modprobe", "aufs").Run()
+ 
++	if rsystem.RunningInUserNS() {
++		return ErrAufsNested
++	}
++
+ 	f, err := os.Open("/proc/filesystems")
+ 	if err != nil {
+ 		return err
