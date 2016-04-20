@@ -41,10 +41,12 @@ DOCKER_BUILD_TARGET := $(shell go tool dist env > /dev/null 2>&1 && echo dynbina
 
 APPARMOR_RECOMMENDS := $(shell dpkg-vendor --is Ubuntu && echo apparmor)
 BUILT_LIBC := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)
+BUILT_GOLANG := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W $$(dpkg --search $$(readlink -f /usr/bin/go) | cut -d: -f1))
 
 override_dh_gencontrol:
 	echo 'apparmor:Recommends=$(APPARMOR_RECOMMENDS)' >> debian/docker.io.substvars
 	echo 'libc:Built-Using=$(BUILT_LIBC)' >> debian/docker.io.substvars
+	echo 'golang:Built-Using=$(BUILT_GOLANG)' >> debian/docker.io.substvars
 	dh_gencontrol
 
 

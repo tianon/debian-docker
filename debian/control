@@ -31,7 +31,7 @@ Recommends: ca-certificates,
 Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
 Suggests: aufs-tools, btrfs-tools, debootstrap, lxc, rinse, zfs-fuse | zfsutils
-Built-Using: ${misc:Built-Using}, ${libc:Built-Using}
+Built-Using: ${misc:Built-Using}, ${libc:Built-Using}, ${golang:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at
  the process level. It runs unix processes with strong guarantees of isolation
