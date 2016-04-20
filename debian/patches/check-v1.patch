@@ -1,3 +1,7 @@
+Description: account for the "github.com/go-check/check" -> "gopkg.in/check.v1" rename
+Author: Tianon Gravi <tianon@debian.org>
+Forwarded: not-needed
+
 diff --git a/integration-cli/check_test.go b/integration-cli/check_test.go
 index defa02e..f9e2c67 100644
 --- a/integration-cli/check_test.go

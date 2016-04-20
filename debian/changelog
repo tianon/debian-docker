@@ -1,3 +1,9 @@
+docker.io (1.10.3-0ubuntu6) UNRELEASED; urgency=medium
+
+  * Clean up some DEP3 patch metadata (especially "Origin" and "Forwarded")
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 20 Apr 2016 14:19:16 -0700
+
 docker.io (1.10.3-0ubuntu5) xenial; urgency=medium
 
   * Rebuild to pick up fixes in golang-1.6 1.6-0ubuntu5.

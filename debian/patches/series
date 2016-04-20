@@ -26,7 +26,7 @@ multiarch--21108--detection.patch
 21714--no-aufs-in-userns.patch
 # Upstreamed as of 1.10.2:
 #  15404.patch
-#  cgroupdriver-cgroupfs.patch
+#  17704--cgroupdriver-cgroupfs.patch
 # Not necessary thanks to vendoring
 #  distribution-2.1.1.patch
 #  runc-0.0.4.patch

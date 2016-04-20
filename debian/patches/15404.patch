@@ -2,6 +2,7 @@ From f83d05c3be3c3bcc84f6fa229504848ee8078321 Mon Sep 17 00:00:00 2001
 From: Vincent Batts <vbatts@redhat.com>
 Date: Fri, 7 Aug 2015 10:18:20 -0400
 Subject: [PATCH] devicemapper: fix zero-sized field access
+Origin: https://github.com/docker/docker/pull/15404
 
 Fixes: #15279
 

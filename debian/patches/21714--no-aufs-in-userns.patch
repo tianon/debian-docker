@@ -1,8 +1,23 @@
-Index: docker.io-1.10.3/daemon/graphdriver/aufs/aufs.go
-===================================================================
---- docker.io-1.10.3.orig/daemon/graphdriver/aufs/aufs.go
-+++ docker.io-1.10.3/daemon/graphdriver/aufs/aufs.go
-@@ -44,11 +44,13 @@ import (
+From 2a71f28a4e1167dee32aa16ddbc819c9d9e77f71 Mon Sep 17 00:00:00 2001
+From: Serge Hallyn <serge.hallyn@ubuntu.com>
+Date: Thu, 31 Mar 2016 14:42:16 -0500
+Subject: [PATCH] don't try to use aufs in a user namespace
+Origin: https://github.com/docker/docker/pull/21714
+
+If aufs is already modprobe'd but we are in a user namespace, the
+aufs driver will happily load but then get eperm when it actually tries
+to do something.  So detect that condition.
+
+Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
+---
+ daemon/graphdriver/aufs/aufs.go | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/daemon/graphdriver/aufs/aufs.go b/daemon/graphdriver/aufs/aufs.go
+index 8dc4c4a..0fd059e 100644
+--- a/daemon/graphdriver/aufs/aufs.go
++++ b/daemon/graphdriver/aufs/aufs.go
+@@ -46,11 +46,14 @@ import (
  	"github.com/docker/docker/pkg/stringid"
  
  	"github.com/opencontainers/runc/libcontainer/label"
@@ -12,11 +27,12 @@ Index: docker.io-1.10.3/daemon/graphdriver/aufs/aufs.go
  var (
  	// ErrAufsNotSupported is returned if aufs is not supported by the host.
  	ErrAufsNotSupported = fmt.Errorf("AUFS was not found in /proc/filesystems")
-+	ErrAufsNested = fmt.Errorf("AUFS cannot be used in non-init user namespace")
++	// ErrAufsNested means aufs cannot be used bc we are in a user namespace
++	ErrAufsNested       = fmt.Errorf("AUFS cannot be used in non-init user namespace")
  	incompatibleFsMagic = []graphdriver.FsMagic{
  		graphdriver.FsMagicBtrfs,
  		graphdriver.FsMagicAufs,
-@@ -151,6 +153,10 @@ func supportsAufs() error {
+@@ -146,6 +149,10 @@ func supportsAufs() error {
  	// proc/filesystems for when aufs is supported
  	exec.Command("modprobe", "aufs").Run()
  

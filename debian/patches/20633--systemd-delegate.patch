@@ -2,6 +2,7 @@ From d16737f971092767c1b9d28302a3f5aedbe2f576 Mon Sep 17 00:00:00 2001
 From: Michael Crosby <crosbymichael@gmail.com>
 Date: Tue, 23 Feb 2016 14:21:29 -0800
 Subject: [PATCH] Add "Delegate=yes" to docker's service file
+Origin: https://github.com/docker/docker/pull/20633
 
 We need to add delegate yes to docker's service file so that it can
 manage the cgroups of the processes that it launches without systemd

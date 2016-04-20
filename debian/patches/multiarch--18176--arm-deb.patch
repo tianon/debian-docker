@@ -2,6 +2,7 @@ From 7b31ed432ee2fa95938d64dc76c982e52cd00330 Mon Sep 17 00:00:00 2001
 From: Govinda Fichtner <govinda.fichtner@googlemail.com>
 Date: Mon, 23 Nov 2015 20:00:43 +0100
 Subject: [PATCH] add support for building first ARM debian package
+Origin: https://github.com/docker/docker/pull/18176
 
 Signed-off-by: Govinda Fichtner <govinda.fichtner@googlemail.com>
 ---

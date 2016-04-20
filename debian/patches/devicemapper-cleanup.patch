@@ -8,6 +8,7 @@ Description: Cleanup stale device mapper mounts on start
 Author: James Page <james.page@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1404300
 Bug: https://github.com/docker/docker/issues/5684
+Forwarded: no
 
 To reproduce, just install docker.io from trusty archive (0.9.1 or 1.0.1), start a
 container doing just a echo hello, every seconds, then upgrade. The container cannot

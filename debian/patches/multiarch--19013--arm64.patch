@@ -2,6 +2,7 @@ From 66d24c2b44a076a6dda17dabe028da9acaa55deb Mon Sep 17 00:00:00 2001
 From: Qiang Huang <h.huangqiang@huawei.com>
 Date: Fri, 15 Jan 2016 14:25:03 +0000
 Subject: [PATCH] Add support for build and test docker on arm64
+Origin: https://github.com/docker/docker/pull/19013
 
 Signed-off-by: Qiang Huang <h.huangqiang@huawei.com>
 ---
