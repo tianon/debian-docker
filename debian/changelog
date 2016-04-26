@@ -1,4 +1,4 @@
-docker.io (1.10.3-0ubuntu6) UNRELEASED; urgency=medium
+docker.io (1.10.3-0ubuntu6) xenial; urgency=medium
 
   * Clean up some DEP3 patch metadata (especially "Origin" and "Forwarded")
 
