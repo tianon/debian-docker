@@ -1,3 +1,9 @@
+docker.io (1.10.3-0ubuntu7) UNRELEASED; urgency=medium
+
+  * Update GOPATH logic in debian/tests/integration to match debian/rules
+
+ -- Tianon Gravi <tianon@debian.org>  Tue, 26 Apr 2016 16:40:15 -0700
+
 docker.io (1.10.3-0ubuntu6) xenial; urgency=medium
 
   * Clean up some DEP3 patch metadata (especially "Origin" and "Forwarded")
