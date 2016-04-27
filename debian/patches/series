@@ -24,6 +24,7 @@ multiarch--19373--windows.patch
 multiarch--21108--detection.patch
 21491--systemd-tasksmax.patch
 21714--no-aufs-in-userns.patch
+22000--ignore-invalid-host-header.patch
 # Upstreamed as of 1.10.2:
 #  15404.patch
 #  17704--cgroupdriver-cgroupfs.patch
