@@ -1,4 +1,4 @@
-docker.io (1.10.3-0ubuntu7) UNRELEASED; urgency=medium
+docker.io (1.10.3-0ubuntu7) yakkety; urgency=medium
 
   [ Tianon Gravi ]
   * Update GOPATH logic in debian/tests/integration to match debian/rules
