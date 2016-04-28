@@ -1,0 +1,143 @@
+Index: docker.io/daemon/container_operations_unix.go
+===================================================================
+--- docker.io.orig/daemon/container_operations_unix.go
++++ docker.io/daemon/container_operations_unix.go
+@@ -25,7 +25,7 @@ import (
+ 	"github.com/opencontainers/runc/libcontainer/configs"
+ 	"github.com/opencontainers/runc/libcontainer/devices"
+ 	"github.com/opencontainers/runc/libcontainer/label"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func u32Ptr(i int64) *uint32     { u := uint32(i); return &u }
+Index: docker.io/daemon/daemon_unix.go
+===================================================================
+--- docker.io.orig/daemon/daemon_unix.go
++++ docker.io/daemon/daemon_unix.go
+@@ -38,7 +38,7 @@ import (
+ 	lntypes "github.com/docker/libnetwork/types"
+ 	"github.com/opencontainers/runc/libcontainer/label"
+ 	"github.com/opencontainers/runc/libcontainer/user"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ const (
+Index: docker.io/daemon/oci_linux.go
+===================================================================
+--- docker.io.orig/daemon/oci_linux.go
++++ docker.io/daemon/oci_linux.go
+@@ -22,7 +22,7 @@ import (
+ 	"github.com/opencontainers/runc/libcontainer/apparmor"
+ 	"github.com/opencontainers/runc/libcontainer/devices"
+ 	"github.com/opencontainers/runc/libcontainer/user"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func setResources(s *specs.Spec, r containertypes.Resources) error {
+Index: docker.io/daemon/seccomp_disabled.go
+===================================================================
+--- docker.io.orig/daemon/seccomp_disabled.go
++++ docker.io/daemon/seccomp_disabled.go
+@@ -4,7 +4,7 @@ package daemon
+ 
+ import (
+ 	"github.com/docker/docker/container"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func setSeccomp(daemon *Daemon, rs *specs.Spec, c *container.Container) error {
+Index: docker.io/daemon/seccomp_linux.go
+===================================================================
+--- docker.io.orig/daemon/seccomp_linux.go
++++ docker.io/daemon/seccomp_linux.go
+@@ -8,7 +8,7 @@ import (
+ 	"github.com/Sirupsen/logrus"
+ 	"github.com/docker/docker/container"
+ 	"github.com/docker/docker/profiles/seccomp"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func setSeccomp(daemon *Daemon, rs *specs.Spec, c *container.Container) error {
+Index: docker.io/libcontainerd/client_linux.go
+===================================================================
+--- docker.io.orig/libcontainerd/client_linux.go
++++ docker.io/libcontainerd/client_linux.go
+@@ -13,7 +13,7 @@ import (
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+ 	"github.com/docker/docker/pkg/idtools"
+ 	"github.com/docker/docker/pkg/mount"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ 	"golang.org/x/net/context"
+ )
+ 
+Index: docker.io/libcontainerd/container_linux.go
+===================================================================
+--- docker.io.orig/libcontainerd/container_linux.go
++++ docker.io/libcontainerd/container_linux.go
+@@ -9,7 +9,7 @@ import (
+ 
+ 	"github.com/Sirupsen/logrus"
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ 	"golang.org/x/net/context"
+ )
+ 
+Index: docker.io/libcontainerd/types_linux.go
+===================================================================
+--- docker.io.orig/libcontainerd/types_linux.go
++++ docker.io/libcontainerd/types_linux.go
+@@ -2,7 +2,7 @@ package libcontainerd
+ 
+ import (
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ // Spec is the base configuration for the container.  It specifies platform
+Index: docker.io/libcontainerd/utils_linux.go
+===================================================================
+--- docker.io.orig/libcontainerd/utils_linux.go
++++ docker.io/libcontainerd/utils_linux.go
+@@ -2,7 +2,7 @@ package libcontainerd
+ 
+ import (
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func getRootIDs(s specs.Spec) (int, int, error) {
+Index: docker.io/oci/defaults_linux.go
+===================================================================
+--- docker.io.orig/oci/defaults_linux.go
++++ docker.io/oci/defaults_linux.go
+@@ -4,7 +4,7 @@ import (
+ 	"os"
+ 	"runtime"
+ 
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func sPtr(s string) *string      { return &s }
+Index: docker.io/profiles/seccomp/seccomp.go
+===================================================================
+--- docker.io.orig/profiles/seccomp/seccomp.go
++++ docker.io/profiles/seccomp/seccomp.go
+@@ -7,7 +7,7 @@ import (
+ 	"fmt"
+ 
+ 	"github.com/docker/engine-api/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ //go:generate go run -tags 'seccomp' generate.go

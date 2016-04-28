@@ -1,3 +1,14 @@
+docker.io (1.11.0+dfsg1-1) UNRELEASED; urgency=medium
+
+  * New upstream version (Closes: #812838)
+  * Rework dependency list and version numbers based on hack/vendor.sh
+  * Modify d/rules slightly to allow for de-vendoring dependent
+    packages one at a time instead of all at once
+  * Delete patches applied upstream and refresh ones that are still
+    required
+
+ -- Tim Potter <tpot@hpe.com>  Thu, 14 Apr 2016 12:51:40 +1000
+
 docker.io (1.8.3~ds1-3) UNRELEASED; urgency=medium
 
   * Add NEWS file describing the AUFS issue and the unfortunate possible

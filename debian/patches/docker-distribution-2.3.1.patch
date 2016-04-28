@@ -1,0 +1,142 @@
+Index: docker.io/registry/auth.go
+===================================================================
+--- docker.io.orig/registry/auth.go
++++ docker.io/registry/auth.go
+@@ -121,13 +121,7 @@ func loginV2(authConfig *types.AuthConfi
+ 		authConfig: &credentialAuthConfig,
+ 	}
+ 
+-	tokenHandlerOptions := auth.TokenHandlerOptions{
+-		Transport:     authTransport,
+-		Credentials:   creds,
+-		OfflineAccess: true,
+-		ClientID:      AuthClientID,
+-	}
+-	tokenHandler := auth.NewTokenHandlerWithOptions(tokenHandlerOptions)
++	tokenHandler := auth.NewTokenHandler(authTransport, creds, "")
+ 	basicHandler := auth.NewBasicHandler(creds)
+ 	modifiers = append(modifiers, auth.NewAuthorizer(challengeManager, tokenHandler, basicHandler))
+ 	tr := transport.NewTransport(authTransport, modifiers...)
+Index: docker.io/distribution/registry.go
+===================================================================
+--- docker.io.orig/distribution/registry.go
++++ docker.io/distribution/registry.go
+@@ -79,18 +79,7 @@ func NewV2Repository(ctx context.Context
+ 		modifiers = append(modifiers, auth.NewAuthorizer(challengeManager, passThruTokenHandler))
+ 	} else {
+ 		creds := dumbCredentialStore{auth: authConfig}
+-		tokenHandlerOptions := auth.TokenHandlerOptions{
+-			Transport:   authTransport,
+-			Credentials: creds,
+-			Scopes: []auth.Scope{
+-				auth.RepositoryScope{
+-					Repository: repoName,
+-					Actions:    actions,
+-				},
+-			},
+-			ClientID: registry.AuthClientID,
+-		}
+-		tokenHandler := auth.NewTokenHandlerWithOptions(tokenHandlerOptions)
++		tokenHandler := auth.NewTokenHandler(authTransport, creds, repoName, actions...)
+ 		basicHandler := auth.NewBasicHandler(creds)
+ 		modifiers = append(modifiers, auth.NewAuthorizer(challengeManager, tokenHandler, basicHandler))
+ 	}
+Index: docker.io/distribution/pull_v2.go
+===================================================================
+--- docker.io.orig/distribution/pull_v2.go
++++ docker.io/distribution/pull_v2.go
+@@ -6,7 +6,6 @@ import (
+ 	"fmt"
+ 	"io"
+ 	"io/ioutil"
+-	"net/url"
+ 	"os"
+ 	"runtime"
+ 
+@@ -18,8 +17,6 @@ import (
+ 	"github.com/docker/distribution/manifest/schema2"
+ 	"github.com/docker/distribution/registry/api/errcode"
+ 	"github.com/docker/distribution/registry/client"
+-	"github.com/docker/distribution/registry/client/auth"
+-	"github.com/docker/distribution/registry/client/transport"
+ 	"github.com/docker/docker/distribution/metadata"
+ 	"github.com/docker/docker/distribution/xfer"
+ 	"github.com/docker/docker/image"
+@@ -237,12 +234,6 @@ func (ld *v2LayerDescriptor) Download(ct
+ 
+ 	_, err = io.Copy(tmpFile, io.TeeReader(reader, ld.verifier))
+ 	if err != nil {
+-		if err == transport.ErrWrongCodeForByteRange {
+-			if err := ld.truncateDownloadFile(); err != nil {
+-				return nil, 0, xfer.DoNotRetry{Err: err}
+-			}
+-			return nil, 0, err
+-		}
+ 		return nil, 0, retryOnError(err)
+ 	}
+ 
+@@ -362,7 +353,7 @@ func (p *v2Puller) pullV2Tag(ctx context
+ 	p.confirmedV2 = true
+ 
+ 	logrus.Debugf("Pulling ref from V2 registry: %s", ref.String())
+-	progress.Message(p.config.ProgressOutput, tagOrDigest, "Pulling from "+p.repo.Named().Name())
++	progress.Message(p.config.ProgressOutput, tagOrDigest, "Pulling from "+p.repo.Name().Name())
+ 
+ 	var (
+ 		imageID        image.ID
+@@ -747,10 +738,6 @@ func allowV1Fallback(err error) error {
+ 				transportOK: true,
+ 			}
+ 		}
+-	case *url.Error:
+-		if v.Err == auth.ErrNoBasicAuthCredentials {
+-			return fallbackError{err: err, confirmedV2: false}
+-		}
+ 	}
+ 
+ 	return err
+Index: docker.io/distribution/errors.go
+===================================================================
+--- docker.io.orig/distribution/errors.go
++++ docker.io/distribution/errors.go
+@@ -8,7 +8,6 @@ import (
+ 	"github.com/docker/distribution/registry/api/errcode"
+ 	"github.com/docker/distribution/registry/api/v2"
+ 	"github.com/docker/distribution/registry/client"
+-	"github.com/docker/distribution/registry/client/auth"
+ 	"github.com/docker/docker/distribution/xfer"
+ )
+ 
+@@ -93,10 +92,6 @@ func retryOnError(err error) error {
+ 			return xfer.DoNotRetry{Err: err}
+ 		}
+ 	case *url.Error:
+-		switch v.Err {
+-		case auth.ErrNoBasicAuthCredentials, auth.ErrNoToken:
+-			return xfer.DoNotRetry{Err: v.Err}
+-		}
+ 		return retryOnError(v.Err)
+ 	case *client.UnexpectedHTTPResponseError:
+ 		return xfer.DoNotRetry{Err: err}
+Index: docker.io/distribution/push_v2.go
+===================================================================
+--- docker.io.orig/distribution/push_v2.go
++++ docker.io/distribution/push_v2.go
+@@ -170,7 +170,7 @@ func (p *v2Pusher) pushV2Tag(ctx context
+ 	if _, err = manSvc.Put(ctx, manifest, putOptions...); err != nil {
+ 		logrus.Warnf("failed to upload schema2 manifest: %v - falling back to schema1", err)
+ 
+-		manifestRef, err := distreference.WithTag(p.repo.Named(), ref.Tag())
++		manifestRef, err := distreference.WithTag(p.repo.Name(), ref.Tag())
+ 		if err != nil {
+ 			return err
+ 		}
+@@ -228,7 +228,7 @@ type v2PushDescriptor struct {
+ }
+ 
+ func (pd *v2PushDescriptor) Key() string {
+-	return "v2push:" + pd.repo.Named().Name() + " " + pd.layer.DiffID().String()
++	return "v2push:" + pd.repo.Name().Name() + " " + pd.layer.DiffID().String()
+ }
+ 
+ func (pd *v2PushDescriptor) ID() string {

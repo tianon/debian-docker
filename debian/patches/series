@@ -1,19 +1,12 @@
 cgroupfs-mount-convenience-copy.patch
 
-# If upstream ever resolves https://github.com/docker/docker/issues/8969 in a
-# reasonable way, remove this patch.
-fatal-error-old-kernels.patch
-
 # Once upstream adds EnvFile, remove this patch.
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
 
-# change "github.com/go-check/check" to "gopkg.in/check.v1"
-check-v1.patch
-
-15404--go-1.5.patch
-distribution-2.1.1.patch
-16244--runc-0.0.4.patch
-
 overlay.patch
-cgroupdriver-cgroupfs.patch
+#cgroupdriver-cgroupfs.patch
+
+# tpot
+opencontainer-specs-0.5.0.patch
+docker-distribution-2.3.1.patch
