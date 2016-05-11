@@ -12,13 +12,8 @@ overlay.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
-#lxd--20631--libcontainer-bump.patch
-lxd--docker-in-userns.patch
+lxd--docker-in-userns.patch # needs refresh
 lxd--runc-617.patch
-#multiarch--18176--arm-deb.patch
-#multiarch--19013--arm64.patch
-#multiarch--19373--windows.patch
-#multiarch--21108--detection.patch
 21491--systemd-tasksmax.patch # needs modification
 21714--no-aufs-in-userns.patch
 22000--ignore-invalid-host-header.patch # need to grab the latest version
