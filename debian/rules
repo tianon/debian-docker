@@ -3,10 +3,6 @@
 
 DOCKER_GOPKG := github.com/docker/docker
 
-# MUST STAY IN SYNC WITH LIST IN "debian/helpers/download-libcontainer"
-MULTI_ORIG_GOPKGS := \
-	github.com/docker/libnetwork
-
 # the list of Go packages to include in golang-github-docker-docker-dev
 DEV_GOPKGS := \
 	github.com/docker/docker/pkg
@@ -42,6 +38,7 @@ DOCKER_BUILD_TARGET := $(shell go tool dist env > /dev/null 2>&1 && echo dynbina
 APPARMOR_RECOMMENDS := $(shell dpkg-vendor --is Ubuntu && echo apparmor)
 BUILT_LIBC := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)
 BUILT_GOLANG := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W $$(dpkg --search $$(readlink -f /usr/bin/go) | cut -d: -f1))
+# TODO reintroduce dh-golang to get mwhudson's Built-Using magic
 
 override_dh_gencontrol:
 	echo 'apparmor:Recommends=$(APPARMOR_RECOMMENDS)' >> debian/docker.io.substvars
@@ -54,8 +51,11 @@ setup-gopath:
 	# we need to make sure all deps are in our GOPATH
 	mkdir -p "$(OUR_GOPATH)"
 	@set -ex; \
-		for package in $(DOCKER_GOPKG) $(MULTI_ORIG_GOPKGS); do \
+		for package in $(DOCKER_GOPKG); do \
 			for gopath in $(subst :, ,$(GOPATH)); do \
+				if [ $$package = $(DOCKER_GOPKG) ]; then \
+					continue; \
+				fi; \
 				if [ -d "$$gopath/src/$$package" ]; then \
 					continue 2; \
 				fi; \

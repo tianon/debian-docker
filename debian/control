@@ -21,7 +21,13 @@ Vcs-Browser: https://anonscm.debian.org/cgit/docker/docker.io.git
 
 Package: docker.io
 Architecture: amd64 arm64 armhf i386 ppc64el s390x
-Depends: adduser, iptables, ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
+Depends: adduser,
+         containerd (>= 0.2.0~),
+         iptables,
+         runc (>= 0.1.0~),
+         ${misc:Depends},
+         ${perl:Depends},
+         ${shlibs:Depends}
 Recommends: ca-certificates,
             cgroupfs-mount | cgroup-lite,
             git,

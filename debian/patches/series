@@ -1,13 +1,10 @@
 cgroupfs-mount-convenience-copy.patch
 
-# Remove for 1.11+
-20633--systemd-delegate.patch
-
 # If upstream ever resolves https://github.com/docker/docker/issues/8969 in a
 # reasonable way, remove this patch.
 fatal-error-old-kernels.patch
 
-# Once upstream adds EnvFile, remove this patch.
+# If upstream ever adds EnvFile, remove this patch.
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
 
@@ -15,19 +12,16 @@ overlay.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
-lxd--20631--libcontainer-bump.patch
+#lxd--20631--libcontainer-bump.patch
 lxd--docker-in-userns.patch
 lxd--runc-617.patch
-multiarch--18176--arm-deb.patch
-multiarch--19013--arm64.patch
-multiarch--19373--windows.patch
-multiarch--21108--detection.patch
-21491--systemd-tasksmax.patch
+#multiarch--18176--arm-deb.patch
+#multiarch--19013--arm64.patch
+#multiarch--19373--windows.patch
+#multiarch--21108--detection.patch
+21491--systemd-tasksmax.patch # needs modification
 21714--no-aufs-in-userns.patch
-22000--ignore-invalid-host-header.patch
-# Upstreamed as of 1.10.2:
-#  15404.patch
-#  17704--cgroupdriver-cgroupfs.patch
+22000--ignore-invalid-host-header.patch # need to grab the latest version
 # Not necessary thanks to vendoring
 #  distribution-2.1.1.patch
 #  runc-0.0.4.patch
