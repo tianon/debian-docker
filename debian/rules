@@ -25,7 +25,6 @@ DOCKER_VERSION := $(shell cat VERSION)
 
 export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
 export BUILDTIME := $(shell dpkg-parsechangelog -SDate)
-export DOCKER_INITPATH := /usr/lib/docker.io/dockerinit
 
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
 # same story with SELinux
@@ -72,7 +71,7 @@ override_dh_auto_build:
 	
 	./debian/rules setup-gopath
 	
-	# build "docker" and "dockerinit"
+	# build
 	./hack/make.sh $(DOCKER_BUILD_TARGET)
 	
 	# compile man pages
@@ -84,10 +83,6 @@ override_dh_auto_install:
 	mkdir -p debian/docker.io/$(dir $(DOCKER_BINPATH))
 	cp -aT bundles/$(DOCKER_VERSION)/$(DOCKER_BUILD_TARGET)/docker-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_BINPATH)
 	
-	# install dockerinit binary
-	mkdir -p debian/docker.io/$(dir $(DOCKER_INITPATH))
-	cp -aT bundles/$(DOCKER_VERSION)/$(DOCKER_BUILD_TARGET)/dockerinit-$(DOCKER_VERSION) debian/docker.io/$(DOCKER_INITPATH)
-	
 	# Most of the source of docker does not make a library,
 	#   so only ship the reusable parts (and in a separate package).
 	@set -ex; \
@@ -98,8 +93,7 @@ override_dh_auto_install:
 
 
 override_dh_strip:
-	# the SHA1 of dockerinit is important: don't strip it
-	# also, Go has lots of problems with stripping, so just don't
+	# Go has historically had problems with stripping, so skip it
 
 
 override_dh_auto_test:

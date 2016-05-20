@@ -1,2 +1,0 @@
-docker.io binary: statically-linked-binary usr/lib/docker.io/dockerinit
-# Yes, I assure you this is normal. Damnit, go.
