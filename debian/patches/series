@@ -12,11 +12,11 @@ overlay.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
-lxd--docker-in-userns.patch # needs refresh
+lxd--20902--docker-in-userns.patch
 lxd--runc-617.patch
-21491--systemd-tasksmax.patch # needs modification
+21491--systemd-tasksmax.patch
 21714--no-aufs-in-userns.patch
-22000--ignore-invalid-host-header.patch # need to grab the latest version
+22000--ignore-invalid-host-header.patch
 # Not necessary thanks to vendoring
 #  distribution-2.1.1.patch
 #  runc-0.0.4.patch
