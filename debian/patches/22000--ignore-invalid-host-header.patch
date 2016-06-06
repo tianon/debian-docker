@@ -1,8 +1,6 @@
-From 3d6f5984f52802fe2f4af0dd2296c9e2e4a1e003 Mon Sep 17 00:00:00 2001
-Origin: https://github.com/docker/docker/pull/22000
-From: Antonio Murdaca <runcom@redhat.com>, Tianon Gravi <tianon@debian.org> (default on instead of off, rebased for 1.11)
-Date: Tue, 12 Apr 2016 17:21:20 +0200
-Subject: [PATCH] Ignore invalid host header between go1.6 and old docker clients
+Origin: https://github.com/docker/docker/pull/22000, https://github.com/docker/docker/pull/22888, https://github.com/docker/docker/pull/23046
+Author: Antonio Murdaca <runcom@redhat.com>, Darren Shepherd <darren@rancher.com>, Shijiang Wei <mountkin@gmail.com>, Tianon Gravi <tianon@debian.org> (rebased for 1.11)
+Subject: Ignore invalid "Host:" header between go1.6 and old docker clients
 
 diff --git a/docker/daemon.go b/docker/daemon.go
 index bee921c..7cd8adc 100644
@@ -26,7 +24,7 @@ index bee921c..7cd8adc 100644
  
  	if err := migrateKey(); err != nil {
 diff --git a/docker/daemon_unix.go b/docker/daemon_unix.go
-index b65eb1f..4a108bd 100644
+index b65eb1f..4e4b498 100644
 --- a/docker/daemon_unix.go
 +++ b/docker/daemon_unix.go
 @@ -4,10 +4,13 @@ package main
@@ -43,20 +41,18 @@ index b65eb1f..4a108bd 100644
  	"github.com/Sirupsen/logrus"
  	apiserver "github.com/docker/docker/api/server"
  	"github.com/docker/docker/daemon"
-@@ -80,3 +83,17 @@ func (cli *DaemonCli) getPlatformRemoteOptions() []libcontainerd.RemoteOption {
+@@ -80,3 +83,15 @@ func (cli *DaemonCli) getPlatformRemoteOptions() []libcontainerd.RemoteOption {
  	}
  	return opts
  }
 +
 +func wrapListeners(proto string, ls []net.Listener) []net.Listener {
-+	if os.Getenv("DOCKER_HTTP_HOST_COMPAT") != "0" {
-+		switch proto {
-+		case "unix":
-+			ls[0] = &hack.MalformedHostHeaderOverride{ls[0]}
-+		case "fd":
-+			for i := range ls {
-+				ls[i] = &hack.MalformedHostHeaderOverride{ls[i]}
-+			}
++	switch proto {
++	case "unix":
++		ls[0] = &hack.MalformedHostHeaderOverride{ls[0]}
++	case "fd":
++		for i := range ls {
++			ls[i] = &hack.MalformedHostHeaderOverride{ls[i]}
 +		}
 +	}
 +	return ls
@@ -83,10 +79,10 @@ index ae8d737..b5ffbf9 100644
 +}
 diff --git a/docker/hack/malformed_host_override.go b/docker/hack/malformed_host_override.go
 new file mode 100644
-index 0000000..888d20a
+index 0000000..d4aa3dd
 --- /dev/null
 +++ b/docker/hack/malformed_host_override.go
-@@ -0,0 +1,116 @@
+@@ -0,0 +1,121 @@
 +// +build !windows
 +
 +package hack
@@ -137,13 +133,18 @@ index 0000000..888d20a
 +			firstLineFeed = -1
 +			buf           []byte
 +		)
-+		for i, bb := range b[:c] {
-+			if bb == '\n' && firstLineFeed == -1 {
++		for i := 0; i <= c-1-7; i++ {
++			if b[i] == '\n' && firstLineFeed == -1 {
 +				firstLineFeed = i
 +			}
-+			if bb != '\n' {
++			if b[i] != '\n' {
 +				continue
 +			}
++
++			if b[i+1] == '\r' && b[i+2] == '\n' {
++				return c, nil
++			}
++
 +			if b[i+1] != 'H' {
 +				continue
 +			}
@@ -205,10 +206,10 @@ index 0000000..888d20a
 +}
 diff --git a/docker/hack/malformed_host_override_test.go b/docker/hack/malformed_host_override_test.go
 new file mode 100644
-index 0000000..5bbe840
+index 0000000..1a0a60b
 --- /dev/null
 +++ b/docker/hack/malformed_host_override_test.go
-@@ -0,0 +1,115 @@
+@@ -0,0 +1,124 @@
 +// +build !windows
 +
 +package hack
@@ -221,8 +222,16 @@ index 0000000..5bbe840
 +	"testing"
 +)
 +
++type bufConn struct {
++	net.Conn
++	buf *bytes.Buffer
++}
++
++func (bc *bufConn) Read(b []byte) (int, error) {
++	return bc.buf.Read(b)
++}
++
 +func TestHeaderOverrideHack(t *testing.T) {
-+	client, srv := net.Pipe()
 +	tests := [][2][]byte{
 +		{
 +			[]byte("GET /foo\nHost: /var/run/docker.sock\nUser-Agent: Docker\r\n\r\n"),
@@ -245,13 +254,19 @@ index 0000000..5bbe840
 +			[]byte("GET /foo\nFoo: Bar\nHost: /var/run/docker.sock\nUser-Agent: Docker\r\n\r\n"),
 +		},
 +	}
-+	l := MalformedHostHeaderOverrideConn{client, true}
-+	read := make([]byte, 4096)
++
++	// Test for https://github.com/docker/docker/issues/23045
++	h0 := "GET /foo\nUser-Agent: Docker\r\n\r\n"
++	h0 = h0 + strings.Repeat("a", 4096-len(h0)-1) + "\n"
++	tests = append(tests, [2][]byte{[]byte(h0), []byte(h0)})
 +
 +	for _, pair := range tests {
-+		go func() {
-+			srv.Write(pair[0])
-+		}()
++		read := make([]byte, 4096)
++		client := &bufConn{
++			buf: bytes.NewBuffer(pair[0]),
++		}
++		l := MalformedHostHeaderOverrideConn{client, true}
++
 +		n, err := l.Read(read)
 +		if err != nil && err != io.EOF {
 +			t.Fatalf("read: %d - %d, err: %v\n%s", n, len(pair[0]), err, string(read[:n]))
@@ -259,12 +274,7 @@ index 0000000..5bbe840
 +		if !bytes.Equal(read[:n], pair[1][:n]) {
 +			t.Fatalf("\n%s\n%s\n", read[:n], pair[1][:n])
 +		}
-+		l.first = true
-+		// clean out the slice
-+		read = read[:0]
 +	}
-+	srv.Close()
-+	l.Close()
 +}
 +
 +func BenchmarkWithHack(b *testing.B) {

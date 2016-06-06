@@ -1,6 +1,8 @@
 docker.io (1.11.1-0ubuntu1) UNRELEASED; urgency=medium
 
   * Update to 1.11.1 upstream release (and resync many minor bits with Debian)
+  * Update "22000--ignore-invalid-host-header.patch" to fix "index out of range"
+    panic and reflect the current state of master acceptance
 
  -- Tianon Gravi <tianon@debian.org>  Wed, 11 May 2016 08:07:09 -0700
 
