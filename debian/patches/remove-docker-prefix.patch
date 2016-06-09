@@ -1,0 +1,26 @@
+Description: remove "docker-" prefix on expected "runc" and "containerd" binaries
+Forwarded: not-needed
+Author: Tianon Gravi <tianon@debian.org>
+
+diff --git a/libcontainerd/remote_linux.go b/libcontainerd/remote_linux.go
+index 12ce0e1..cf18865 100644
+--- a/libcontainerd/remote_linux.go
++++ b/libcontainerd/remote_linux.go
+@@ -30,7 +30,7 @@ const (
+ 	maxConnectionRetryCount   = 3
+ 	connectionRetryDelay      = 3 * time.Second
+ 	containerdShutdownTimeout = 15 * time.Second
+-	containerdBinary          = "docker-containerd"
++	containerdBinary          = "containerd"
+ 	containerdPidFilename     = "docker-containerd.pid"
+ 	containerdSockFilename    = "docker-containerd.sock"
+ 	eventTimestampFilename    = "event.ts"
+@@ -349,7 +349,7 @@ func (r *remote) runContainerdDaemon() error {
+ 	}
+ 
+ 	// Start a new instance
+-	args := []string{"-l", r.rpcAddr, "--runtime", "docker-runc", "--start-timeout", "2m"}
++	args := []string{"-l", r.rpcAddr, "--runtime", "runc", "--start-timeout", "2m"}
+ 	if r.debugLog {
+ 		args = append(args, "--debug", "--metrics-interval=0")
+ 	}
