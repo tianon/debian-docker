@@ -1,3 +1,9 @@
+docker.io (1.11.2-0ubuntu4) UNRELEASED; urgency=medium
+
+  * Remove erroneous "docker.io.links" file
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 15 Jun 2016 14:11:59 -0700
+
 docker.io (1.11.2-0ubuntu3) yakkety; urgency=medium
 
   * No change rebuild to pick up s390x fixes.

@@ -1,4 +1,0 @@
-/usr/bin/containerd /usr/bin/docker-containerd
-/usr/bin/containerd-shim /usr/bin/docker-containerd-shim
-/usr/bin/ctr /usr/bin/docker-ctr
-/usr/sbin/runc /usr/sbin/docker-runc
