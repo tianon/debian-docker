@@ -11,7 +11,7 @@ Build-Depends: bash-completion,
                debhelper (>=9),
                dh-systemd,
                go-md2man (>= 1.0.3~),
-               golang-go (>= 2:1.4~) | gccgo (>= 4:5~),
+               golang-any (>= 2:1.6~) | golang-1.6-go,
                libapparmor-dev,
                libdevmapper-dev (>= 2:1.02.68~)
 Standards-Version: 3.9.6

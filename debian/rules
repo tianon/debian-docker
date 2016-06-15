@@ -19,6 +19,9 @@ endif
 
 export GOPATH := $(OUR_GOPATH):$(EXTRA_GOPATH)
 
+# prefer Go 1.6 if it's available (golang-1.6-go)
+export PATH := /usr/lib/go-1.6/bin:$(PATH)
+
 # a few helpful variables for deduplication
 DOCKER_BINPATH := /usr/bin/docker
 DOCKER_VERSION := $(shell cat VERSION)

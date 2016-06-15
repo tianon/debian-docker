@@ -1,6 +1,7 @@
 docker.io (1.11.2-0ubuntu4) UNRELEASED; urgency=medium
 
   * Remove erroneous "docker.io.links" file
+  * Prefer Go 1.6 more explicitly
 
  -- Tianon Gravi <tianon@debian.org>  Wed, 15 Jun 2016 14:11:59 -0700
 
