@@ -1,3 +1,7 @@
-Tests: integration
-Depends: ca-certificates, curl, git, golang-check.v1-dev, jq, @, @builddeps@
-Restrictions: allow-stderr isolation-machine needs-root rw-build-tree
+Tests: basic-smoke
+Depends: debootstrap, debian-keyring, @
+Restrictions: isolation-machine needs-root
+
+#Tests: integration
+#Depends: ca-certificates, curl, git, golang-check.v1-dev, jq, @, @builddeps@
+#Restrictions: allow-stderr isolation-machine needs-root rw-build-tree

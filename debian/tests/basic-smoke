@@ -1,0 +1,36 @@
+#!/bin/bash
+set -eu
+set -o pipefail
+
+exitTraps=( 'true' )
+doExit() {
+	for exitTrap in "${exitTraps[@]}"; do
+		eval "$exitTrap" || true
+	done
+}
+trap 'doExit' EXIT
+defer() {
+	exitTraps=( "$@" "${exitTraps[@]}" )
+}
+
+/etc/init.d/docker start
+defer '/etc/init.d/docker stop'
+defer 'journalctl -u docker | tail'
+
+# make sure Docker itself is working before we go too deep down the rabbit hole
+docker version
+
+tempDir="$(mktemp -d)"
+defer "rm -rf '$tempDir'"
+
+debootstrap \
+	--variant=minbase \
+	stable \
+	"$tempDir" \
+	http://httpredir.debian.org/debian
+
+tar -cC "$tempDir" . | docker import - debian
+defer 'docker rmi debian'
+
+docker run --name test debian true
+defer 'docker rm -f test'
