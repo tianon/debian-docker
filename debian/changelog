@@ -1,4 +1,4 @@
-docker.io (1.11.2-0ubuntu4) UNRELEASED; urgency=medium
+docker.io (1.11.2-0ubuntu4) yakkety; urgency=medium
 
   [ Tianon Gravi ]
   * Remove erroneous "docker.io.links" file
