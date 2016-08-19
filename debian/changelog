@@ -12,6 +12,9 @@ docker.io (1.11.2-0ubuntu6) UNRELEASED; urgency=medium
   * Remaining Ubuntu delta:
     - non-pruned vendor/
     - Docker-in-userns patches
+  * Changes from pending Debian upload:
+    - build from within GOPATH so Go packages are resolved properly
+    - split "dh_auto_build-arch" from "dh_auto_build-indep"
 
  -- Tianon Gravi <tianon@debian.org>  Fri, 19 Aug 2016 10:15:14 -0700
 
