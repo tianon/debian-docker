@@ -1,3 +1,96 @@
+docker.io (1.11.2-0ubuntu6) UNRELEASED; urgency=medium
+
+  * Merge from Debian Unstable:
+    - more README.Debian notes (including a fixed href)
+    - new "docker-doc" package which contains the documentation
+    - use "dh-golang" for building (generates appropriate Built-Using)
+    - run upstream unit tests during dh_auto_test
+    - convert upstream-discouraged "/etc/default/docker" to comments-only
+    - utilize dh_install (w/dh-exec) more fully to simplify debian/rules
+    - fix "/etc/docker" permissions for co-existence with docker-registry
+    - remove "/var/lib/docker" on purge
+  * Remaining Ubuntu delta:
+    - non-pruned vendor/
+    - Docker-in-userns patches
+
+ -- Tianon Gravi <tianon@debian.org>  Fri, 19 Aug 2016 10:15:14 -0700
+
+docker.io (1.11.2~ds1-6) unstable; urgency=medium
+
+  [ Tianon Gravi ]
+  * Add DEP-3 headers for "skip-racy-unit-tests.patch"
+  * Add a note about "check-config.sh" to README.Debian; thanks Tincho!
+  * Add "docker-doc" to Suggests (Closes: #831748); thanks Ben!
+  * Remove "lxc" from Suggests (no longer a supported execution backend)
+
+  [ Nicolas Braud-Santoni ]
+  * Fix /etc/docker permissions (Closes: #831324)
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 20 Jul 2016 16:34:52 -0700
+
+docker.io (1.11.2~ds1-5) unstable; urgency=medium
+
+  * Skip racy "TestRunCommandWithOutputAndTimeoutKilled" during build (see also
+    https://github.com/docker/docker/issues/22965)
+
+ -- Tianon Gravi <tianon@debian.org>  Tue, 12 Jul 2016 07:46:35 -0700
+
+docker.io (1.11.2~ds1-4) unstable; urgency=medium
+
+  [ Tianon Gravi ]
+  * Add new script to generate Build-Depends based on "go list" instead of
+    "hack/vendor.sh" (and update Build-Depends using it)
+  * Update "/etc/default/docker" text to aggressively discourage use, linking to
+    upstream's documentation for the recommended alternatives
+    ("/etc/docker/daemon.json" and systemd drop-ins)
+  * Update gbp.conf for pristine-tar usage now that we're no longer multi-orig
+  * Remove "/var/lib/docker" upon purge (Closes: #739257)
+
+  [ Dmitry Smirnov ]
+  * Add support for DEB_BUILD_OPTIONS=nocheck in debian/rules
+
+ -- Tianon Gravi <tianon@debian.org>  Mon, 11 Jul 2016 22:09:01 -0700
+
+docker.io (1.11.2~ds1-3) unstable; urgency=medium
+
+  * Team upload.
+  * Updated "skip-privileged-unit-tests.patch" to skip more privileged
+    tests in order to fix FTBFS in pbuilder.
+  * Install "opts" directory to -dev package.
+
+ -- Dmitry Smirnov <onlyjob@debian.org>  Sat, 09 Jul 2016 13:49:02 +1000
+
+docker.io (1.11.2~ds1-2) unstable; urgency=medium
+
+  * Add Tim Potter (tpot) and Dmitry Smirnov (onlyjob) to debian/copyright; they
+    were instrumental in getting 1.11 into the archive!
+  * Fix golang-github-docker-docker-dev install location (Closes: #830478);
+    thanks nicoo!
+
+ -- Tianon Gravi <tianon@debian.org>  Fri, 08 Jul 2016 08:47:44 -0700
+
+docker.io (1.11.2~ds1-1) unstable; urgency=medium
+
+  * Update to 1.11.2 upstream release
+    (Closes: #806887, #820149, #822628, #812838)
+  * Add NEWS file describing the AUFS issue and the unfortunate possible
+    "solutions" (Closes: #799386, #805725)
+  * Add "/etc/docker" to the directories explicitly installed by the package
+    to help combat issues like #806261
+  * Update "Homepage" to "dockerproject.org" (versus ".com" which now redirects)
+  * Update "Vcs-Browser" to use https
+  * Shrink the Ubuntu delta by pulling in many of the changes
+  * Replace "btrfs-tools" relations with "btrfs-progs" (Closes: #824833)
+  * Adjust "repack.sh" to allow keeping minor bits of vendor/
+  * Fix bad URL in README (Closes: #816844); thanks Clint!
+  * Move documentation to dedicated "docker-doc" package
+  * Refresh patches, add minor patch to get unit tests running
+  * Use gccgo on non-golang architectures (Closes: #785093)
+  * Use "dh-golang" to calculate "Built-Using" more accurately
+  * Add simple "basic-smoke" DEP8 test
+
+ -- Tianon Gravi <tianon@debian.org>  Mon, 04 Jul 2016 09:59:44 -0700
+
 docker.io (1.11.2-0ubuntu5) yakkety; urgency=medium
 
   * Add 'allow-stderr' to basic-smoke stanza in debian/tests/control to fix

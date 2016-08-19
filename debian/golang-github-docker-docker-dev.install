@@ -1,0 +1,6 @@
+#!/usr/bin/dh-exec
+
+dockerversion usr/share/gocode/src/${DH_GOPKG}/
+pkg usr/share/gocode/src/${DH_GOPKG}/
+opts usr/share/gocode/src/${DH_GOPKG}/
+.gopath/src/${DH_GOPKG}/vendor usr/share/gocode/src/${DH_GOPKG}/

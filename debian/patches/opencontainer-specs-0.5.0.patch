@@ -1,0 +1,149 @@
+Last-Update: 2016-06-13
+Forwarded: no
+Author: Tim Potter <tpot@hpe.com>
+Reviewed-By: Dmitry Smirnov <onlyjob@debian.org>
+Description: update name space
+
+--- a/daemon/container_operations_unix.go
++++ b/daemon/container_operations_unix.go
+@@ -24,9 +24,9 @@
+ 	"github.com/docker/libnetwork"
+ 	"github.com/opencontainers/runc/libcontainer/configs"
+ 	"github.com/opencontainers/runc/libcontainer/devices"
+ 	"github.com/opencontainers/runc/libcontainer/label"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func u32Ptr(i int64) *uint32     { u := uint32(i); return &u }
+ func fmPtr(i int64) *os.FileMode { fm := os.FileMode(i); return &fm }
+--- a/daemon/daemon_unix.go
++++ b/daemon/daemon_unix.go
+@@ -37,9 +37,9 @@
+ 	"github.com/docker/libnetwork/options"
+ 	lntypes "github.com/docker/libnetwork/types"
+ 	"github.com/opencontainers/runc/libcontainer/label"
+ 	"github.com/opencontainers/runc/libcontainer/user"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ const (
+ 	// See https://git.kernel.org/cgit/linux/kernel/git/tip/tip.git/tree/kernel/sched/sched.h?id=8cd9234c64c584432f6992fe944ca9e46ca8ea76#n269
+--- a/daemon/oci_linux.go
++++ b/daemon/oci_linux.go
+@@ -21,9 +21,9 @@
+ 	containertypes "github.com/docker/engine-api/types/container"
+ 	"github.com/opencontainers/runc/libcontainer/apparmor"
+ 	"github.com/opencontainers/runc/libcontainer/devices"
+ 	"github.com/opencontainers/runc/libcontainer/user"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func setResources(s *specs.Spec, r containertypes.Resources) error {
+ 	weightDevices, err := getBlkioWeightDevices(r)
+--- a/daemon/seccomp_disabled.go
++++ b/daemon/seccomp_disabled.go
+@@ -3,9 +3,9 @@
+ package daemon
+ 
+ import (
+ 	"github.com/docker/docker/container"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func setSeccomp(daemon *Daemon, rs *specs.Spec, c *container.Container) error {
+ 	return nil
+--- a/daemon/seccomp_linux.go
++++ b/daemon/seccomp_linux.go
+@@ -7,9 +7,9 @@
+ 
+ 	"github.com/Sirupsen/logrus"
+ 	"github.com/docker/docker/container"
+ 	"github.com/docker/docker/profiles/seccomp"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func setSeccomp(daemon *Daemon, rs *specs.Spec, c *container.Container) error {
+ 	var profile *specs.Seccomp
+--- a/libcontainerd/client_linux.go
++++ b/libcontainerd/client_linux.go
+@@ -12,9 +12,9 @@
+ 	"github.com/Sirupsen/logrus"
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+ 	"github.com/docker/docker/pkg/idtools"
+ 	"github.com/docker/docker/pkg/mount"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ 	"golang.org/x/net/context"
+ )
+ 
+ type client struct {
+--- a/libcontainerd/container_linux.go
++++ b/libcontainerd/container_linux.go
+@@ -10,9 +10,9 @@
+ 
+ 	"github.com/Sirupsen/logrus"
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+ 	"github.com/docker/docker/restartmanager"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ 	"golang.org/x/net/context"
+ )
+ 
+ type container struct {
+--- a/libcontainerd/types_linux.go
++++ b/libcontainerd/types_linux.go
+@@ -1,9 +1,9 @@
+ package libcontainerd
+ 
+ import (
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ // Spec is the base configuration for the container.  It specifies platform
+ // independent configuration. This information must be included when the
+--- a/libcontainerd/utils_linux.go
++++ b/libcontainerd/utils_linux.go
+@@ -1,9 +1,9 @@
+ package libcontainerd
+ 
+ import (
+ 	containerd "github.com/docker/containerd/api/grpc/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func getRootIDs(s specs.Spec) (int, int, error) {
+ 	var hasUserns bool
+--- a/oci/defaults_linux.go
++++ b/oci/defaults_linux.go
+@@ -3,9 +3,9 @@
+ import (
+ 	"os"
+ 	"runtime"
+ 
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ func sPtr(s string) *string      { return &s }
+ func rPtr(r rune) *rune          { return &r }
+--- a/profiles/seccomp/seccomp.go
++++ b/profiles/seccomp/seccomp.go
+@@ -6,9 +6,9 @@
+ 	"encoding/json"
+ 	"fmt"
+ 
+ 	"github.com/docker/engine-api/types"
+-	"github.com/opencontainers/specs/specs-go"
++	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+ //go:generate go run -tags 'seccomp' generate.go
+ 

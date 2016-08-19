@@ -4,25 +4,32 @@ Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Paul Tagliamonte <paultag@debian.org>
 Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>,
-           Tianon Gravi <tianon@debian.org>,
-           Johan Euphrosine <proppy@google.com>
+           Tianon Gravi <tianon@debian.org>
+Build-Conflicts: golang-github-docker-docker-dev
 Build-Depends: bash-completion,
                btrfs-tools,
-               debhelper (>=9),
+               ca-certificates,
+               debhelper (>= 9),
+               dh-exec,
+               dh-golang (>= 1.14~),
                dh-systemd,
+               git,
                go-md2man (>= 1.0.3~),
                golang-any (>= 2:1.6~) | golang-1.6-go,
                libapparmor-dev,
-               libdevmapper-dev (>= 2:1.02.68~)
-Standards-Version: 3.9.6
+               libdevmapper-dev (>= 2:1.02.68~),
+               pkg-config,
+               procps
+Standards-Version: 3.9.8
 Homepage: https://dockerproject.org
-Vcs-Git: git://anonscm.debian.org/docker/docker.io.git
+Vcs-Git: https://anonscm.debian.org/git/docker/docker.io.git
 Vcs-Browser: https://anonscm.debian.org/cgit/docker/docker.io.git
+XS-Go-Import-Path: github.com/docker/docker
 
 Package: docker.io
 Architecture: amd64 arm64 armhf i386 ppc64el s390x
 Depends: adduser,
-         containerd (>= 0.2.0~),
+         containerd (>= 0.2.1~),
          iptables,
          runc (>= 0.1.0~),
          ${misc:Depends},
@@ -36,8 +43,13 @@ Recommends: ca-certificates,
             ${apparmor:Recommends}
 Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
-Suggests: aufs-tools, btrfs-tools, debootstrap, lxc, rinse, zfs-fuse | zfsutils
-Built-Using: ${misc:Built-Using}, ${libc:Built-Using}, ${golang:Built-Using}
+Suggests: aufs-tools,
+          btrfs-tools,
+          debootstrap,
+          docker-doc,
+          rinse,
+          zfs-fuse | zfsutils
+Built-Using: ${misc:Built-Using}, ${libc:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at
  the process level. It runs unix processes with strong guarantees of isolation
@@ -78,8 +90,33 @@ Description: Externally reusable Go packages included with Docker
 
 Package: golang-docker-dev
 Section: oldlibs
+Priority: extra
 Architecture: all
 Depends: golang-github-docker-docker-dev, ${misc:Depends}
 Description: Transitional package for golang-github-docker-docker-dev
  This is a transitional package to ease upgrades to the
  golang-github-docker-docker-dev package. It can safely be removed.
+
+Package: docker-doc
+Provides: docker.io-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: Linux container runtime -- documentation
+ Docker complements kernel namespacing with a high-level API which operates at
+ the process level. It runs unix processes with strong guarantees of isolation
+ and repeatability across servers.
+ .
+ Docker is a great building block for automating distributed systems:
+ large-scale web deployments, database clusters, continuous deployment systems,
+ private PaaS, service-oriented architectures, etc.
+ .
+ This package contains the daemon and client. Using docker.io on non-amd64 hosts
+ is not supported at this time. Please be careful when using it on anything
+ besides amd64.
+ .
+ Also, note that kernel version 3.8 or above is required for proper operation of
+ the daemon process, and that any lower versions may have subtle and/or glaring
+ issues.
+ .
+ This package provides documentation for Docker.

@@ -1,0 +1,20 @@
+Last-Update: 2016-06-13
+Forwarded: not-needed
+Author: Dmitry Smirnov <onlyjob@debian.org>
+Description: fix FTBFS by reverting "oci_linux.go" back to 1.11.0 state.
+ Revert breaking change introduced in Docker-1.11.1 that updated bundled
+ "golang-github-opencontainers-specs-dev" to untagged/unreleased snapshot.
+
+--- a/daemon/oci_linux.go
++++ b/daemon/oci_linux.go
+@@ -670,9 +670,9 @@
+ 		s.Process.ApparmorProfile = appArmorProfile
+ 	}
+ 	s.Process.SelinuxLabel = c.GetProcessLabel()
+ 	s.Process.NoNewPrivileges = c.NoNewPrivileges
+-	s.Linux.MountLabel = c.MountLabel
++	//s.Linux.MountLabel = c.MountLabel
+ 
+ 	return (*libcontainerd.Spec)(&s), nil
+ }
+ 

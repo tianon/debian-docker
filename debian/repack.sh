@@ -1,15 +1,14 @@
 #!/bin/bash
-# Taken from the X Strike Force Build System
-
 set -e
 
-debDir="$(pwd)/debian"
+debDir="$PWD/debian"
 
 if [ ! -d "$debDir/repack/prune" ]; then
 	exit 0
 fi
 
 if [ '--upstream-version' != "$1" ]; then
+	echo >&2 "unexpected argument '$1' (expected '--upstream-version')"
 	exit 1
 fi
 
@@ -27,31 +26,58 @@ upstreamVer="${origVer%%[+~]ds*}"
 dfsgBits="${origVer#$upstreamVer}"
 
 if [ -z "$dfsgBits" ]; then
-	echo "No 'DFSG' bits in '$debVer' (~ds1 or similar), not pruning"
+	echo >&2 "warning: no 'DFSG' bits in version '$debVer' (~ds1 or similar), not pruning"
 	exit 0
 fi
 
 dir="$(dirname "$filename")"
 filename="$(basename "$filename")"
-dir="$(readlink -f "$dir")"
-tempdir="$(mktemp -d)"
-
-cd "$tempdir"
-tar xf "$dir/$filename"
-cat "$debDir"/repack/prune/* | while read file; do
-	if [ -e */"$file" ]; then
-		echo "Pruning $file"
-		rm -rf */"$file"
-	fi
-done
+dir="$(cd "$dir" && pwd -P)"
 
 dfsgFilename="$filename"
-if [[ "$dfsgFilename" != *[~+]ds* ]]; then
-	dfsgFilename="${dfsgFilename/.orig/$dfsgBits.orig}"
-fi
-tar -czf "$dir/$dfsgFilename" *
-cd "$dir"
-rm -rf "$tempdir"
+case "$dfsgFilename" in
+	*${dfsgBits}*) ;; # if our filename already has appropriate "dfsg bits", continue as-is
+	*) dfsgFilename="${dfsgFilename/.orig/$dfsgBits.orig}" ;;
+esac
+targetTar="$dir/$dfsgFilename"
+
+# quick, rough sanity check
+! grep -qE '^/|^\.\./' "$debDir"/repack/prune/* "$debDir"/repack/keep/* 2>/dev/null
+
+IFS=$'\n'
+prune=( $(grep -vE '^#|^$' "$debDir"/repack/prune/*) ) || true
+unset IFS
+
+IFS=$'\n'
+keep=( $(grep -vE '^#|^$' "$debDir"/repack/keep/* 2>/dev/null) ) || true
+unset IFS
+
+tempDir="$(mktemp -d -t docker-orig-repack-XXXXXXXXXX)"
+trap "rm -rf '$tempDir'" EXIT
+
+mkdir -p "$tempDir/orig"
+tar -xf "$dir/$filename" -C "$tempDir/orig" --strip-components=1
+
+mkdir -p "$tempDir/repack"
+( cd "$tempDir/orig" && cp -al . "$tempDir/repack" )
+
+( cd "$tempDir/repack" && rm -rf "${prune[@]}" )
+
+for k in "${keep[@]}"; do
+	[ -d "$tempDir/orig/$k" ] || continue
+	[ ! -d "$tempDir/repack/$k" ] || continue
+	mkdir -p "$tempDir/repack/$k"
+	( cd "$tempDir/orig/$k" && cp -al . "$tempDir/repack/$k" )
+done
+
+rm -rf "$tempDir/orig"
+
+subfolderName="${dfsgFilename%.tar.*}"
+mv "$tempDir/repack" "$tempDir/$subfolderName"
+
+tar -czf "$targetTar" -C "$tempDir" "$subfolderName"
+
+# trap will clean up tempDir
 
 echo "Done pruning upstream tarball into $dfsgFilename"
 exit 0

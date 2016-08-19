@@ -4,16 +4,19 @@ Upstream-Contact: Docker, Inc. <support@docker.com>
 Source: https://github.com/docker/docker
 
 Files: *
-Copyright: 2012-2014 Docker, Inc. <support@docker.com>
+Copyright: 2012-2016 Docker, Inc. <support@docker.com>
 License: Apache-2.0
 
 Files: debian/*
 Copyright: 2013-2014 Daniel Mizyrycki <daniel@docker.com>
            2013-2014 Paul Tagliamonte <paultag@debian.org>
            2012-2014 Michael Stapelberg <stapelberg@debian.org>
-           2013-2014 Tianon Gravi <tianon@debian.org>
+           2013-2016 Tianon Gravi <tianon@debian.org>
            2013-2014 Johan Euphrosine <proppy@google.com>
            2014 Prach Pongpanich <prachpub@gmail.com>
+           2016 Tim Potter <timothy.potter@hpe.com>
+           2016 Dmitry Smirnov <onlyjob@debian.org>
+           2016 Michael Hudson-Doyle <michael.hudson@ubuntu.com>
 License: Apache-2.0
 
 Files: contrib/init/openrc/docker.initd
@@ -24,13 +27,21 @@ Files: contrib/syntax/vim/*
 Copyright: 2013 Honza Pokorny
 License: BSD-2-clause
 
-Files: pkg/mflag/*
-Copyright: 2014 The Docker & Go Authors
+Files:
+    pkg/mflag/*
+    pkg/symlink/fs.go
+Copyright: 2014-2016 The Docker & Go Authors
 License: BSD-3-clause-Google
 
 Files: contrib/completion/zsh/*
 Copyright: 2013-2014 Felix Riedel
 License: BSD-3-clause-Generic
+
+Files: contrib/docker-engine-selinux/*
+Copyright: 2012-2016 Docker Inc.
+License: GPL-2
+Comment:
+ No explicit copyright statement; assuming upstream copyright.
 
 Files: vendor/src/github.com/agl/ed25519/*
 Copyright: 2012 The Go Authors
@@ -147,7 +158,7 @@ Copyright: 2014 Sameer Naik
 License: Expat
 
 Files: vendor/src/github.com/docker/notary/tuf/*
-Copyright: 2015 Docker, Inc.
+Copyright: 2015      Docker, Inc.
            2014-2015 Prime Directive, Inc.
 License: BSD-3-clause-Prime
 

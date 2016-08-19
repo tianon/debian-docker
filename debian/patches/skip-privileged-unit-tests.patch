@@ -1,0 +1,669 @@
+Description: allow skipping "privileged" tests with "-test.short"
+Author: Tianon Gravi <tianon@debian.org>
+Forwarded: no
+
+--- a/daemon/daemon_test.go
++++ b/daemon/daemon_test.go
+@@ -154,8 +154,12 @@
+ 	}
+ }
+ 
+ func TestContainerInitDNS(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp, err := ioutil.TempDir("", "docker-container-test-")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+--- a/daemon/graphdriver/aufs/aufs_test.go
++++ b/daemon/graphdriver/aufs/aufs_test.go
+@@ -27,8 +27,12 @@
+ 	reexec.Init()
+ }
+ 
+ func testInit(dir string, t testing.TB) graphdriver.Driver {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	d, err := Init(dir, nil, nil, nil)
+ 	if err != nil {
+ 		if err == graphdriver.ErrNotSupported {
+ 			t.Skip(err)
+--- a/daemon/graphdriver/devmapper/devmapper_test.go
++++ b/daemon/graphdriver/devmapper/devmapper_test.go
+@@ -10,52 +10,72 @@
+ 	"github.com/docker/docker/daemon/graphdriver"
+ 	"github.com/docker/docker/daemon/graphdriver/graphtest"
+ )
+ 
+-func init() {
++func shortSkip(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++}
++
++// This avoids creating a new driver for each test if all tests are run
++// Make sure to put new tests between TestDevmapperSetup and TestDevmapperTeardown
++func TestDevmapperSetup(t *testing.T) {
++	shortSkip(t)
++
+ 	// Reduce the size the the base fs and loopback for the tests
+ 	defaultDataLoopbackSize = 300 * 1024 * 1024
+ 	defaultMetaDataLoopbackSize = 200 * 1024 * 1024
+ 	defaultBaseFsSize = 300 * 1024 * 1024
+ 	defaultUdevSyncOverride = true
+ 	if err := graphtest.InitLoopbacks(); err != nil {
+-		panic(err)
++		t.Fatal(err)
+ 	}
+-}
+ 
+-// This avoids creating a new driver for each test if all tests are run
+-// Make sure to put new tests between TestDevmapperSetup and TestDevmapperTeardown
+-func TestDevmapperSetup(t *testing.T) {
+ 	graphtest.GetDriver(t, "devicemapper")
+ }
+ 
+ func TestDevmapperCreateEmpty(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.DriverTestCreateEmpty(t, "devicemapper")
+ }
+ 
+ func TestDevmapperCreateBase(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.DriverTestCreateBase(t, "devicemapper")
+ }
+ 
+ func TestDevmapperCreateSnap(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.DriverTestCreateSnap(t, "devicemapper")
+ }
+ 
+ func TestDevmapperTeardown(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.PutDriver(t)
+ }
+ 
+ func TestDevmapperReduceLoopBackSize(t *testing.T) {
++	shortSkip(t)
++
+ 	tenMB := int64(10 * 1024 * 1024)
+ 	testChangeLoopBackSize(t, -tenMB, defaultDataLoopbackSize, defaultMetaDataLoopbackSize)
+ }
+ 
+ func TestDevmapperIncreaseLoopBackSize(t *testing.T) {
++	shortSkip(t)
++
+ 	tenMB := int64(10 * 1024 * 1024)
+ 	testChangeLoopBackSize(t, tenMB, defaultDataLoopbackSize+tenMB, defaultMetaDataLoopbackSize+tenMB)
+ }
+ 
+ func testChangeLoopBackSize(t *testing.T, delta, expectDataSize, expectMetaDataSize int64) {
++	shortSkip(t)
++
+ 	driver := graphtest.GetDriver(t, "devicemapper").(*graphtest.Driver).Driver.(*graphdriver.NaiveDiffDriver).ProtoDriver.(*Driver)
+ 	defer graphtest.PutDriver(t)
+ 	// make sure data or metadata loopback size are the default size
+ 	if s := driver.DeviceSet.Status(); s.Data.Total != uint64(defaultDataLoopbackSize) || s.Metadata.Total != uint64(defaultMetaDataLoopbackSize) {
+@@ -82,8 +102,10 @@
+ }
+ 
+ // Make sure devices.Lock() has been release upon return from cleanupDeletedDevices() function
+ func TestDevmapperLockReleasedDeviceDeletion(t *testing.T) {
++	shortSkip(t)
++
+ 	driver := graphtest.GetDriver(t, "devicemapper").(*graphtest.Driver).Driver.(*graphdriver.NaiveDiffDriver).ProtoDriver.(*Driver)
+ 	defer graphtest.PutDriver(t)
+ 
+ 	// Call cleanupDeletedDevices() and after the call take and release
+--- a/daemon/graphdriver/vfs/vfs_test.go
++++ b/daemon/graphdriver/vfs/vfs_test.go
+@@ -9,29 +9,43 @@
+ 
+ 	"github.com/docker/docker/pkg/reexec"
+ )
+ 
+-func init() {
+-	reexec.Init()
++func shortSkip(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ }
+ 
+ // This avoids creating a new driver for each test if all tests are run
+ // Make sure to put new tests between TestVfsSetup and TestVfsTeardown
+ func TestVfsSetup(t *testing.T) {
++	shortSkip(t)
++
++	reexec.Init()
++
+ 	graphtest.GetDriver(t, "vfs")
+ }
+ 
+ func TestVfsCreateEmpty(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.DriverTestCreateEmpty(t, "vfs")
+ }
+ 
+ func TestVfsCreateBase(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.DriverTestCreateBase(t, "vfs")
+ }
+ 
+ func TestVfsCreateSnap(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.DriverTestCreateSnap(t, "vfs")
+ }
+ 
+ func TestVfsTeardown(t *testing.T) {
++	shortSkip(t)
++
+ 	graphtest.PutDriver(t)
+ }
+--- a/pkg/archive/archive_test.go
++++ b/pkg/archive/archive_test.go
+@@ -304,8 +304,12 @@
+ 	}
+ }
+ 
+ func TestUntarPath(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmpFolder, err := ioutil.TempDir("", "docker-archive-test")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -438,8 +442,12 @@
+ 	}
+ }
+ 
+ func TestCopyWithTarInexistentDestWillCreateIt(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tempFolder, err := ioutil.TempDir("", "docker-archive-test")
+ 	if err != nil {
+ 		t.Fatal(nil)
+ 	}
+@@ -922,8 +930,13 @@
+ 	// TODO Windows. There may be a way of running this, but turning off for now
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("hardlinks on Windows")
+ 	}
++
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	for i, headers := range [][]*tar.Header{
+ 		{
+ 			{
+ 				Name:     "symlink1",
+--- a/pkg/archive/archive_unix_test.go
++++ b/pkg/archive/archive_unix_test.go
+@@ -149,8 +149,12 @@
+ 	return statT.Ino, nil
+ }
+ 
+ func TestTarWithBlockCharFifo(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	origin, err := ioutil.TempDir("", "docker-test-tar-hardlink")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -202,8 +206,12 @@
+ }
+ 
+ // TestTarUntarWithXattr is Unix as Lsetxattr is not supported on Windows
+ func TestTarUntarWithXattr(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	origin, err := ioutil.TempDir("", "docker-test-untar-origin")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+--- a/pkg/archive/changes_test.go
++++ b/pkg/archive/changes_test.go
+@@ -141,8 +141,12 @@
+ 	}
+ }
+ 
+ func TestChangesWithChanges(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	// TODO Windows. There may be a way of running this, but turning off for now
+ 	// as createSampleDir uses symlinks.
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("symlinks on Windows")
+@@ -197,8 +201,13 @@
+ 	// as createSampleDir uses symlinks.
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("symlinks on Windows")
+ 	}
++
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	baseLayer, err := ioutil.TempDir("", "docker-changes-test.")
+ 	defer os.RemoveAll(baseLayer)
+ 
+ 	dir3 := path.Join(baseLayer, "dir1/dir2/dir3")
+--- a/pkg/authorization/authz_unix_test.go
++++ b/pkg/authorization/authz_unix_test.go
+@@ -27,8 +27,12 @@
+ 
+ const pluginAddress = "authzplugin.sock"
+ 
+ func TestAuthZRequestPluginError(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	server := authZPluginTestServer{t: t}
+ 	go server.start()
+ 	defer server.stop()
+ 
+@@ -58,8 +62,12 @@
+ 	}
+ }
+ 
+ func TestAuthZRequestPlugin(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	server := authZPluginTestServer{t: t}
+ 	go server.start()
+ 	defer server.stop()
+ 
+@@ -90,8 +98,12 @@
+ 	}
+ }
+ 
+ func TestAuthZResponsePlugin(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	server := authZPluginTestServer{t: t}
+ 	go server.start()
+ 	defer server.stop()
+ 
+--- a/pkg/chrootarchive/archive_test.go
++++ b/pkg/chrootarchive/archive_test.go
+@@ -21,9 +21,17 @@
+ func init() {
+ 	reexec.Init()
+ }
+ 
++func shortSkip(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++}
++
+ func TestChrootTarUntar(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootTarUntar")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -53,8 +61,10 @@
+ 
+ // gh#10426: Verify the fix for having a huge excludes list (like on `docker load` with large # of
+ // local images)
+ func TestChrootUntarWithHugeExcludesList(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootUntarHugeExcludes")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -87,8 +97,10 @@
+ 	}
+ }
+ 
+ func TestChrootUntarEmptyArchive(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootUntarEmptyArchive")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -151,8 +163,10 @@
+ 	return nil
+ }
+ 
+ func TestChrootTarUntarWithSymlink(t *testing.T) {
++	shortSkip(t)
++
+ 	// TODO Windows: Figure out why this is failing
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("Failing on Windows")
+ 	}
+@@ -177,8 +191,10 @@
+ 	}
+ }
+ 
+ func TestChrootCopyWithTar(t *testing.T) {
++	shortSkip(t)
++
+ 	// TODO Windows: Figure out why this is failing
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("Failing on Windows")
+ 	}
+@@ -227,8 +243,10 @@
+ 	}
+ }
+ 
+ func TestChrootCopyFileWithTar(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootCopyFileWithTar")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -270,8 +288,10 @@
+ 	}
+ }
+ 
+ func TestChrootUntarPath(t *testing.T) {
++	shortSkip(t)
++
+ 	// TODO Windows: Figure out why this is failing
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("Failing on Windows")
+ 	}
+@@ -335,8 +355,10 @@
+ 	return count, nil
+ }
+ 
+ func TestChrootUntarEmptyArchiveFromSlowReader(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootUntarEmptyArchiveFromSlowReader")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -351,8 +373,10 @@
+ 	}
+ }
+ 
+ func TestChrootApplyEmptyArchiveFromSlowReader(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootApplyEmptyArchiveFromSlowReader")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -367,8 +391,10 @@
+ 	}
+ }
+ 
+ func TestChrootApplyDotDotFile(t *testing.T) {
++	shortSkip(t)
++
+ 	tmpdir, err := ioutil.TempDir("", "docker-TestChrootApplyDotDotFile")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+--- a/pkg/idtools/idtools_unix_test.go
++++ b/pkg/idtools/idtools_unix_test.go
+@@ -16,8 +16,12 @@
+ 	gid int
+ }
+ 
+ func TestMkdirAllAs(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	dirName, err := ioutil.TempDir("", "mkdirall")
+ 	if err != nil {
+ 		t.Fatalf("Couldn't create temp dir: %v", err)
+ 	}
+@@ -76,8 +80,11 @@
+ 	}
+ }
+ 
+ func TestMkdirAllNewAs(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 
+ 	dirName, err := ioutil.TempDir("", "mkdirnew")
+ 	if err != nil {
+ 		t.Fatalf("Couldn't create temp dir: %v", err)
+@@ -136,8 +143,11 @@
+ 	}
+ }
+ 
+ func TestMkdirAs(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 
+ 	dirName, err := ioutil.TempDir("", "mkdir")
+ 	if err != nil {
+ 		t.Fatalf("Couldn't create temp dir: %v", err)
+--- a/pkg/mount/mount_unix_test.go
++++ b/pkg/mount/mount_unix_test.go
+@@ -24,8 +24,12 @@
+ 	}
+ }
+ 
+ func TestMounted(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp := path.Join(os.TempDir(), "mount-tests")
+ 	if err := os.MkdirAll(tmp, 0777); err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -75,8 +79,12 @@
+ 	}
+ }
+ 
+ func TestMountReadonly(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp := path.Join(os.TempDir(), "mount-tests")
+ 	if err := os.MkdirAll(tmp, 0777); err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -120,8 +128,11 @@
+ 	}
+ }
+ 
+ func TestGetMounts(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 	mounts, err := GetMounts()
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+--- a/pkg/mount/sharedsubtree_linux_test.go
++++ b/pkg/mount/sharedsubtree_linux_test.go
+@@ -10,8 +10,12 @@
+ )
+ 
+ // nothing is propagated in or out
+ func TestSubtreePrivate(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp := path.Join(os.TempDir(), "mount-tests")
+ 	if err := os.MkdirAll(tmp, 0777); err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -108,8 +112,12 @@
+ 
+ // Testing that when a target is a shared mount,
+ // then child mounts propagate to the source
+ func TestSubtreeShared(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp := path.Join(os.TempDir(), "mount-tests")
+ 	if err := os.MkdirAll(tmp, 0777); err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -176,8 +184,12 @@
+ 
+ // testing that mounts to a shared source show up in the slave target,
+ // and that mounts into a slave target do _not_ show up in the shared source
+ func TestSubtreeSharedSlave(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp := path.Join(os.TempDir(), "mount-tests")
+ 	if err := os.MkdirAll(tmp, 0777); err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -280,8 +292,12 @@
+ 	}
+ }
+ 
+ func TestSubtreeUnbindable(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmp := path.Join(os.TempDir(), "mount-tests")
+ 	if err := os.MkdirAll(tmp, 0777); err != nil {
+ 		t.Fatal(err)
+ 	}
+--- a/pkg/sysinfo/sysinfo_linux_test.go
++++ b/pkg/sysinfo/sysinfo_linux_test.go
+@@ -8,8 +8,12 @@
+ 	"testing"
+ )
+ 
+ func TestReadProcBool(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	tmpDir, err := ioutil.TempDir("", "test-sysinfo-proc")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+--- a/volume/local/local_test.go
++++ b/volume/local/local_test.go
+@@ -10,8 +10,11 @@
+ 	"github.com/docker/docker/pkg/mount"
+ )
+ 
+ func TestRemove(t *testing.T) {
++	if testing.Short() { t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	// TODO Windows: Investigate why this test fails on Windows under CI
+ 	//               but passes locally.
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip("Test failing on Windows CI")
+@@ -57,8 +60,12 @@
+ 	}
+ }
+ 
+ func TestInitializeWithVolumes(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	rootDir, err := ioutil.TempDir("", "local-volume-test")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -89,8 +96,12 @@
+ 	}
+ }
+ 
+ func TestCreate(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	rootDir, err := ioutil.TempDir("", "local-volume-test")
+ 	if err != nil {
+ 		t.Fatal(err)
+ 	}
+@@ -155,8 +166,12 @@
+ 	}
+ }
+ 
+ func TestCreateWithOpts(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	if runtime.GOOS == "windows" {
+ 		t.Skip()
+ 	}
+ 
+--- a/daemon/graphdriver/overlay/overlay_test.go
++++ b/daemon/graphdriver/overlay/overlay_test.go
+@@ -10,20 +10,32 @@
+ 
+ // This avoids creating a new driver for each test if all tests are run
+ // Make sure to put new tests between TestOverlaySetup and TestOverlayTeardown
+ func TestOverlaySetup(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 	graphtest.GetDriver(t, "overlay")
+ }
+ 
+ func TestOverlayCreateEmpty(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 	graphtest.DriverTestCreateEmpty(t, "overlay")
+ }
+ 
+ func TestOverlayCreateBase(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 	graphtest.DriverTestCreateBase(t, "overlay")
+ }
+ 
+ func TestOverlayCreateSnap(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 	graphtest.DriverTestCreateSnap(t, "overlay")
+ }
+ 
+ func TestOverlayTeardown(t *testing.T) {

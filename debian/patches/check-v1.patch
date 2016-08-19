@@ -498,7 +498,7 @@ index fea887d..0e3829d 100644
  
  // TestDaemonRestartWithKilledRunningContainer requires live restore of running containers
 diff --git a/integration-cli/docker_cli_daemon_not_experimental_test.go b/integration-cli/docker_cli_daemon_not_experimental_test.go
-index 3c98774..e780560 100644
+index 8c5634c..584e033 100644
 --- a/integration-cli/docker_cli_daemon_not_experimental_test.go
 +++ b/integration-cli/docker_cli_daemon_not_experimental_test.go
 @@ -7,7 +7,7 @@ import (
@@ -836,7 +836,7 @@ index 142f192..8266711 100644
  
  // GH14530. Validates combinations of --net= with other options
 diff --git a/integration-cli/docker_cli_network_unix_test.go b/integration-cli/docker_cli_network_unix_test.go
-index 2ee2092..0fc0f9f 100644
+index 902766d..c5ef222 100644
 --- a/integration-cli/docker_cli_network_unix_test.go
 +++ b/integration-cli/docker_cli_network_unix_test.go
 @@ -22,7 +22,7 @@ import (
@@ -1031,7 +1031,7 @@ index 697be32..c251d51 100644
  
  func (s *DockerSuite) TestRmiWithContainerFails(c *check.C) {
 diff --git a/integration-cli/docker_cli_run_test.go b/integration-cli/docker_cli_run_test.go
-index 458d153..16f87bc 100644
+index 6e45fca..eee0d94 100644
 --- a/integration-cli/docker_cli_run_test.go
 +++ b/integration-cli/docker_cli_run_test.go
 @@ -25,7 +25,7 @@ import (
@@ -1040,9 +1040,9 @@ index 458d153..16f87bc 100644
  	"github.com/docker/libnetwork/resolvconf"
 -	"github.com/go-check/check"
 +	"gopkg.in/check.v1"
+ 	libcontainerUser "github.com/opencontainers/runc/libcontainer/user"
  )
  
- // "test123" should be printed by docker run
 diff --git a/integration-cli/docker_cli_run_unix_test.go b/integration-cli/docker_cli_run_unix_test.go
 index fe7cc69..9ddac61 100644
 --- a/integration-cli/docker_cli_run_unix_test.go

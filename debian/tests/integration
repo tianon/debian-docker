@@ -5,14 +5,8 @@ set -e
 dpkg-source --before-build .
 
 # prepare the environment
-./debian/rules setup-gopath
+./debian/rules dh_configure
 export GOPATH="$PWD/.gopath"
-# if we've got the vendored source not purged, let's use it (normally purged via debian/repack.sh)
-if [ -d vendor/src ]; then
-	export GOPATH="$GOPATH:$PWD/vendor"
-else
-	export GOPATH="$GOPATH:/usr/share/gocode"
-fi
 export DOCKER_GITCOMMIT="$(./debian/helpers/gitcommit.sh)"
 
 # docker's tests need an unprivileged user available at this username

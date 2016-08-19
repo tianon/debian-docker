@@ -1,0 +1,5 @@
+# example "keep" line for future reference
+#vendor/src/github.com/docker/some-library
+
+# notary versioning is a bit complex, so we'll use it vendored for now
+vendor/src/github.com/docker/notary
