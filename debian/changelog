@@ -10,11 +10,13 @@ docker.io (1.11.2-0ubuntu6) UNRELEASED; urgency=medium
     - fix "/etc/docker" permissions for co-existence with docker-registry
     - remove "/var/lib/docker" on purge
   * Remaining Ubuntu delta:
-    - non-pruned vendor/
+    - non-pruned vendor/ (included in golang-github-docker-docker-dev)
     - Docker-in-userns patches
   * Changes from pending Debian upload:
     - build from within GOPATH so Go packages are resolved properly
     - split "dh_auto_build-arch" from "dh_auto_build-indep"
+    - include vendor/ in golang-github-docker-docker-dev (since we don't
+      necessarily have the appropriate packages for Depends on that package)
 
  -- Tianon Gravi <tianon@debian.org>  Fri, 19 Aug 2016 10:15:14 -0700
 
