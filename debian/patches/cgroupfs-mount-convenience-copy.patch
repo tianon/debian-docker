@@ -78,4 +78,4 @@ index ec50b35..75858f8 100644
 -
  script
  	# modify these in /etc/default/$UPSTART_JOB (/etc/default/docker)
- 	DOCKER=/usr/bin/$UPSTART_JOB
+ 	DOCKERD=/usr/bin/dockerd

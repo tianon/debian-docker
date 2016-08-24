@@ -1,0 +1,43 @@
+Description: adjust "SOURCE_PATH" for building "docker-proxy" binary with our adjusted vendor/ path
+Author: Tianon Gravi <tianon@debian.org>
+Forwarded: not-needed
+
+diff --git a/hack/make/binary-daemon b/hack/make/binary-daemon
+index e75c44c..9ca17fb 100644
+--- a/hack/make/binary-daemon
++++ b/hack/make/binary-daemon
+@@ -10,7 +10,7 @@ set -e
+ 	export SOURCE_PATH='./cmd/dockerd'
+ 	source "${MAKEDIR}/.binary"
+ 	export BINARY_SHORT_NAME="$DOCKER_PROXY_BINARY_NAME"
+-	export SOURCE_PATH='./vendor/src/github.com/docker/libnetwork/cmd/proxy'
++	export SOURCE_PATH='./vendor/github.com/docker/libnetwork/cmd/proxy'
+ 	source "${MAKEDIR}/.binary"
+ 	copy_containerd "$DEST" 'hash'
+ )
+diff --git a/hack/make/dynbinary-daemon b/hack/make/dynbinary-daemon
+index 2d1ed25..d017195 100644
+--- a/hack/make/dynbinary-daemon
++++ b/hack/make/dynbinary-daemon
+@@ -10,7 +10,7 @@ set -e
+ 	export BUILDFLAGS=( "${BUILDFLAGS[@]/static_build /}" ) # we're not building a "static" binary here
+ 	source "${MAKEDIR}/.binary"
+ 	export BINARY_SHORT_NAME='docker-proxy'
+-	export SOURCE_PATH='./vendor/src/github.com/docker/libnetwork/cmd/proxy'
++	export SOURCE_PATH='./vendor/github.com/docker/libnetwork/cmd/proxy'
+ 	export LDFLAGS_STATIC_DOCKER='-linkmode=external'
+ 	source "${MAKEDIR}/.binary"
+ )
+diff --git a/hack/make/gccgo b/hack/make/gccgo
+index 54c983e..1b26e53 100644
+--- a/hack/make/gccgo
++++ b/hack/make/gccgo
+@@ -42,7 +42,7 @@ go build -compiler=gccgo \
+ 		-ldl
+ 		-pthread
+ 	" \
+-	./vendor/src/github.com/docker/libnetwork/cmd/proxy
++	./vendor/github.com/docker/libnetwork/cmd/proxy
+ 
+ echo "Created binary: $DEST/$PROXY_FULLNAME"
+ ln -sf "$PROXY_FULLNAME" "$DEST/docker-proxy$BINARY_EXTENSION"

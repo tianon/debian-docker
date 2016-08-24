@@ -1,24 +1,16 @@
-From 33a8ab29ed9e51697772a0642b8d651b9a845532 Mon Sep 17 00:00:00 2001
-From: Pierre Carrier <pierre@meteor.com>, Tianon Gravi <tianon@debian.org>
-Date: Thu, 24 Mar 2016 16:14:30 -0700
-Subject: [PATCH] docker.service: don't limit tasks
-Origin: https://github.com/docker/docker/pull/21491
-
-Signed-off-by: Pierre Carrier <pierre@meteor.com>
----
- contrib/init/systemd/docker.service | 3 +++
- 1 file changed, 3 insertions(+)
+Description: uncomment "TasksMax" in systemd service file (since our version of systemd supports it)
+Author: Tianon Gravi <tianon@debian.org>
+Origin: https://github.com/docker/docker/pull/21491#issuecomment-201431374
 
 diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
-index 75cb68c..28d2f4e 100644
+index c10655d..d14b320 100644
 --- a/contrib/init/systemd/docker.service
 +++ b/contrib/init/systemd/docker.service
-@@ -14,6 +14,9 @@ MountFlags=slave
- LimitNOFILE=1048576
- LimitNPROC=1048576
+@@ -19,7 +19,7 @@ LimitNPROC=infinity
  LimitCORE=infinity
-+# Uncomment TasksMax if your systemd version supports it.
-+# Only systemd 226 and above support this version.
+ # Uncomment TasksMax if your systemd version supports it.
+ # Only systemd 226 and above support this version.
+-#TasksMax=infinity
 +TasksMax=infinity
  TimeoutStartSec=0
  # set delegate yes so that systemd does not reset the cgroups of docker containers

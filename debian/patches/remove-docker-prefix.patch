@@ -2,11 +2,24 @@ Description: remove "docker-" prefix on expected "runc" and "containerd" binarie
 Forwarded: not-needed
 Author: Tianon Gravi <tianon@debian.org>
 
+diff --git a/daemon/daemon.go b/daemon/daemon.go
+index 0a3265f..e7ea1fb 100644
+--- a/daemon/daemon.go
++++ b/daemon/daemon.go
+@@ -62,7 +62,7 @@ import (
+ var (
+ 	// DefaultRuntimeBinary is the default runtime to be used by
+ 	// containerd if none is specified
+-	DefaultRuntimeBinary = "docker-runc"
++	DefaultRuntimeBinary = "runc"
+ 
+ 	errSystemNotSupported = fmt.Errorf("The Docker daemon is not supported on this platform.")
+ )
 diff --git a/libcontainerd/remote_linux.go b/libcontainerd/remote_linux.go
-index 12ce0e1..cf18865 100644
+index 57daa7f..d35d756 100644
 --- a/libcontainerd/remote_linux.go
 +++ b/libcontainerd/remote_linux.go
-@@ -30,7 +30,7 @@ const (
+@@ -32,7 +32,7 @@ const (
  	maxConnectionRetryCount   = 3
  	connectionRetryDelay      = 3 * time.Second
  	containerdShutdownTimeout = 15 * time.Second
@@ -14,13 +27,13 @@ index 12ce0e1..cf18865 100644
 +	containerdBinary          = "containerd"
  	containerdPidFilename     = "docker-containerd.pid"
  	containerdSockFilename    = "docker-containerd.sock"
- 	eventTimestampFilename    = "event.ts"
-@@ -349,7 +349,7 @@ func (r *remote) runContainerdDaemon() error {
- 	}
- 
+ 	containerdStateDir        = "containerd"
+@@ -368,7 +368,7 @@ func (r *remote) runContainerdDaemon() error {
  	// Start a new instance
--	args := []string{"-l", r.rpcAddr, "--runtime", "docker-runc", "--start-timeout", "2m"}
-+	args := []string{"-l", r.rpcAddr, "--runtime", "runc", "--start-timeout", "2m"}
- 	if r.debugLog {
- 		args = append(args, "--debug", "--metrics-interval=0")
- 	}
+ 	args := []string{
+ 		"-l", fmt.Sprintf("unix://%s", r.rpcAddr),
+-		"--shim", "docker-containerd-shim",
++		"--shim", "containerd-shim",
+ 		"--metrics-interval=0",
+ 		"--start-timeout", "2m",
+ 		"--state-dir", filepath.Join(r.stateDir, containerdStateDir),

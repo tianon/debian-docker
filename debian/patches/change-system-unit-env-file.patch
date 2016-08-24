@@ -5,16 +5,16 @@ Bug-Debian: http://bugs.debian.org/746774
 Forwarded: no
 
 diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
-index 75cb68c..f98012c 100644
+index c3f3472..c10655d 100644
 --- a/contrib/init/systemd/docker.service
 +++ b/contrib/init/systemd/docker.service
 @@ -9,7 +9,8 @@ Type=notify
  # the default is not to use systemd for cgroups because the delegate issues still
  # exists and systemd currently does not support the cgroup feature set required
  # for containers run by docker
--ExecStart=/usr/bin/docker daemon -H fd://
+-ExecStart=/usr/bin/dockerd -H fd://
 +EnvironmentFile=-/etc/default/docker
-+ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
- MountFlags=slave
- LimitNOFILE=1048576
- LimitNPROC=1048576
++ExecStart=$DOCKERD -H fd:// $DOCKER_OPTS
+ ExecReload=/bin/kill -s HUP $MAINPID
+ # Having non-zero Limit*s causes performance problems due to accounting overhead
+ # in the kernel. We recommend using cgroups to do container-local accounting.

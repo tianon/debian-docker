@@ -1,5 +1,32 @@
-docker.io (1.11.2-0ubuntu7) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu1) UNRELEASED; urgency=medium
 
+  * Update to 1.12.1 upstream release
+    - refresh "cgroupfs-mount-convenience-copy.patch"
+    - remove "fatal-error-old-kernels.patch"; applied upstream,
+      https://github.com/docker/docker/commit/51b23d88422918c24291f5876df35f91b23a446a
+    - refresh "change-system-unit-env-file.patch"
+    - refresh "21491--systemd-tasksmax.patch"
+    - remove "22000--ignore-invalid-host-header.patch"; applied upstream,
+      https://github.com/docker/docker/pull/22000
+      https://github.com/docker/docker/pull/22888
+      https://github.com/docker/docker/pull/23046
+    - refresh "remove-docker-prefix.patch"
+    - refresh "skip-privileged-unit-tests.patch"; add new privileged tests,
+      + TestMakeRemoteContext
+      + TestMakeSumTarContext
+      + TestDispatch
+      + TestEmptyDockerfile
+      + TestDockerfileOutsideTheBuildContext
+      + TestRealodNoOpts
+    - replace "lxd--20902--docker-in-userns.patch" with the upstream-applied
+      "lxd--25672--docker-in-userns.patch"
+    - remove "lxd--runc-617.patch"; no longer necessary (due to kernel fixes),
+      https://github.com/opencontainers/runc/pull/617#issuecomment-223654149
+    - remove "21714--no-aufs-in-userns.patch"; applied upstream,
+      https://github.com/docker/docker/pull/21714
+    - add "man" to "DH_GOLANG_EXCLUDES" (has new "generate.go" which imports the
+      non-vendored "github.com/spf13/cobra/doc", causing dh_golang to choke)
+    - install new explicit "dockerd" and "docker-proxy" binaries
   * Update "debian/watch" to use "uscan.tianon.xyz" so older versions are still
     easily fetchable without excess work outside uscan
 
