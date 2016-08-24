@@ -1,4 +1,4 @@
-docker.io (1.11.2-0ubuntu6) UNRELEASED; urgency=medium
+docker.io (1.11.2-0ubuntu6) yakkety; urgency=medium
 
   * Merge from Debian Unstable:
     - more README.Debian notes (including a fixed href)
