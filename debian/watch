@@ -3,4 +3,7 @@ opts=\
 dversionmangle=s/[+~](debian|dfsg|ds|deb)\d*$//,\
 uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|beta|alpha)\d*)$/$1~$2/,\
 filenamemangle=s/.+\/v(\d\S*)\.tar\.gz/docker.io_$1.orig.tar.gz/ \
-  https://github.com/docker/docker/tags .*/v(\d\S*)\.tar\.gz debian ./debian/repack.sh
+  https://uscan.tianon.xyz/github.com/docker/docker https://github.com/.*/v(\d\S*)\.tar\.gz debian ./debian/repack.sh
+
+# /tags paginates too soon, so we lose historical versions too early for tianon's tastes
+#  https://github.com/docker/docker/tags .*/v(\d\S*)\.tar\.gz debian ./debian/repack.sh

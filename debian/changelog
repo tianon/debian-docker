@@ -1,3 +1,10 @@
+docker.io (1.11.2-0ubuntu7) UNRELEASED; urgency=medium
+
+  * Update "debian/watch" to use "uscan.tianon.xyz" so older versions are still
+    easily fetchable without excess work outside uscan
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 24 Aug 2016 11:48:34 -0700
+
 docker.io (1.11.2-0ubuntu6) yakkety; urgency=medium
 
   * Merge from Debian Unstable:
