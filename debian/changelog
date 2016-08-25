@@ -28,6 +28,7 @@ docker.io (1.12.1-0ubuntu1) UNRELEASED; urgency=medium
       non-vendored "github.com/spf13/cobra/doc", causing dh_golang to choke)
     - install new explicit "dockerd" and "docker-proxy" binaries
     - update containerd dependency (>= 0.2.3)
+    - update runc dependency (>= 1.0.0-rc1)
   * Update "debian/watch" to use "uscan.tianon.xyz" so older versions are still
     easily fetchable without excess work outside uscan
 
