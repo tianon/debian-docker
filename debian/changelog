@@ -1,6 +1,6 @@
 docker.io (1.12.1-0ubuntu1) UNRELEASED; urgency=medium
 
-  * Update to 1.12.1 upstream release
+  * Update to 1.12.1 upstream release (LP: #1602243)
     - refresh "cgroupfs-mount-convenience-copy.patch"
     - remove "fatal-error-old-kernels.patch"; applied upstream,
       https://github.com/docker/docker/commit/51b23d88422918c24291f5876df35f91b23a446a
