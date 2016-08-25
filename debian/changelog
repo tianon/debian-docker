@@ -26,6 +26,8 @@ docker.io (1.12.1-0ubuntu1) UNRELEASED; urgency=medium
       https://github.com/docker/docker/pull/21714
     - add "man" to "DH_GOLANG_EXCLUDES" (has new "generate.go" which imports the
       non-vendored "github.com/spf13/cobra/doc", causing dh_golang to choke)
+    - add "docker-proxy-vendor.patch" to account for "vendor/..." vs
+      "vendor/src/..."
     - install new explicit "dockerd" and "docker-proxy" binaries
     - update containerd dependency (>= 0.2.3)
     - update runc dependency (>= 1.0.0-rc1)
