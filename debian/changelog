@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu1) yakkety; urgency=medium
 
   * Update to 1.12.1 upstream release (LP: #1602243)
     - refresh "cgroupfs-mount-convenience-copy.patch"
