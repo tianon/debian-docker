@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu3) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu3) yakkety; urgency=medium
 
   * Skip "TestOverlay50LayerRead" on "overlay" driver too (in
     "skip-privileged-unit-tests.patch")
