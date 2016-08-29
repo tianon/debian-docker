@@ -1,3 +1,10 @@
+docker.io (1.12.1-0ubuntu3) UNRELEASED; urgency=medium
+
+  * Skip "TestOverlay50LayerRead" on "overlay" driver too (in
+    "skip-privileged-unit-tests.patch")
+
+ -- Tianon Gravi <tianon@debian.org>  Mon, 29 Aug 2016 16:00:00 -0700
+
 docker.io (1.12.1-0ubuntu2) yakkety; urgency=medium
 
   * Add new "overlay2" driver's tests to "skip-privileged-unit-tests.patch"

@@ -194,10 +194,10 @@ index 5c2abce..2159ccf 100644
  	defer graphtest.PutDriver(t)
  
 diff --git a/daemon/graphdriver/overlay/overlay_test.go b/daemon/graphdriver/overlay/overlay_test.go
-index 34b6d80..3300314 100644
+index 34b6d80..6f1cb17 100644
 --- a/daemon/graphdriver/overlay/overlay_test.go
 +++ b/daemon/graphdriver/overlay/overlay_test.go
-@@ -19,18 +19,30 @@ func init() {
+@@ -19,22 +19,37 @@ func init() {
  // This avoids creating a new driver for each test if all tests are run
  // Make sure to put new tests between TestOverlaySetup and TestOverlayTeardown
  func TestOverlaySetup(t *testing.T) {
@@ -226,6 +226,13 @@ index 34b6d80..3300314 100644
 +		t.Skip("Skipping privileged test in short mode")
 +	}
  	graphtest.DriverTestCreateSnap(t, "overlay")
+ }
+ 
+ func TestOverlay50LayerRead(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
+ 	graphtest.DriverTestDeepLayerRead(t, 50, "overlay")
  }
  
 diff --git a/daemon/graphdriver/overlay2/overlay_test.go b/daemon/graphdriver/overlay2/overlay_test.go
