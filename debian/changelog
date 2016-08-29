@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu2) yakkety; urgency=medium
 
   * Add new "overlay2" driver's tests to "skip-privileged-unit-tests.patch"
     (FTBFS fix)
