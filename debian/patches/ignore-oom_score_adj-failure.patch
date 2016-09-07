@@ -1,0 +1,34 @@
+Description: Ignore failure to set oom_score_adj, as happens in an unprivileged container.
+Author: Michael Hudson-Doyle <michael.hudson@ubuntu.com>
+Origin: vendor
+Forwarded: no
+Last-Update: 2016-09-07
+
+--- a/libcontainerd/remote_linux.go
++++ b/libcontainerd/remote_linux.go
+@@ -429,6 +429,11 @@
+ 	}
+ 	_, err = f.WriteString(strconv.Itoa(score))
+ 	f.Close()
++	if os.IsPermission(err) {
++		// Setting oom_score_adj does not work in an
++		// unprivileged container. Ignore the error.
++		return nil
++	}
+ 	return err
+ }
+ 
+--- a/daemon/daemon_unix.go
++++ b/daemon/daemon_unix.go
+@@ -1162,6 +1162,11 @@
+ 		return err
+ 	}
+ 	_, err = f.WriteString(strconv.Itoa(score))
++	if os.IsPermission(err) {
++		// Setting oom_score_adj does not work in an
++		// unprivileged container. Ignore the error.
++		return nil
++	}
+ 	f.Close()
+ 	return err
+ }
