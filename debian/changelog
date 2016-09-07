@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu5) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu5) yakkety; urgency=medium
 
   * Ignore failure to set oom_score_adj, as happens in an unprivileged
     container.
