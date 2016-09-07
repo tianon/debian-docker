@@ -1,17 +1,6 @@
 #!/bin/bash
-set -eux
-set -o pipefail
 
-exitTraps=( 'true' )
-doExit() {
-	for exitTrap in "${exitTraps[@]}"; do
-		eval "$exitTrap" || true
-	done
-}
-trap 'doExit' EXIT
-defer() {
-	exitTraps=( "$@" "${exitTraps[@]}" )
-}
+. debian/tests/common
 
 /etc/init.d/docker start
 defer '/etc/init.d/docker stop'
@@ -19,9 +8,6 @@ defer 'journalctl -u docker | tail'
 
 # make sure Docker itself is working before we go too deep down the rabbit hole
 docker version
-
-tempDir="$(mktemp -d)"
-defer "rm -rf '$tempDir'"
 
 debootstrap \
 	--variant=minbase \

@@ -3,6 +3,7 @@ docker.io (1.12.1-0ubuntu5) UNRELEASED; urgency=medium
   * Ignore failure to set oom_score_adj, as happens in an unprivileged
     container.
   * Use $DOCKER_OPTS in service file again.
+  * Add an autopkgtest to test docker-in-lxd.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 07 Sep 2016 15:36:50 +1200
 

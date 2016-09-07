@@ -1,0 +1,16 @@
+set -eux
+set -o pipefail
+
+exitTraps=( 'true' )
+doExit() {
+	for exitTrap in "${exitTraps[@]}"; do
+		eval "$exitTrap" || true
+	done
+}
+trap 'doExit' EXIT
+defer() {
+	exitTraps=( "$@" "${exitTraps[@]}" )
+}
+
+tempDir="$(mktemp -d)"
+defer "rm -rf '$tempDir'"

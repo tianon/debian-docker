@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ -n "$http_proxy" ]; then
+    lxc config set core.proxy_http $http_proxy
+fi
+if [ -n "$https_proxy" ]; then
+    lxc config set core.proxy_http $https_proxy
+fi
+if [ -n "$noproxy" ]; then
+    lxc config set core.proxy_ignore_hosts $noproxy
+fi
+
+. debian/tests/common
+
+suite=$(lsb_release -cs)
+
+lxc launch ubuntu-daily:${suite} docker -p default -p docker
+
+defer 'lxc delete --force docker'
+
+cat <<EOF | lxc file push - docker/etc/apt/sources.list.d/proposed.list
+deb http://archive.ubuntu.com/ubuntu ${suite}-proposed main restricted universe multiverse
+EOF
+
+fingerprint=$(lxc image info ubuntu-daily:${suite} | awk '/^Fingerprint:/ { print $2 }')
+
+lxc exec docker -- apt update
+lxc exec docker -- apt dist-upgrade -y
+lxc exec docker -- apt install docker.io -y
+# Now basically run the simplest possible test inside the container.
+cat /var/lib/lxd/images/${fingerprint}.rootfs | lxc exec docker -- docker import - test-image
+lxc exec docker -- docker run test-image true

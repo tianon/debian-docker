@@ -2,6 +2,10 @@ Tests: basic-smoke
 Depends: aufs-tools, debian-archive-keyring, debootstrap, @
 Restrictions: allow-stderr isolation-machine needs-root
 
+Tests: docker-in-lxd
+Depends: lxd
+Restrictions: allow-stderr isolation-machine needs-root
+
 #Tests: integration
 #Depends: ca-certificates, curl, git, golang-check.v1-dev, jq, @, @builddeps@
 #Restrictions: allow-stderr isolation-machine needs-root rw-build-tree
