@@ -1,3 +1,9 @@
+docker.io (1.12.1-0ubuntu6) UNRELEASED; urgency=medium
+
+  * d/tests/control: docker-in-lxd needs to depend on lxd-client as well. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 07 Sep 2016 21:18:18 +1200
+
 docker.io (1.12.1-0ubuntu5) yakkety; urgency=medium
 
   * Ignore failure to set oom_score_adj, as happens in an unprivileged
