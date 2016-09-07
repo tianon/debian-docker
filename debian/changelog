@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu6) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu6) yakkety; urgency=medium
 
   * d/tests/control: docker-in-lxd needs to depend on lxd-client as well. 
 
