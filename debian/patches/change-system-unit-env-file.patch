@@ -4,16 +4,15 @@ Description: Use EnvironmentFile with the systemd unit file.
 Bug-Debian: http://bugs.debian.org/746774
 Forwarded: no
 
-diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
-index c3f3472..c10655d 100644
 --- a/contrib/init/systemd/docker.service
 +++ b/contrib/init/systemd/docker.service
-@@ -9,7 +9,8 @@ Type=notify
+@@ -9,7 +9,8 @@
  # the default is not to use systemd for cgroups because the delegate issues still
  # exists and systemd currently does not support the cgroup feature set required
  # for containers run by docker
+-ExecStart=/usr/bin/dockerd -H fd://
 +EnvironmentFile=-/etc/default/docker
- ExecStart=/usr/bin/dockerd -H fd://
++ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS
  ExecReload=/bin/kill -s HUP $MAINPID
  # Having non-zero Limit*s causes performance problems due to accounting overhead
  # in the kernel. We recommend using cgroups to do container-local accounting.
