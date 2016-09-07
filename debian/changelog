@@ -1,3 +1,10 @@
+docker.io (1.12.1-0ubuntu7) UNRELEASED; urgency=medium
+
+  * d/tests/control: disable docker-in-lxd again, does not work in production
+    infrastructure. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 08 Sep 2016 09:41:13 +1200
+
 docker.io (1.12.1-0ubuntu6) yakkety; urgency=medium
 
   * d/tests/control: docker-in-lxd needs to depend on lxd-client as well. 

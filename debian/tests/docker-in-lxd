@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# XXX This currently doesn't work on the autopkgtest infrastructure,
+# networking doesn't work inside the lxc container for some reason.
+
+# XXX It's also a bit of a dodgy test because it tests the archive rather
+# than the installed packages like an autopkgtest is supposed to.
+
 if [ -n "$http_proxy" ]; then
     lxc config set core.proxy_http $http_proxy
 fi
@@ -18,15 +24,13 @@ lxc launch ubuntu-daily:${suite} docker -p default -p docker
 
 defer 'lxc delete --force docker'
 
+# XXX This won't work on architectures that are on ports.ubuntu.com
 cat <<EOF | lxc file push - docker/etc/apt/sources.list.d/proposed.list
 deb http://archive.ubuntu.com/ubuntu ${suite}-proposed main restricted universe multiverse
 EOF
-
-fingerprint=$(lxc image info ubuntu-daily:${suite} | awk '/^Fingerprint:/ { print $2 }')
 
 lxc exec docker -- apt update
 lxc exec docker -- apt dist-upgrade -y
 lxc exec docker -- apt install docker.io -y
 # Now basically run the simplest possible test inside the container.
-cat /var/lib/lxd/images/${fingerprint}.rootfs | lxc exec docker -- docker import - test-image
-lxc exec docker -- docker run test-image true
+lxc exec docker -- docker run alpine:latest true
