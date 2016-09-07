@@ -1,3 +1,9 @@
+docker.io (1.12.1-0ubuntu4) UNRELEASED; urgency=medium
+
+  * Fix service file.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 07 Sep 2016 14:12:50 +1200
+
 docker.io (1.12.1-0ubuntu3) yakkety; urgency=medium
 
   * Skip "TestOverlay50LayerRead" on "overlay" driver too (in

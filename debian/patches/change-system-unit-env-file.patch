@@ -12,9 +12,8 @@ index c3f3472..c10655d 100644
  # the default is not to use systemd for cgroups because the delegate issues still
  # exists and systemd currently does not support the cgroup feature set required
  # for containers run by docker
--ExecStart=/usr/bin/dockerd -H fd://
 +EnvironmentFile=-/etc/default/docker
-+ExecStart=$DOCKERD -H fd:// $DOCKER_OPTS
+ ExecStart=/usr/bin/dockerd -H fd://
  ExecReload=/bin/kill -s HUP $MAINPID
  # Having non-zero Limit*s causes performance problems due to accounting overhead
  # in the kernel. We recommend using cgroups to do container-local accounting.
