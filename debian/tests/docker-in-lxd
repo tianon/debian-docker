@@ -18,7 +18,7 @@ fi
 
 . debian/tests/common
 
-suite=$(lsb_release -cs)
+suite=${suite:-$(lsb_release -cs)}
 
 lxc launch ubuntu-daily:${suite} docker -p default -p docker
 
@@ -28,6 +28,16 @@ defer 'lxc delete --force docker'
 cat <<EOF | lxc file push - docker/etc/apt/sources.list.d/proposed.list
 deb http://archive.ubuntu.com/ubuntu ${suite}-proposed main restricted universe multiverse
 EOF
+
+attempts=0
+while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q nameserver; do
+    sleep 1
+    attempts=$((attempts+1))
+    if [ $attempts -gt 30 ]; then
+        echo "Network failed to come up after 30 seconds"
+        exit 1
+    fi
+done
 
 lxc exec docker -- apt update
 lxc exec docker -- apt dist-upgrade -y
