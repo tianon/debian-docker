@@ -85,6 +85,10 @@ case $(dpkg --print-architecture) in
         root=http://ports.ubuntu.com;;
 esac
 
+cat <<EOF | lxc file push - docker/etc/apt/sources.list.d/proposed.list
+deb ${root} ${suite}-proposed main restricted universe multiverse
+EOF
+
 if [ -n "${http_proxy:-}" ]; then
     lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/http-proxy.conf
