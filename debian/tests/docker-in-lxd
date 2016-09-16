@@ -1,33 +1,108 @@
 #!/bin/bash
 
-# XXX This currently doesn't work on the autopkgtest infrastructure,
-# networking doesn't work inside the lxc container for some reason.
-
-# XXX It's also a bit of a dodgy test because it tests the archive rather
-# than the installed packages like an autopkgtest is supposed to.
-
-if [ -n "$http_proxy" ]; then
-    lxc config set core.proxy_http $http_proxy
-fi
-if [ -n "$https_proxy" ]; then
-    lxc config set core.proxy_http $https_proxy
-fi
-if [ -n "$noproxy" ]; then
-    lxc config set core.proxy_ignore_hosts $noproxy
-fi
+# XXX This is a bit of a fishy test because it tests the archive
+# rather than the installed packages like an autopkgtest is supposed
+# to.
 
 . debian/tests/common
+
+# This stolen from lxd's debconf magic.
+random_ipv4() {
+  while :; do
+    SUBNET="10.$(shuf -i 1-255 -n 1).$(shuf -i 0-255 -n 1)"
+
+    # Check if well known
+    if [ "${SUBNET}" = "10.10.10" ]; then
+      continue
+    fi
+
+    # Check if used locally
+    if ip -4 route show | grep -q ${SUBNET}; then
+      continue
+    fi
+
+    # Attempt to see if used behind the gateway
+    if ping -n -q ${SUBNET}.1 -c 1 -W 1 >/dev/null 2>&1; then
+      continue
+    fi
+
+    if ping -n -q ${SUBNET}.254 -c 1 -W 1 >/dev/null 2>&1; then
+      continue
+    fi
+
+    break
+  done
+
+  echo ${SUBNET}
+}
+
+# Attempt to auto-configure ipv4, but only when really running under
+# autopkgtest.
+if [ -n "{AUTOPKGTEST_TMP:-}" ]; then
+    lxd init --auto
+    sleep 10
+    systemctl stop lxd-bridge
+    SUBNET=$(random_ipv4)
+    cat <<EOF > /etc/default/lxd-bridge
+USE_LXD_BRIDGE="true"
+LXD_BRIDGE="lxdbr0"
+UPDATE_PROFILE="true"
+LXD_IPV4_ADDR="${SUBNET}.1"
+LXD_IPV4_NETMASK="255.255.255.0"
+LXD_IPV4_NETWORK="${SUBNET}.1/24"
+LXD_IPV4_DHCP_RANGE="${SUBNET}.2,${SUBNET}.254"
+LXD_IPV4_DHCP_MAX="252"
+LXD_IPV4_NAT="true"
+LXD_IPV6_ADDR=""
+LXD_IPV6_MASK=""
+LXD_IPV6_NETWORK=""
+LXD_IPV6_NAT="false"
+LXD_IPV6_PROXY="false"
+EOF
+    systemctl start lxd-bridge
+fi
+
+if [ -n "${http_proxy:-}" ]; then
+    lxc config set core.proxy_http $http_proxy
+fi
+if [ -n "${https_proxy:-}" ]; then
+    lxc config set core.proxy_http $https_proxy
+fi
+if [ -n "${noproxy:-}" ]; then
+    lxc config set core.proxy_ignore_hosts $noproxy
+fi
 
 suite=${suite:-$(lsb_release -cs)}
 
 lxc launch ubuntu-daily:${suite} docker -p default -p docker
 
-defer 'lxc delete --force docker'
+#defer 'lxc delete --force docker'
 
-# XXX This won't work on architectures that are on ports.ubuntu.com
-cat <<EOF | lxc file push - docker/etc/apt/sources.list.d/proposed.list
-deb http://archive.ubuntu.com/ubuntu ${suite}-proposed main restricted universe multiverse
+case $(dpkg --print-architecture) in
+    amd64|i386)
+        root=http://archive.ubuntu.com/ubuntu;;
+    *)
+        root=http://ports.ubuntu.com;;
+esac
+
+if [ -n "${http_proxy:-}" ]; then
+    lxc exec docker -- mkdir /etc/systemd/system/docker.service.d
+    cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/http-proxy.conf
+Environment="HTTP_PROXY=$http_proxy"
 EOF
+fi
+if [ -n "${https_proxy:-}" ]; then
+    lxc exec docker -- mkdir /etc/systemd/system/docker.service.d
+    cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/https-proxy.conf
+Environment="HTTPS_PROXY=$https_proxy"
+EOF
+fi
+if [ -n "${no_proxy:-}" ]; then
+    lxc exec docker -- mkdir /etc/systemd/system/docker.service.d
+    cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/no-proxy.conf
+Environment="NO_PROXY=$no_proxy"
+EOF
+fi
 
 attempts=0
 while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q nameserver; do
@@ -39,8 +114,8 @@ while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q nameserver
     fi
 done
 
-lxc exec docker -- apt update
-lxc exec docker -- apt dist-upgrade -y
-lxc exec docker -- apt install docker.io -y
+lxc exec docker -- apt-get update
+lxc exec docker -- apt-get dist-upgrade -y
+lxc exec docker -- apt-get install docker.io -y
 # Now basically run the simplest possible test inside the container.
-lxc exec docker -- docker run alpine:latest true
+lxc exec docker -- docker run alpine:latest echo hello world
