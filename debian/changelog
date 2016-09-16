@@ -1,8 +1,8 @@
-docker.io (1.12.1-0ubuntu10) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu10) yakkety; urgency=medium
 
   * Yet another docker-in-lxd fix.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Sep 2016 19:02:24 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Sep 2016 19:02:41 +1200
 
 docker.io (1.12.1-0ubuntu9) yakkety; urgency=medium
 
