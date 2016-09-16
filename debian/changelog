@@ -1,8 +1,8 @@
-docker.io (1.12.1-0ubuntu8) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu8) yakkety; urgency=medium
 
   * Re-enable docker-in-lxd again after many fixes. 
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Sep 2016 12:25:32 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 16 Sep 2016 12:26:04 +1200
 
 docker.io (1.12.1-0ubuntu7) yakkety; urgency=medium
 
