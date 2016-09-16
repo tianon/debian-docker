@@ -86,19 +86,19 @@ case $(dpkg --print-architecture) in
 esac
 
 if [ -n "${http_proxy:-}" ]; then
-    lxc exec docker -- mkdir /etc/systemd/system/docker.service.d
+    lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/http-proxy.conf
 Environment="HTTP_PROXY=$http_proxy"
 EOF
 fi
 if [ -n "${https_proxy:-}" ]; then
-    lxc exec docker -- mkdir /etc/systemd/system/docker.service.d
+    lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/https-proxy.conf
 Environment="HTTPS_PROXY=$https_proxy"
 EOF
 fi
 if [ -n "${no_proxy:-}" ]; then
-    lxc exec docker -- mkdir /etc/systemd/system/docker.service.d
+    lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/no-proxy.conf
 Environment="NO_PROXY=$no_proxy"
 EOF
