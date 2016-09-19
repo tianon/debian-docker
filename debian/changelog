@@ -1,3 +1,9 @@
+docker.io (1.12.1-0ubuntu11) yakkety; urgency=medium
+
+  * Even more docker-in-lxd fixes.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 19 Sep 2016 14:14:33 +1200
+
 docker.io (1.12.1-0ubuntu10) yakkety; urgency=medium
 
   * Yet another docker-in-lxd fix.

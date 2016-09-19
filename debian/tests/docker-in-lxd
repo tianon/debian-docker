@@ -38,7 +38,7 @@ random_ipv4() {
 
 # Attempt to auto-configure ipv4, but only when really running under
 # autopkgtest.
-if [ -n "{AUTOPKGTEST_TMP:-}" ]; then
+if [ -n "${AUTOPKGTEST_TMP:-}" ]; then
     lxd init --auto
     sleep 10
     systemctl stop lxd-bridge
@@ -66,7 +66,7 @@ if [ -n "${http_proxy:-}" ]; then
     lxc config set core.proxy_http $http_proxy
 fi
 if [ -n "${https_proxy:-}" ]; then
-    lxc config set core.proxy_http $https_proxy
+    lxc config set core.proxy_https $https_proxy
 fi
 if [ -n "${noproxy:-}" ]; then
     lxc config set core.proxy_ignore_hosts $noproxy
@@ -76,7 +76,7 @@ suite=${suite:-$(lsb_release -cs)}
 
 lxc launch ubuntu-daily:${suite} docker -p default -p docker
 
-#defer 'lxc delete --force docker'
+defer 'lxc delete --force docker'
 
 case $(dpkg --print-architecture) in
     amd64|i386)
@@ -92,18 +92,21 @@ EOF
 if [ -n "${http_proxy:-}" ]; then
     lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
 Environment="HTTP_PROXY=$http_proxy"
 EOF
 fi
 if [ -n "${https_proxy:-}" ]; then
     lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/https-proxy.conf
+[Service]
 Environment="HTTPS_PROXY=$https_proxy"
 EOF
 fi
 if [ -n "${no_proxy:-}" ]; then
     lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/no-proxy.conf
+[Service]
 Environment="NO_PROXY=$no_proxy"
 EOF
 fi
