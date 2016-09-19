@@ -1,3 +1,10 @@
+docker.io (1.12.1-0ubuntu12) UNRELEASED; urgency=medium
+
+  * Final(?) docker-in-lxd fix: of course, alpine:latest is only the name of
+    the image on amd64.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 19 Sep 2016 20:34:08 +1200
+
 docker.io (1.12.1-0ubuntu11) yakkety; urgency=medium
 
   * Even more docker-in-lxd fixes.
