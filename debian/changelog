@@ -1,3 +1,10 @@
+docker.io (1.12.1-0ubuntu13) UNRELEASED; urgency=medium
+
+  * d/tests/docker-in-lxd: copy apt config from host to container rather than
+    just enabling all of the -proposed pocket. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 27 Sep 2016 12:20:51 +1300
+
 docker.io (1.12.1-0ubuntu12) yakkety; urgency=medium
 
   * Final(?) docker-in-lxd fix: of course, alpine:latest is only the name of
