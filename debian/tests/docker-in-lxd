@@ -74,8 +74,9 @@ if [ -n "${noproxy:-}" ]; then
 fi
 
 suite=$(lsb_release -cs)
+arch=$(dpkg --print-architecture)
 
-lxc launch ubuntu-daily:${suite} docker -p default -p docker
+lxc launch images:ubuntu/${suite}/${arch} docker -p default -p docker
 
 defer 'lxc delete --force docker'
 
@@ -123,8 +124,6 @@ lxc exec docker -- apt-get update
 lxc exec docker -- apt-get install docker.io -y
 
 # Now basically run the simplest possible test inside the container.
-
-arch=$(dpkg --print-architecture)
 
 case ${arch} in
     amd64)

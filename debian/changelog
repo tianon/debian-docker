@@ -1,3 +1,11 @@
+docker.io (1.12.1-0ubuntu15) UNRELEASED; urgency=medium
+
+  * d/test/docker-in-lxd: use images:ubuntu/${suite}/${arch} instead of
+    ubuntu-daily:${suite} because the former does not have cloud-init in it to
+    rewrite /etc/apt/sources.list at unexpected times.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 10 Oct 2016 21:38:17 +1300
+
 docker.io (1.12.1-0ubuntu14) yakkety; urgency=medium
 
   * d/test/docker-in-lxd: cope with changes in lxd 2.3. 
