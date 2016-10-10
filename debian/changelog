@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu15) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu15) yakkety; urgency=medium
 
   * d/test/docker-in-lxd: use images:ubuntu/${suite}/${arch} instead of
     ubuntu-daily:${suite} because the former does not have cloud-init in it to
