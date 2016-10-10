@@ -1,4 +1,4 @@
-docker.io (1.12.1-0ubuntu14) UNRELEASED; urgency=medium
+docker.io (1.12.1-0ubuntu14) yakkety; urgency=medium
 
   * d/test/docker-in-lxd: cope with changes in lxd 2.3. 
 
