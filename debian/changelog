@@ -1,3 +1,9 @@
+docker.io (1.12.1-0ubuntu14) UNRELEASED; urgency=medium
+
+  * d/test/docker-in-lxd: cope with changes in lxd 2.3. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 10 Oct 2016 15:30:42 +1300
+
 docker.io (1.12.1-0ubuntu13) yakkety; urgency=medium
 
   * d/tests/docker-in-lxd: copy apt config from host to container rather than

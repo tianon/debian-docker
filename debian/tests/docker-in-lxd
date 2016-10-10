@@ -36,10 +36,14 @@ random_ipv4() {
 # autopkgtest.
 if [ -n "${AUTOPKGTEST_TMP:-}" ]; then
     lxd init --auto
-    sleep 10
-    systemctl stop lxd-bridge
-    SUBNET=$(random_ipv4)
-    cat <<EOF > /etc/default/lxd-bridge
+    if [ $(lxc version) '>' '2.2' ]; then
+        lxc network create adt-br0
+        lxc network attach-profile adt-br0 default eth0
+    else
+        sleep 10
+        systemctl stop lxd-bridge
+        SUBNET=$(random_ipv4)
+        cat <<EOF > /etc/default/lxd-bridge
 USE_LXD_BRIDGE="true"
 LXD_BRIDGE="lxdbr0"
 UPDATE_PROFILE="true"
@@ -55,7 +59,8 @@ LXD_IPV6_NETWORK=""
 LXD_IPV6_NAT="false"
 LXD_IPV6_PROXY="false"
 EOF
-    systemctl start lxd-bridge
+        systemctl start lxd-bridge
+    fi
 fi
 
 if [ -n "${http_proxy:-}" ]; then
