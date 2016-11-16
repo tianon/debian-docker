@@ -1,3 +1,11 @@
+docker.io (1.12.3-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Update to 1.12.3 upstream release
+    - https://github.com/docker/docker/releases/tag/v1.12.2
+    - https://github.com/docker/docker/releases/tag/v1.12.3
+
+ -- Tianon Gravi <tianon@debian.org>  Tue, 15 Nov 2016 15:50:32 -0800
+
 docker.io (1.12.1-0ubuntu15) yakkety; urgency=medium
 
   * d/test/docker-in-lxd: use images:ubuntu/${suite}/${arch} instead of
