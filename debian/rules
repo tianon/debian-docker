@@ -23,7 +23,7 @@ export KEEPBUNDLE := 1
 
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
 # same story with SELinux
-export DOCKER_BUILDTAGS := apparmor selinux
+export DOCKER_BUILDTAGS := apparmor seccomp selinux
 
 # since "gccgo" doesn't ship the "dist" go tool (and isn't likely to start), let's use that for now to detect gc vs gccgo
 export DOCKER_BUILD_TARGET := $(shell go tool dist env > /dev/null 2>&1 && echo dynbinary || echo dyngccgo)
