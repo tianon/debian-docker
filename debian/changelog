@@ -1,3 +1,9 @@
+docker.io (1.12.3-0ubuntu3) UNRELEASED; urgency=medium
+
+  * d/test/docker-in-lxd: make test for "is network up" more robust. 
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 08 Dec 2016 11:53:36 +1300
+
 docker.io (1.12.3-0ubuntu2) zesty; urgency=medium
 
   [ Tianon Gravi ]

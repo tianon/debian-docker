@@ -111,7 +111,7 @@ EOF
 fi
 
 attempts=0
-while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q nameserver; do
+while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q ^nameserver; do
     sleep 1
     attempts=$((attempts+1))
     if [ $attempts -gt 30 ]; then
