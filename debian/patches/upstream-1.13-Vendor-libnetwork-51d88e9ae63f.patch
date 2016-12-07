@@ -1,0 +1,150 @@
+From 7d8048de06d6074dc83c973a48c1e1a1b60704b6 Mon Sep 17 00:00:00 2001
+From: root <root@lxdebmas.marist.edu>
+Date: Fri, 9 Sep 2016 18:56:39 +0200
+Subject: [PATCH] Vendor libnetwork @51d88e9ae63f
+
+  - Fixes #26440
+
+Signed-off-by: Michael Holzheu <holzheu@linux.vnet.ibm.com>
+
+(backported from 7d8048de06d6074dc83c973a48c1e1a1b60704b6 github/docker)
+
+Dropping changes to vendor.sh, netlink_deprecated_linux_(s390x|notarm).go
+For Zesty also drop sandbox.go change as that already exists.
+Remaining changes leave bridge interface untouched if it did already exist.
+This is part of version 1.13 and can be dropped when backporting that.
+
+Signed-off-by: Stefan Bader <stefan.bader@canonical.com>
+---
+ hack/vendor.sh                                     |  2 +-
+ .../docker/libnetwork/drivers/bridge/bridge.go     | 36 +++++++++++++++++++---
+ .../libnetwork/drivers/bridge/bridge_store.go      |  5 +++
+ .../bridge/netlink_deprecated_linux_notarm.go      |  2 +-
+ .../bridge/netlink_deprecated_linux_s390x.go       |  7 -----
+ .../libnetwork/drivers/bridge/setup_verify.go      | 18 +++++++++++
+ vendor/src/github.com/docker/libnetwork/sandbox.go |  2 +-
+ 7 files changed, 58 insertions(+), 14 deletions(-)
+ delete mode 100644 vendor/src/github.com/docker/libnetwork/drivers/bridge/netlink_deprecated_linux_s390x.go
+
+Index: docker.io-1.12.1/vendor/src/github.com/docker/libnetwork/drivers/bridge/bridge.go
+===================================================================
+--- docker.io-1.12.1.orig/vendor/src/github.com/docker/libnetwork/drivers/bridge/bridge.go	2016-12-01 15:22:41.111475328 +0100
++++ docker.io-1.12.1/vendor/src/github.com/docker/libnetwork/drivers/bridge/bridge.go	2016-12-01 15:22:41.107475328 +0100
+@@ -70,8 +70,19 @@ type networkConfiguration struct {
+ 	dbIndex            uint64
+ 	dbExists           bool
+ 	Internal           bool
++
++	BridgeIfaceCreator ifaceCreator
+ }
+ 
++// ifaceCreator represents how the bridge interface was created
++type ifaceCreator int8
++
++const (
++	ifaceCreatorUnknown ifaceCreator = iota
++	ifaceCreatedByLibnetwork
++	ifaceCreatedByUser
++)
++
+ // endpointConfiguration represents the user specified configuration for the sandbox endpoint
+ type endpointConfiguration struct {
+ 	MacAddress net.HardwareAddr
+@@ -512,6 +523,17 @@ func parseNetworkOptions(id string, opti
+ 		config.BridgeName = "br-" + id[:12]
+ 	}
+ 
++	exists, err := bridgeInterfaceExists(config.BridgeName)
++	if err != nil {
++		return nil, err
++	}
++
++	if !exists {
++		config.BridgeIfaceCreator = ifaceCreatedByLibnetwork
++	} else {
++		config.BridgeIfaceCreator = ifaceCreatedByUser
++	}
++
+ 	config.ID = id
+ 	return config, nil
+ }
+@@ -775,11 +797,17 @@ func (d *driver) DeleteNetwork(nid strin
+ 		return err
+ 	}
+ 
+-	// We only delete the bridge when it's not the default bridge. This is keep the backward compatible behavior.
+-	if !config.DefaultBridge {
+-		if err := d.nlh.LinkDel(n.bridge.Link); err != nil {
+-			logrus.Warnf("Failed to remove bridge interface %s on network %s delete: %v", config.BridgeName, nid, err)
++	switch config.BridgeIfaceCreator {
++	case ifaceCreatedByLibnetwork, ifaceCreatorUnknown:
++		// We only delete the bridge if it was created by the bridge driver and
++		// it is not the default one (to keep the backward compatible behavior.)
++		if !config.DefaultBridge {
++			if err := d.nlh.LinkDel(n.bridge.Link); err != nil {
++				logrus.Warnf("Failed to remove bridge interface %s on network %s delete: %v", config.BridgeName, nid, err)
++			}
+ 		}
++	case ifaceCreatedByUser:
++		// Don't delete the bridge interface if it was not created by libnetwork.
+ 	}
+ 
+ 	// clean all relevant iptables rules
+Index: docker.io-1.12.1/vendor/src/github.com/docker/libnetwork/drivers/bridge/bridge_store.go
+===================================================================
+--- docker.io-1.12.1.orig/vendor/src/github.com/docker/libnetwork/drivers/bridge/bridge_store.go	2016-12-01 15:22:41.111475328 +0100
++++ docker.io-1.12.1/vendor/src/github.com/docker/libnetwork/drivers/bridge/bridge_store.go	2016-12-01 15:22:41.107475328 +0100
+@@ -143,6 +143,7 @@ func (ncfg *networkConfiguration) Marsha
+ 	nMap["DefaultBindingIP"] = ncfg.DefaultBindingIP.String()
+ 	nMap["DefaultGatewayIPv4"] = ncfg.DefaultGatewayIPv4.String()
+ 	nMap["DefaultGatewayIPv6"] = ncfg.DefaultGatewayIPv6.String()
++	nMap["BridgeIfaceCreator"] = ncfg.BridgeIfaceCreator
+ 
+ 	if ncfg.AddressIPv4 != nil {
+ 		nMap["AddressIPv4"] = ncfg.AddressIPv4.String()
+@@ -191,6 +192,10 @@ func (ncfg *networkConfiguration) Unmars
+ 		ncfg.Internal = v.(bool)
+ 	}
+ 
++	if v, ok := nMap["BridgeIfaceCreator"]; ok {
++		ncfg.BridgeIfaceCreator = ifaceCreator(v.(float64))
++	}
++
+ 	return nil
+ }
+ 
+Index: docker.io-1.12.1/vendor/src/github.com/docker/libnetwork/drivers/bridge/setup_verify.go
+===================================================================
+--- docker.io-1.12.1.orig/vendor/src/github.com/docker/libnetwork/drivers/bridge/setup_verify.go	2016-12-01 15:22:41.111475328 +0100
++++ docker.io-1.12.1/vendor/src/github.com/docker/libnetwork/drivers/bridge/setup_verify.go	2016-12-01 15:22:41.107475328 +0100
+@@ -2,8 +2,10 @@ package bridge
+ 
+ import (
+ 	"fmt"
++	"strings"
+ 
+ 	log "github.com/Sirupsen/logrus"
++	"github.com/docker/libnetwork/ns"
+ 	"github.com/docker/libnetwork/types"
+ 	"github.com/vishvananda/netlink"
+ )
+@@ -51,3 +53,19 @@ func findIPv6Address(addr netlink.Addr,
+ 	}
+ 	return false
+ }
++
++func bridgeInterfaceExists(name string) (bool, error) {
++	nlh := ns.NlHandle()
++	link, err := nlh.LinkByName(name)
++	if err != nil {
++		if strings.Contains(err.Error(), "Link not found") {
++			return false, nil
++		}
++		return false, fmt.Errorf("failed to check bridge interface existence: %v", err)
++	}
++
++	if link.Type() == "bridge" {
++		return true, nil
++	}
++	return false, fmt.Errorf("existing interface %s is not a bridge", name)
++}
