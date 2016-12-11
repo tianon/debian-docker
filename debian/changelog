@@ -1,3 +1,10 @@
+docker.io (1.12.3-0ubuntu4) UNRELEASED; urgency=medium
+
+  * Explicity depend on the version of runc that was built with seccomp
+    support.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 12 Dec 2016 11:15:01 +1300
+
 docker.io (1.12.3-0ubuntu3) zesty; urgency=medium
 
   [ Michael Hudson-Doyle ]
