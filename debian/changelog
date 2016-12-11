@@ -1,4 +1,4 @@
-docker.io (1.12.3-0ubuntu4) UNRELEASED; urgency=medium
+docker.io (1.12.3-0ubuntu4) zesty; urgency=medium
 
   * Explicity depend on the version of runc that was built with seccomp
     support.
