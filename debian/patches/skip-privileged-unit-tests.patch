@@ -340,6 +340,32 @@ index 9ecf21d..0902926 100644
 +
  	graphtest.PutDriver(t)
  }
+diff --git a/pkg/archive/archive_linux_test.go b/pkg/archive/archive_linux_test.go
+index d5f046e..dd9314f 100644
+--- a/pkg/archive/archive_linux_test.go
++++ b/pkg/archive/archive_linux_test.go
+@@ -92,6 +92,10 @@ func checkFileMode(t *testing.T, path string, perm os.FileMode) {
+ }
+ 
+ func TestOverlayTarUntar(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	oldmask, err := system.Umask(0)
+ 	if err != nil {
+ 		t.Fatal(err)
+@@ -140,6 +144,10 @@ func TestOverlayTarUntar(t *testing.T) {
+ }
+ 
+ func TestOverlayTarAUFSUntar(t *testing.T) {
++	if testing.Short() {
++		t.Skip("Skipping privileged test in short mode")
++	}
++
+ 	oldmask, err := system.Umask(0)
+ 	if err != nil {
+ 		t.Fatal(err)
 diff --git a/pkg/archive/archive_test.go b/pkg/archive/archive_test.go
 index 85e4122..f04f6d1 100644
 --- a/pkg/archive/archive_test.go

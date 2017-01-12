@@ -1,3 +1,11 @@
+docker.io (1.12.6-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Update to 1.12.6 upstream release (LP: #1655906)
+    - add a few new privileged tests to "skip-privileged-unit-tests.patch"
+  * Adjust runc Depends to ensure fix for CVE-2016-9962 is included
+
+ -- Tianon Gravi <tianon@debian.org>  Thu, 12 Jan 2017 09:40:14 -0800
+
 docker.io (1.12.3-0ubuntu4) zesty; urgency=medium
 
   * Explicity depend on the version of runc that was built with seccomp

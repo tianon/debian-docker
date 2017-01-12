@@ -30,9 +30,9 @@ XS-Go-Import-Path: github.com/docker/docker
 Package: docker.io
 Architecture: amd64 arm64 armhf i386 ppc64el s390x
 Depends: adduser,
-         containerd (>= 0.2.3~),
+         containerd (>= 0.2.5~),
          iptables,
-         runc (>= 1.0.0~rc1-0ubuntu2),
+         runc (>= 1.0.0~rc2-0ubuntu1~),
          ${misc:Depends},
          ${perl:Depends},
          ${shlibs:Depends}
