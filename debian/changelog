@@ -1,3 +1,30 @@
+docker.io (1.12.6-0ubuntu4) zesty; urgency=medium
+
+  * Revert 1.12.6-0ubuntu2 as it does not achieve the stated goal on both
+    s390x and armhf. And lxc/lxd adt runners are too restrictive to
+    e.g. import an ubuntu-base container for a minimal functional test.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Tue, 14 Mar 2017 09:41:30 +0000
+
+docker.io (1.12.6-0ubuntu3) zesty; urgency=medium
+
+  * debian/tests/docker-in-lxd: Fix a latent version comparison bug that was
+    causing migration failures due to the script thinking it was dealing
+    with an old LXD (< 2.2) when it was really dealing with a recent LXD
+    (>= 2.10). The fix is to use `lxc info` to check if the network extension
+    is supported, rather than trying to compare version strings.
+
+ -- Tyler Hicks <tyhicks@canonical.com>  Fri, 10 Mar 2017 17:40:22 +0000
+
+docker.io (1.12.6-0ubuntu2) zesty; urgency=medium
+
+  * Remove isolation-machine restriction from adt smoke-test
+    testcase. Should pass on s390x lxd runners; will fails on armhf
+    runners but that is not a regressions since previously all tests were
+    simply skipped on armhf. LP: #1658150
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 01 Feb 2017 10:08:00 +0000
+
 docker.io (1.12.6-0ubuntu1) zesty; urgency=medium
 
   * Update to 1.12.6 upstream release (LP: #1655906)
