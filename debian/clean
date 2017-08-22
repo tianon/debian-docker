@@ -1,5 +1,6 @@
-## Useless non-doc files:
-docs/.gitignore
-docs/Dockerfile
-docs/Makefile
-docs/touch-up.sh
+# generated files
+autogen/
+bundles/
+dockerversion/*_autogen*.go
+libnetwork/docker-proxy
+man/man*/

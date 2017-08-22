@@ -107,12 +107,6 @@ override_dh_auto_clean:
 	
 	# OUR_GOPATH is created by us
 	rm -rf '$(OUR_GOPATH)'
-	
-	# autogen is created by hack/make.sh
-	# bundles is created by hack/make.sh
-	# dockerversion/version_autogen.go is created by hack/make.sh
-	# man/man*/ is created by man/md2man-all.sh
-	rm -rf autogen bundles dockerversion/version_autogen.go man/man*/
 
 
 %:
