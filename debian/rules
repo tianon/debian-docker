@@ -65,6 +65,11 @@ override_dh_auto_build-arch:
 	
 	# compile docker-proxy (from libnetwork)
 	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
+	
+	# compile docker-init (tini)
+	cd tini \
+		&& cmake . \
+		&& make tini-static
 
 
 override_dh_install:

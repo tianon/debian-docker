@@ -4,3 +4,12 @@ bundles/
 dockerversion/*_autogen*.go
 libnetwork/docker-proxy
 man/man*/
+tini/CMakeCache.txt
+tini/CMakeFiles/
+tini/CPackConfig.cmake
+tini/CPackSourceConfig.cmake
+tini/Makefile
+tini/VERSION
+tini/cmake_install.cmake
+tini/tini-static
+tini/tiniConfig.h

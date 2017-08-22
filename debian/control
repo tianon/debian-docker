@@ -9,6 +9,7 @@ Build-Conflicts: golang-github-docker-docker-dev
 Build-Depends: bash-completion,
                btrfs-tools,
                ca-certificates,
+               cmake,
                debhelper (>= 9),
                dh-exec,
                dh-systemd,
