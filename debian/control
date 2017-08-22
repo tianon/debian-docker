@@ -34,7 +34,6 @@ Depends: adduser,
          iptables,
          runc (>= 1.0.0~rc2-0ubuntu1~),
          ${misc:Depends},
-         ${perl:Depends},
          ${shlibs:Depends}
 Recommends: ca-certificates,
             cgroupfs-mount | cgroup-lite,
