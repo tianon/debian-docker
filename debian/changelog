@@ -1,3 +1,21 @@
+docker.io (1.12.6-0ubuntu7) artful; urgency=medium
+
+  * Make sure to set security.nesting for the LXD autopkgtest.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 06 Jun 2017 14:55:34 -0600
+
+docker.io (1.12.6-0ubuntu6) artful; urgency=medium
+
+  * Fix FTBFS on Go 1.8.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 05 Jun 2017 16:21:16 -0600
+
+docker.io (1.12.6-0ubuntu5) artful; urgency=medium
+
+  * Update LXD autopkgtest now that the "docker" profile is deprecated.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 05 Jun 2017 15:59:18 -0600
+
 docker.io (1.12.6-0ubuntu4) zesty; urgency=medium
 
   * Revert 1.12.6-0ubuntu2 as it does not achieve the stated goal on both

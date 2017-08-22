@@ -81,7 +81,7 @@ fi
 suite=$(lsb_release -cs)
 arch=$(dpkg --print-architecture)
 
-lxc launch images:ubuntu/${suite}/${arch} docker -p default -p docker
+lxc launch images:ubuntu/${suite}/${arch} docker -c security.nesting=true
 
 defer 'lxc delete --force docker'
 
