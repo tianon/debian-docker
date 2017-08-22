@@ -42,25 +42,13 @@ override_dh_gencontrol:
 
 
 override_dh_auto_configure:
-	dh_auto_configure
-	
-ifneq (, $(wildcard $(CURDIR)/vendor/src))
-	# prefer vendored deps (when they exist)
-	rm -rf '$(OUR_GOPATH)/src/$(DH_GOPKG)/vendor' \
-		&& mkdir '$(OUR_GOPATH)/src/$(DH_GOPKG)/vendor' \
-		&& cd vendor/src \
-		&& cp -r . '$(OUR_GOPATH)/src/$(DH_GOPKG)/vendor'
-endif
-	
-	# make sure the bits modified at build-time are properly in our GOPATH
-	mkdir -p '$(OUR_GOPATH)/src/$(DH_GOPKG)'
-	#   dockerversion
-	rm -rf '$(OUR_GOPATH)/src/$(DH_GOPKG)/dockerversion'
-	ln -sfT '$(CURDIR)/dockerversion' '$(OUR_GOPATH)/src/$(DH_GOPKG)/dockerversion'
-	#   bundles
-	mkdir -p bundles
-	rm -rf '$(OUR_GOPATH)/src/$(DH_GOPKG)/bundles'
-	ln -sfT '$(CURDIR)/bundles' '$(OUR_GOPATH)/src/$(DH_GOPKG)/bundles'
+	# set up GOPATH symlink farm
+	#  libnetwork
+	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
+	ln -sfT '$(CURDIR)/libnetwork' '$(OUR_GOPATH)/src/github.com/docker/libnetwork'
+	#  docker
+	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
+	ln -sfT '$(CURDIR)' '$(OUR_GOPATH)/src/github.com/docker/docker'
 
 override_dh_auto_build-indep:
 	# noop
@@ -74,11 +62,15 @@ override_dh_auto_build-arch:
 	
 	# compile man pages
 	./man/md2man-all.sh -q
+	
+	# compile docker-proxy (from libnetwork)
+	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
 
 
 override_dh_install:
 	## Do not install extra license files:
 	dh_install -XLICENSE
+
 
 override_dh_auto_install:
 	# skip dh_auto_install to stop dh_golang trying to copy bits for /usr/share/gocode (we use dh_install/dh-exec for that)
