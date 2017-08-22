@@ -11,7 +11,6 @@ Build-Depends: bash-completion,
                ca-certificates,
                debhelper (>= 9),
                dh-exec,
-               dh-golang (>= 1.14~),
                dh-systemd,
                git,
                go-md2man (>= 1.0.3~),
@@ -50,7 +49,7 @@ Suggests: aufs-tools,
           docker-doc,
           rinse,
           zfs-fuse | zfsutils
-Built-Using: ${misc:Built-Using}, ${libc:Built-Using}
+Built-Using: ${libc:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at
  the process level. It runs unix processes with strong guarantees of isolation
@@ -80,7 +79,6 @@ Description: Docker container engine - Vim highlighting syntax files
 Package: golang-github-docker-docker-dev
 Architecture: all
 Depends: ${misc:Depends}
-Built-Using: ${misc:Built-Using}
 Replaces: golang-docker-dev (<< 1.8.2~ds1-1~)
 Breaks: golang-docker-dev (<< 1.8.2~ds1-1~)
 Provides: golang-docker-dev

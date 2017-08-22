@@ -73,7 +73,7 @@ override_dh_install:
 
 
 override_dh_auto_install:
-	# skip dh_auto_install to stop dh_golang trying to copy bits for /usr/share/gocode (we use dh_install/dh-exec for that)
+	# we use dh_install / dh-exec for installing files where they need to be
 
 
 override_dh_auto_test:
@@ -102,4 +102,4 @@ override_dh_auto_clean:
 
 
 %:
-	dh $@ --buildsystem=golang --with=systemd,bash-completion,golang --builddirectory='$(OUR_GOPATH)'
+	dh $@ --with=systemd,bash-completion
