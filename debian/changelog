@@ -1,3 +1,9 @@
+docker.io (1.13.1-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Update to 1.13.1 upstream release
+
+ -- Tianon Gravi <tianon@debian.org>  Tue, 22 Aug 2017 09:30:24 -0700
+
 docker.io (1.12.6-0ubuntu7) artful; urgency=medium
 
   * Make sure to set security.nesting for the LXD autopkgtest.
