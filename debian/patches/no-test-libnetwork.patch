@@ -1,0 +1,12 @@
+diff --git a/hack/make/test-unit b/hack/make/test-unit
+index f263345ce..7c8af402a 100644
+--- a/hack/make/test-unit
++++ b/hack/make/test-unit
+@@ -45,6 +45,7 @@ bundle_test_unit() {
+ 			"${BUILDFLAGS[@]}" $TEST_PATH \
+ 			| grep github.com/docker/docker \
+ 			| grep -v github.com/docker/docker/vendor \
++			| grep -v github.com/docker/docker/libnetwork \
+ 			| grep -v github.com/docker/docker/man \
+ 			| grep -v github.com/docker/docker/integration-cli)
+ 	fi

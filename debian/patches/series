@@ -4,23 +4,11 @@ cgroupfs-mount-convenience-copy.patch
 change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
 
-overlay.patch
-
 21491--systemd-tasksmax.patch
 remove-docker-prefix.patch
 
 skip-privileged-unit-tests.patch
-skip-racy-unit-tests.patch
 
 # Ubuntu Delta
 devicemapper-cleanup.patch
-docker-proxy-vendor.patch
-lxd--25672--docker-in-userns.patch
-ignore-oom_score_adj-failure.patch
-# Not necessary thanks to vendoring
-#  23063--update-aws-sdk-go.patch
-#  opencontainer-specs-0.5.0.patch
-#  opencontainer-specs--no-mountlabel.patch
-#  check-v1.patch
-upstream-1.13-Vendor-libnetwork-51d88e9ae63f.patch
-golang-1.8-fix.patch
+no-test-libnetwork.patch
