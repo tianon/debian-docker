@@ -93,6 +93,13 @@ lxc exec docker -- rm -rf /etc/apt
 lxc exec docker -- mkdir /etc/apt
 tar -cC /etc/apt . | lxc exec docker -- tar -xC /etc/apt
 
+for local_source in $(apt-get indextargets | grep-dctrl -F URI -e '^file:///' -sURI); do
+    local_source=${local_source#file://}
+    local_dir=$(dirname ${local_source})
+    lxc exec docker -- mkdir -p ${local_dir}
+    tar -cC ${local_dir} . | lxc exec docker -- tar -xC ${local_dir}
+done
+
 if [ -n "${http_proxy:-}" ]; then
     lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
     cat <<EOF | lxc file push - docker/etc/systemd/system/docker.service.d/http-proxy.conf
