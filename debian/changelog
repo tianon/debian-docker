@@ -1,11 +1,11 @@
-docker.io (1.13.1-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (1.13.1-0ubuntu2) artful; urgency=medium
 
   * d/tests/docker-in-lxd: copy more apt config into container
   * d/golang-github-docker-docker-dev.install: install missing packages.
     (LP: #1714564)
   * d/control: Add Build-Depend on tzdata.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 04 Sep 2017 11:52:42 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 04 Sep 2017 13:31:34 +1200
 
 docker.io (1.13.1-0ubuntu1) artful; urgency=medium
 
