@@ -20,7 +20,8 @@ Build-Depends: bash-completion,
                libdevmapper-dev (>= 2:1.02.68~),
                libseccomp-dev,
                pkg-config,
-               procps
+               procps,
+               tzdata
 Standards-Version: 3.9.8
 Homepage: https://dockerproject.org
 Vcs-Git: https://anonscm.debian.org/git/docker/docker.io.git
