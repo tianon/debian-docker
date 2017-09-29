@@ -33,7 +33,6 @@ Architecture: amd64 arm64 armhf i386 ppc64el s390x
 Depends: adduser,
          containerd (>= 0.2.5~),
          iptables,
-         runc (>= 1.0.0~rc2-0ubuntu1~),
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: ca-certificates,
@@ -42,7 +41,9 @@ Recommends: ca-certificates,
             ubuntu-fan,
             xz-utils,
             ${apparmor:Recommends}
-Replaces: docker (<< 1.5~)
+Provides: docker-runc
+Conflicts: docker-runc
+Replaces: docker (<< 1.5~), docker-runc
 Breaks: docker (<< 1.5~)
 Suggests: aufs-tools,
           btrfs-tools,

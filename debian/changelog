@@ -1,3 +1,11 @@
+docker.io (1.13.1-0ubuntu5) UNRELEASED; urgency=medium
+
+  * Replace "runc" dependency with a multiorig copy of Docker's exact supported
+    commit contents (installed as "/usr/bin/docker-runc" mirroring upstream's
+    package)
+
+ -- Tianon Gravi <tianon@debian.org>  Fri, 29 Sep 2017 13:22:39 -0700
+
 docker.io (1.13.1-0ubuntu4) artful; urgency=medium
 
   * d/tests/docker-in-lxd: Better handle DNS with systemd-resolved.
