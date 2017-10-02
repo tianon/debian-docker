@@ -3,6 +3,9 @@
 # docker itself
 bundles/${DOCKER_VERSION}/${DOCKER_BUILD_TARGET}-client/docker-${DOCKER_VERSION} => usr/bin/docker
 bundles/${DOCKER_VERSION}/${DOCKER_BUILD_TARGET}-daemon/dockerd-${DOCKER_VERSION} => usr/bin/dockerd
+containerd/bin/containerd => usr/bin/docker-containerd
+containerd/bin/containerd-shim => usr/bin/docker-containerd-shim
+containerd/bin/ctr => usr/bin/docker-containerd-ctr
 libnetwork/docker-proxy => usr/bin/docker-proxy
 runc/runc => usr/bin/docker-runc
 tini/tini-static => usr/bin/docker-init

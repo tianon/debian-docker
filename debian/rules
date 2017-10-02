@@ -41,6 +41,9 @@ override_dh_auto_configure:
 	# runc
 	mkdir -p '$(OUR_GOPATH)/src/github.com/opencontainers'
 	ln -sfT '$(CURDIR)/runc' '$(OUR_GOPATH)/src/github.com/opencontainers/runc'
+	# containerd
+	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
+	ln -sfT '$(CURDIR)/containerd' '$(OUR_GOPATH)/src/github.com/docker/containerd'
 	# libnetwork
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
 	ln -sfT '$(CURDIR)/libnetwork' '$(OUR_GOPATH)/src/github.com/docker/libnetwork'
@@ -60,6 +63,11 @@ override_dh_auto_build-arch:
 			BUILDTAGS='seccomp apparmor selinux' \
 			COMMIT='$(shell . hack/dockerfile/binaries-commits && echo "$$RUNC_COMMIT")'
 	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
+	
+	# compile containerd
+	LDFLAGS='' make -C containerd \
+		GIT_COMMIT='$(shell . hack/dockerfile/binaries-commits && echo "$$CONTAINERD_COMMIT)'
+	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
 	
 	# compile docker ("cd" first to ensure we build from within GOPATH)
 	cd '$(OUR_GOPATH)/src/$(DH_GOPKG)' \

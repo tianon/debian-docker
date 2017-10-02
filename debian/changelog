@@ -3,6 +3,8 @@ docker.io (1.13.1-0ubuntu5) UNRELEASED; urgency=medium
   * Replace "runc" dependency with a multiorig copy of Docker's exact supported
     commit contents (installed as "/usr/bin/docker-runc" mirroring upstream's
     package)
+  * Replace "containerd" in the same way (with the exact upstream-supported
+    commit, binaries installed as "/usr/bin/docker-containerd*")
 
  -- Tianon Gravi <tianon@debian.org>  Fri, 29 Sep 2017 13:22:39 -0700
 

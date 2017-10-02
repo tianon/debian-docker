@@ -30,20 +30,16 @@ XS-Go-Import-Path: github.com/docker/docker
 
 Package: docker.io
 Architecture: amd64 arm64 armhf i386 ppc64el s390x
-Depends: adduser,
-         containerd (>= 0.2.5~),
-         iptables,
-         ${misc:Depends},
-         ${shlibs:Depends}
+Depends: adduser, iptables, ${misc:Depends}, ${shlibs:Depends}
 Recommends: ca-certificates,
             cgroupfs-mount | cgroup-lite,
             git,
             ubuntu-fan,
             xz-utils,
             ${apparmor:Recommends}
-Provides: docker-runc
-Conflicts: docker-runc
-Replaces: docker (<< 1.5~), docker-runc
+Provides: docker-containerd, docker-runc
+Conflicts: docker-containerd, docker-runc
+Replaces: docker (<< 1.5~), docker-containerd, docker-runc
 Breaks: docker (<< 1.5~)
 Suggests: aufs-tools,
           btrfs-tools,

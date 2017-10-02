@@ -5,7 +5,6 @@ change-system-unit-env-file.patch
 # See also https://github.com/docker/docker/pull/7220#issuecomment-50076589
 
 21491--systemd-tasksmax.patch
-remove-docker-prefix.patch
 
 skip-privileged-unit-tests.patch
 
