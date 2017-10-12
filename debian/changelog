@@ -1,4 +1,4 @@
-docker.io (1.13.1-0ubuntu6) UNRELEASED; urgency=medium
+docker.io (1.13.1-0ubuntu6) artful; urgency=medium
 
   * Add missing "runc" patches for LXD-enablement
 
