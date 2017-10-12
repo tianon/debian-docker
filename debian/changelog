@@ -1,4 +1,4 @@
-docker.io (1.13.1-0ubuntu5) UNRELEASED; urgency=medium
+docker.io (1.13.1-0ubuntu5) artful; urgency=medium
 
   * Replace "runc" dependency with a multiorig copy of Docker's exact supported
     commit contents (installed as "/usr/bin/docker-runc" mirroring upstream's
