@@ -11,3 +11,5 @@ skip-privileged-unit-tests.patch
 # Ubuntu Delta
 devicemapper-cleanup.patch
 no-test-libnetwork.patch
+ubuntu-runc-ignore-cgroup2-under-systemd.patch
+ubuntu-runc-lxd.patch
