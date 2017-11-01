@@ -1,3 +1,9 @@
+docker.io (17.03.2-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Update to 17.03.2 upstream release
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 01 Nov 2017 12:30:17 -0700
+
 docker.io (1.13.1-0ubuntu6) artful; urgency=medium
 
   * Add missing "runc" patches for LXD-enablement

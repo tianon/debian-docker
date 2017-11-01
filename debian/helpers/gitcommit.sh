@@ -5,11 +5,14 @@ uVersion="$1"
 dVersion="$2"
 
 if [ -z "$uVersion" ]; then
-	uVersion="$(cat VERSION)"
+	uVersion="$(< VERSION)"
 fi
 if [ -z "$dVersion" ]; then
 	dVersion="$(dpkg-parsechangelog --show-field Version)"
 fi
+
+# remove any "-ce" suffix (new since 17.03+)
+uVersion="${uVersion//-ce/}"
 
 if [ "${uVersion%-dev}" = "$uVersion" ]; then
 	# this is a straight-up release!  easy-peasy
