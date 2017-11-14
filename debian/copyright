@@ -4,10 +4,15 @@ Upstream-Contact: Docker, Inc. <support@docker.com>
 Source: https://github.com/docker/docker
 
 # values gathered via "git grep -inE 'license|copyright'" (should be in the order that command spits out)
+# (don't forget that we're multiorig, so need all tarball licenses!!)
 
 Files: *
 Copyright: 2012-2016 Docker, Inc. <support@docker.com>
 License: Apache-2.0
+
+Files: tini/*
+Copyright: 2015 Thomas Orozco <thomas@orozco.fr>
+License: Expat
 
 Files: debian/*
 Copyright: 2013-2014 Daniel Mizyrycki <daniel@docker.com>
@@ -146,6 +151,7 @@ Copyright: 2013 Ralph Caraveo
 License: Expat
 
 Files: vendor/github.com/docker/containerd/*
+       containerd/*
 Copyright: 2012-2015 Docker, Inc.
 License: Apache-2.0
 
@@ -179,6 +185,7 @@ Copyright: 2012 The Go Authors
 License: BSD-3-Clause-Google
 
 Files: vendor/github.com/docker/libnetwork/*
+       libnetwork/*
 Copyright: 2014 Docker Inc.
 License: Apache-2.0
 
@@ -336,6 +343,7 @@ Copyright: 2013 Mitchell Hashimoto
 License: Expat
 
 Files: vendor/github.com/opencontainers/runc/*
+       runc/*
 Copyright: 2012 Docker, Inc.
 License: Apache-2.0
 
