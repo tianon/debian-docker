@@ -1,4 +1,4 @@
-docker.io (17.03.2-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (17.03.2-0ubuntu1) bionic; urgency=medium
 
   * Update to 17.03.2 upstream release
 
