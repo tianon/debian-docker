@@ -3,6 +3,8 @@ Upstream-Name: Docker
 Upstream-Contact: Docker, Inc. <support@docker.com>
 Source: https://github.com/docker/docker
 
+# values gathered via "git grep -inE 'license|copyright'" (should be in the order that command spits out)
+
 Files: *
 Copyright: 2012-2016 Docker, Inc. <support@docker.com>
 License: Apache-2.0
@@ -19,316 +21,443 @@ Copyright: 2013-2014 Daniel Mizyrycki <daniel@docker.com>
            2016 Michael Hudson-Doyle <michael.hudson@ubuntu.com>
 License: Apache-2.0
 
-Files: contrib/init/openrc/docker.initd
-Copyright: 1999-2013 Gentoo Foundation
-License: GPL-2
-
-Files: contrib/syntax/vim/*
-Copyright: 2013 Honza Pokorny
-License: BSD-2-clause
-
-Files:
-    pkg/mflag/*
-    pkg/symlink/fs.go
-Copyright: 2014-2016 The Docker & Go Authors
-License: BSD-3-clause-Google
-
 Files: contrib/completion/zsh/*
 Copyright: 2013-2014 Felix Riedel
 License: BSD-3-clause-Generic
 
-Files: contrib/docker-engine-selinux/*
+Files: contrib/init/openrc/docker.initd
+Copyright: 1999-2013 Gentoo Foundation
+License: GPL-2
+
+Files: contrib/selinux*/*
 Copyright: 2012-2016 Docker Inc.
 License: GPL-2
 Comment:
  No explicit copyright statement; assuming upstream copyright.
 
-Files: vendor/src/github.com/agl/ed25519/*
-Copyright: 2012 The Go Authors
-License:BSD-3-clause-Google
+Files: contrib/syntax/vim/*
+Copyright: 2013 Honza Pokorny
+License: BSD-2-clause
 
-Files: vendor/src/github.com/armon/go-metrics/*
-Copyright: 2013 Armon Dadgar
-License: Expat
+Files: hack/make/.build-rpm/*.spec
+License: GPL-2
 
-Files: vendor/src/github.com/aws/aws-sdk-go/*
-Copyright: 2015      Amazon.com, Inc. or its affiliates.
-           2014-2015 Stripe, Inc.
-License: Apache-2.0
+# pkg/aaparser/*.go include references to "Copyright" that are referring to the output of another tool (not the copyright of these files themselves)
 
-Files: vendor/src/github.com/Azure/go-ansiterm/*
+Files: pkg/mflag/*
+       pkg/symlink/fs.go
+Copyright: 2014-2016 The Docker & Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/Azure/go-ansiterm/*
 Copyright: 2015 Microsoft Corporation
 License: Expat
 
-Files: vendor/src/github.com/boltdb/bolt/*
-Copyright: 2013 Ben Johnson
-License: Expat
-
-Files: vendor/src/github.com/BurntSushi/toml/*
+Files: vendor/github.com/BurntSushi/toml/*
 Copyright: 2013–2016 Andrew Gallant <jamslam@gmail.com>
 License: WTFPL-2.0
 
-Files: vendor/src/github.com/BurntSushi/toml/type_fields.go
+Files: vendor/github.com/BurntSushi/toml/type_fields.go
 Copyright: 2010 The Go Authors
 License: BSD-3-clause-Google
 
-Files: vendor/src/github.com/coreos/etcd/*
-Copyright: 2013-2015 CoreOS Inc.
-                2014 Google Inc.
-License: Apache-2.0
-
-Files:
-    client/cancelreq.go
-    client/cancelreq_go14.go
-    pkg/pathutil/path.go
-Copyright: 2013-2015 The Go Authors.
-License: BSD-3-clause-Google
-
-Files: vendor/src/github.com/coreos/go-systemd/*
-Copyright:
-    2013-2015 CoreOS Inc.
-    2015      RedHat, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/deckarep/golang-set/*
-Copyright: 2013 Ralph Caraveo
-License: Expat
-
-Files: vendor/src/github.com/docker/containerd/*
-Copyright: 2013-2016 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/distribution/*
-Copyright: 2014-2016 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/engine-api/*
-Copyright: 2015-2016 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/engine-api/client/transport/cancellable/*
-Copyright:
-    2015 The Go Authors
-License: BSD-3-Clause-Google
-
-Files: vendor/src/github.com/docker/go/*
-Copyright:
-    2012 The Go Authors
-    2015 Jessie Frazelle
-License: BSD-3-Clause-Google
-
-Files: vendor/src/github.com/docker/go-connections/*
-Copyright: 2015 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/go-units/*
-Copyright: 2015 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/libkv/*
-Copyright: 2014-2015 Docker Inc.
-License: Apache-2.0
-
-Files:
-    vendor/src/github.com/docker/libkv/README.md
-    vendor/src/github.com/docker/libkv/docs/*
-Copyright: 2014-2015 Docker Inc.
-License: CC-BY-SA-4.0
-
-Files: vendor/src/github.com/docker/libnetwork/*
-Copyright: 2015-2016 Docker, Inc.
-License: Apache-2.0
-
-Files:
-    vendor/src/github.com/docker/libnetwork/README.md
-    vendor/src/github.com/docker/libnetwork/docs/*
-Copyright: 2014-2015 Docker Inc.
-License: CC-BY-SA-4.0
-
-Files: vendor/src/github.com/docker/libtrust/*
-Copyright: 2014 Docker
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/notary/*
-Copyright: 2015 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/docker/notary/notarymysql/*
-Copyright: 2014 Sameer Naik
-License: Expat
-
-Files: vendor/src/github.com/docker/notary/tuf/*
-Copyright: 2015      Docker, Inc.
-           2014-2015 Prime Directive, Inc.
-License: BSD-3-clause-Prime
-
-Files: vendor/src/github.com/fluent/fluent-logger-golang/*
-Copyright: 2013 Tatsuo Kaniwa
-License: Apache-2.0
-
-Files: vendor/src/github.com/go-check/check/*
-Copyright: 2010-2013 Gustavo Niemeyer <gustavo@niemeyer.net>
-License: BSD-2-clause
-
-Files: vendor/src/github.com/godbus/dbus/*
-Copyright:
-    2013 Georg Reinke <guelfey@gmail.com>
-    2013 Google
-License: BSD-2-clause
-
-Files: vendor/src/github.com/golang/protobuf/*
-Copyright: 2008-2016, The Go Authors.
-           2008 Google Inc.
-License: BSD-3-clause-Google
-
-Files: vendor/src/github.com/gorilla/*
-Copyright: 2012 Rodrigo Moraes
-License: BSD-3-clause-Google
-
-Files: vendor/src/github.com/Graylog2/go-gelf/*
+Files: vendor/github.com/Graylog2/go-gelf/*
 Copyright: 2012 SocialCode
 License: Expat
 
-Files: vendor/src/github.com/hashicorp/*
-Copyright: 2013-2016 HashiCorp
-License: MPL-2.0
-
-Files: vendor/src/github.com/hashicorp/go-msgpack/*
-Copyright: 2012-2013 Ugorji Nwoke
-License: BSD-3-clause-Generic
-
-Files: vendor/src/github.com/imdario/mergo/*
-Copyright: 2013-2014 Dario Castañé
-           2009,2012 The Go Authors
-License: BSD-3-clause-Google
-
-Files: vendor/src/github.com/kr/pty/*
-Copyright: 2011 Keith Rarick
-License: Expat
-
-Files: vendor/src/github.com/mattn/go-shellwords/*
-Copyright: 2014-2016 Yasuhiro Matsumoto, http://mattn.kaoriya.net <mattn.jp@gmail.com>
-License: Expat
-
-Files: vendor/src/github.com/mattn/go-sqlite3/*
-Copyright: 2014 Yasuhiro Matsumoto <mattn.jp@gmail.com>
-License: Expat
-
-Files: vendor/src/github.com/Microsoft/*
+Files: vendor/github.com/Microsoft/go-winio/*
 Copyright: 2015 Microsoft
 License: Expat
 
-Files: vendor/src/github.com/miekg/dns/*
-Copyright: 2009-2015 Miek Gieben <miek@miek.nl>
-                2014 CloudFlare
-                2009 The Go Authors
-License: BSD-3-Clause-Google
+Files: vendor/github.com/Microsoft/go-winio/archive/tar/*
+Copyright: 2012 The Go Authors
+License: BSD-3-clause-Google
 
-Files: vendor/src/github.com/miekg/pkcs11/*
-Copyright: 2013 Miek Gieben
-License: BSD-3-clause-miekg
-
-Files: vendor/src/github.com/miekg/pkcs11/pkcs11*.h
-Copyright: 1994 RSA Security Inc.
-License: Cryptoki
-
-Files: vendor/src/github.com/mistifyio/go-zfs/*
-Copyright: 2014, OmniTI Computer Consulting, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/opencontainers/runc/*
-Copyright: Copyright 2014 Docker, Inc.
-License: Apache-2.0
-
-Files: vendor/src/github.com/opencontainers/specs/*
-Copyright: 2015 The Linux Foundation
-License: Apache-2.0
-
-Files: vendor/src/github.com/philhofer/fwd/*
-Copyright: 2014 Philip Hofer
+Files: vendor/github.com/Microsoft/hcsshim/*
+Copyright: 2015 Microsoft
 License: Expat
 
-Files: vendor/src/github.com/RackSec/srslog/*
+Files: vendor/github.com/Microsoft/hcsshim/mksyscall_windows.go
+Copyright: 2013 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/RackSec/srslog/*
 Copyright: 2015 Rackspace
 License: BSD-3-clause-Google
 
-Files: vendor/src/github.com/samuel/go-zookeeper/*
-Copyright: 2012-2013 Samuel Stauffer <samuel@descolada.com>
-License: BSD-3-clause-Generic
-
-Files: vendor/src/github.com/seccomp/libseccomp-golang/*
-Copyright:
-    2015 Matthew Heon <mheon@redhat.com>
-    2015 Paul Moore <pmoore@redhat.com>
-License: BSD-2-clause
-
-Files: vendor/src/github.com/Sirupsen/logrus/*
+Files: vendor/github.com/Sirupsen/logrus/*
 Copyright: 2014 Simon Eskildsen
 License: Expat
 
-Files: vendor/src/github.com/syndtr/gocapability/*
-Copyright: 2013, Suryandaru Triandana <syndtr@gmail.com>
+Files: vendor/github.com/Sirupsen/logrus/alt_exit.go
+Copyright: 2012 Miki Tebeka <miki.tebeka@gmail.com>
+License: Expat
+
+Files: vendor/github.com/Sirupsen/logrus/terminal_*.go
+Copyright: 2011 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/agl/ed25519/*
+Copyright: 2012 The Go Authors
+License:BSD-3-clause-Google
+
+Files: vendor/github.com/armon/go-metrics/*
+Copyright: 2013 Armon Dadgar
+License: Expat
+
+Files: vendor/github.com/armon/go-radix/*
+Copyright: 2014 Armon Dadgar
+License: Expat
+
+Files: vendor/github.com/beorn7/perks/*
+Copyright: 2013 Blake Mizerany
+License: Expat
+
+Files: vendor/github.com/boltdb/bolt/*
+Copyright: 2013 Ben Johnson
+License: Expat
+
+Files: vendor/github.com/cloudflare/cfssl/*
+Copyright: 2014 CloudFlare Inc.
+License: Expat
+
+Files: vendor/github.com/coreos/etcd/*
+Copyright: 2013-2015 CoreOS Inc.
+           2014 Google Inc.
+           2015 The etcd Authors
+License: Apache-2.0
+
+Files: vendor/github.com/coreos/etcd/client/cancelreq.go
+       vendor/github.com/coreos/etcd/pkg/pathutil/path.go
+Copyright: 2015 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/coreos/go-systemd/*
+Copyright: 2013-2015 CoreOS Inc.
+           2015 RedHat, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/coreos/pkg/*
+Copyright: 2014 CoreOS, Inc
+License: Apache-2.0
+
+Files: vendor/github.com/davecgh/go-spew/*
+Copyright: 2012-2013 Dave Collins <dave@davec.name>
+License: ISC
+
+Files: vendor/github.com/deckarep/golang-set/*
+Copyright: 2013 Ralph Caraveo
+License: Expat
+
+Files: vendor/github.com/docker/containerd/*
+Copyright: 2012-2015 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/distribution/*
+Copyright: 2014-2016 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/docker-credential-helpers/*
+Copyright: 2016 David Calavera
+License: Expat
+
+Files: vendor/github.com/docker/go-connections/*
+Copyright: 2015 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/go-events/*
+Copyright: 2016 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/go-metrics/*
+Copyright: 2012-2015 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/go-units/*
+Copyright: 2015 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/go/*
+Copyright: 2012 The Go Authors
+           2015 Jessie Frazelle
+License: BSD-3-Clause-Google
+
+Files: vendor/github.com/docker/libnetwork/*
+Copyright: 2014 Docker Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/libnetwork/README.md
+       vendor/github.com/docker/libnetwork/docs/*
+Copyright: 2014-2015 Docker Inc.
+License: CC-BY-SA-4.0
+
+Files: vendor/github.com/docker/libtrust/*
+Copyright: 2014 Docker Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/notary/*
+Copyright: 2015 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/notary/tuf/*
+Copyright: 2015 Docker, Inc.
+           2014-2015 Prime Directive, Inc.
+License: BSD-3-clause-Prime
+
+Files: vendor/github.com/docker/swarmkit/*
+Copyright: 2014 Docker Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/docker/swarmkit/api/duration/duration.proto
+       vendor/github.com/docker/swarmkit/api/timestamp/timestamp.proto
+       vendor/github.com/docker/swarmkit/protobuf/ptypes/duration.go
+Copyright: 2008 Google Inc.
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/fluent/fluent-logger-golang/*
+Copyright: 2013 Tatsuo Kaniwa
+License: Apache-2.0
+
+Files: vendor/github.com/flynn-archive/go-shlex/*
+Copyright: 2012 Google Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/fsnotify/fsnotify/*
+Copyright: 2010 The Go Authors
+           2012 fsnotify Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/go-check/check/*
+Copyright: 2010-2013 Gustavo Niemeyer <gustavo@niemeyer.net>
+License: BSD-2-clause
+
+Files: vendor/github.com/go-check/check/benchmark.go
+Copyright: 2012 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/go-ini/ini/*
+Copyright: 2014 Unknwon
+License: Apache-2.0
+
+Files: vendor/github.com/godbus/dbus/*
+Copyright: 2013 Georg Reinke <guelfey@gmail.com>
+           2013 Google
+License: BSD-2-clause
+
+Files: vendor/github.com/gogo/protobuf/*
+Copyright: 2013, The GoGo Authors
+           2010 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/golang/mock/*
+Copyright: 2010 Google Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/golang/protobuf/*
+Copyright: 2010 The Go Authors
+License: BSD-3-clause-Google
+
+# https://github.com/google/certificate-transparency/blob/c5649b7459cf167ec89bfbc4ff589f4f9086393e/AUTHORS
+Files: vendor/github.com/google/certificate-transparency/*
+Copyright: Comodo CA Limited
+           Ed Maste <emaste@freebsd.org>
+           Fiaz Hossain <fiaz.hossain@salesforce.com>
+           Google Inc.
+           Jeff Trawick <trawick@gmail.com>
+           Katriel Cohn-Gordon <katriel.cohn-gordon@cybersecurity.ox.ac.uk>
+           Laël Cellier <lael.cellier@gmail.com>
+           Mark Schloesser <ms@mwcollect.org>
+           NORDUnet A/S
+           Nicholas Galbreath <nickg@client9.com>
+           Oliver Weidner <Oliver.Weidner@gmail.com>
+           PrimeKey Solutions AB
+           Ruslan Kovalov <ruslan.kovalyov@gmail.com>
+           Venafi, Inc.
+           Vladimir Rutsky <vladimir@rutsky.org>
+           Ximin Luo <infinity0@gmx.com>
+License: Apache-2.0
+
+Files: vendor/github.com/google/certificate-transparency/cpp/third_party/curl/*
+Copyright: 1996-2013 Daniel Stenberg <daniel@haxx.se>
+License: Expat
+
+Files: vendor/github.com/google/certificate-transparency/cpp/third_party/isec_partners/*
+Copyright: 2012 iSEC Partners
+License: Expat
+
+Files: vendor/github.com/google/certificate-transparency/go/*
+Copyright: 2009 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/gorilla/*
+Copyright: 2012 Rodrigo Moraes
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/hashicorp/*
+Copyright: 2013-2016 HashiCorp
+License: MPL-2.0
+
+Files: vendor/github.com/hashicorp/go-msgpack/*
+Copyright: 2012-2013 Ugorji Nwoke
+License: BSD-3-clause-Generic
+
+Files: vendor/github.com/imdario/mergo/*
+Copyright: 2013 Dario Castañé
+           2009 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/inconshreveable/mousetrap/*
+Copyright: 2014 Alan Shreve
+License: Apache-2.0
+
+Files: vendor/github.com/jmespath/go-jmespath/*
+Copyright: 2015 James Saryerwinnie
+License: Apache-2.0
+
+Files: vendor/github.com/mattn/go-sqlite3/*
+Copyright: 2014 Yasuhiro Matsumoto <mattn.jp@gmail.com>
+License: Expat
+
+Files: vendor/github.com/matttproud/golang_protobuf_extensions/*
+Copyright: 2013 Matt T. Proud
+License: Apache-2.0
+
+Files: vendor/github.com/miekg/dns/*
+Copyright: 2009-2015 Miek Gieben <miek@miek.nl>
+           2014 CloudFlare
+           2009 The Go Authors
+License: BSD-3-Clause-Google
+
+Files: vendor/github.com/miekg/pkcs11/*
+Copyright: 2013 Miek Gieben
+License: BSD-3-clause-miekg
+
+Files: vendor/github.com/miekg/pkcs11/pkcs11*.h
+Copyright: 1994 RSA Security Inc.
+License: Cryptoki
+
+Files: vendor/github.com/mistifyio/go-zfs/*
+Copyright: 2014, OmniTI Computer Consulting, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/mitchellh/mapstructure/*
+Copyright: 2013 Mitchell Hashimoto
+License: Expat
+
+Files: vendor/github.com/opencontainers/runc/*
+Copyright: 2012 Docker, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/opencontainers/runtime-specs/*
+Copyright: 2015 The Linux Foundation
+License: Apache-2.0
+
+Files: vendor/github.com/pborman/uuid/*
+Copyright: 2009 Google Inc.
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/pivotal-golang/clock/*
+Copyright: 2015 CloudFoundry.org Foundation, Inc.
+           2015 Pivotal Software, Inc.
+License: Apache-2.0
+
+Files: vendor/github.com/pkg/errors/*
+Copyright: 2015 Dave Cheney <dave@cheney.net>
+License: BSD-2-clause
+
+Files: vendor/github.com/pmezard/go-difflib/*
+Copyright: 2013 Patrick Mezard
+License: BSD-3-clause-Generic
+
+Files: vendor/github.com/prometheus/*
+Copyright: 2012-2015 The Prometheus Authors
+           2011 Open Knowledge Foundation Ltd.
+           2013-2015 Blake Mizerany, Björn Rabenstein
+           2010 The Go Authors
+           2013 Matt T. Proud
+License: Apache-2.0
+
+Files: vendor/github.com/samuel/go-zookeeper/*
+Copyright: 2012-2013 Samuel Stauffer <samuel@descolada.com>
+License: BSD-3-clause-Generic
+
+Files: vendor/github.com/seccomp/libseccomp-golang/*
+Copyright: 2015 Matthew Heon <mheon@redhat.com>
+           2015 Paul Moore <pmoore@redhat.com>
+License: BSD-2-clause
+
+Files: vendor/github.com/spf13/cobra/*
+Copyright: 2013 Steve Francia <spf@spf13.com>
+License: Apache-2.0
+
+Files: vendor/github.com/spf13/pflag/*
+Copyright: 2012 Alex Ogier
+           2012 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/github.com/stretchr/testify/*
+Copyright: 2012-2013 Mat Ryer and Tyler Bunnell
+License: Expat
+
+Files: vendor/github.com/syndtr/gocapability/*
+Copyright: 2013 Suryandaru Triandana <syndtr@gmail.com>
 License: BSD-2-clause-gocapability
 
-Files: vendor/src/github.com/tchap/go-patricia/*
+Files: vendor/github.com/tchap/go-patricia/*
 Copyright: 2014 Ondřej Kupka <ondra.cap@gmail.com>
 License: Expat
 
-Files: vendor/src/github.com/tinylib/msgp/*
+Files: vendor/github.com/tinylib/msgp/*
 Copyright: 2014 Philip Hofer
            2009 The Go Authors
 License: Expat
 
-Files: vendor/src/github.com/ugorji/go/*
+Files: vendor/github.com/tonistiigi/fifo/*
+Copyright: 2016 Tõnis Tiigi <tonistiigi@gmail.com>
+License: Expat
+
+Files: vendor/github.com/ugorji/go/*
 Copyright: 2012-2015 Ugorji Nwoke
 License: Expat
 
-Files: vendor/src/github.com/vaughan0/go-ini/*
-Copyright: 2013 Vaughan Newton
-License: Expat
-
-Files: vendor/src/github.com/vbatts/tar-split/*
+Files: vendor/github.com/vbatts/tar-split/*
 Copyright: 2015 Vincent Batts
 License: Expat
 
-Files: vendor/src/github.com/vbatts/tar-split/archive/tar/*
+Files: vendor/github.com/vbatts/tar-split/archive/tar/*
 Copyright: 2009 The Go Authors
            2015 Vincent Batts
 License: BSD-3-clause-Google
 
-Files: vendor/src/github.com/vdemeester/shakers/*
+Files: vendor/github.com/vdemeester/shakers/*
 Copyright: 2015-2016 Vincent Demeester
 License: Apache-2.0
 
-Files: vendor/src/github.com/vishvananda/*
+Files: vendor/github.com/vishvananda/*
 Copyright: 2014 Vishvananda Ishaya
            2014 Docker, Inc.
 License: Apache-2.0
 
-Files: vendor/src/golang.org/x/net/*
-Copyright: 2011-2015 The Go Authors
-License: BSD-3-clause-Google
+Files: vendor/github.com/xeipuuv/gojsonpointer/*
+Copyright: 2015 xeipuuv
+License: Apache-2.0
 
-Files: vendor/src/golang.org/x/oauth2/*
-Copyright: 2014-2015 The oauth2 Authors
-           2014-2016 The Go Authors
-License: BSD-3-clause
-
-Files: vendor/src/golang.org/x/sys/*
+Files: vendor/golang.org/x/*
 Copyright: 2009 The Go Authors
 License: BSD-3-clause-Google
 
-Files: vendor/src/google.golang.org/api/*
+Files: vendor/golang.org/x/oauth2/*
+Copyright: 2014-2015 The oauth2 Authors
+           2014-2016 The Go Authors
+License: BSD-3-clause-Google
+
+Files: vendor/google.golang.org/*
 Copyright: 2011 Google Inc.
 License: BSD-3-clause-Google
 
-Files: vendor/src/google.golang.org/cloud/*
-Copyright: 2014-2016 Google Inc.
-License: Apache-2.0
-
-Files: vendor/src/google.golang.org/grpc/*
-Copyright: 2014-2015 Google Inc.
-License: BSD-3-clause-Google
+Files: vendor/gopkg.in/yaml.v2/*
+Copyright: 2011-2014 Canonical Inc.
+License: LGPL-3
 
 License: Apache-2.0
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -1340,3 +1469,33 @@ License: BSD-3-clause-miekg
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License: ISC
+ Permission to use, copy, modify, and distribute this software for any
+ purpose with or without fee is hereby granted, provided that the above
+ copyright notice and this permission notice appear in all copies.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+License: LGPL-3
+ This package is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 3 of the License, or (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License can be found in "/usr/share/common-licenses/LGPL-3".
