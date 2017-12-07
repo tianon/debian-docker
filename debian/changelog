@@ -1,3 +1,13 @@
+docker.io (17.03.2-0ubuntu2) UNRELEASED; urgency=medium
+
+  * Drop "--no-restart-on-upgrade", since it causes so many issues
+    - folks should be careful about upgrading Docker since it'll now stop
+      running containers (suggested workarounds are to use "--restart=always",
+      Swarm Mode services, or rolling replacement of k8s workers)
+    - LP: #1658691
+
+ -- Tianon Gravi <tianon@debian.org>  Thu, 07 Dec 2017 09:42:53 -0800
+
 docker.io (17.03.2-0ubuntu1) bionic; urgency=medium
 
   * Update to 17.03.2 upstream release
