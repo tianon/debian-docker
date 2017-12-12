@@ -104,7 +104,7 @@ endif
 
 
 override_dh_installinit:
-	dh_installinit --name=docker
+	dh_installinit --name=docker --restart-after-upgrade
 
 
 override_dh_installudev:
