@@ -9,6 +9,7 @@ change-system-unit-env-file.patch
 skip-privileged-unit-tests.patch
 
 # Ubuntu Delta
+30519--nuke-bashism-bash.patch
 devicemapper-cleanup.patch
 no-test-libnetwork.patch
 ubuntu-runc-ignore-cgroup2-under-systemd.patch
