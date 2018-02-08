@@ -103,8 +103,10 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 endif
 
 
+# "--no-start" because we have a debconf prompt to determine whether to restart during upgrades
+# (which means we get to handle both "start" and "stop" ourselves too)
 override_dh_installinit:
-	dh_installinit --name=docker --restart-after-upgrade
+	dh_installinit --name=docker --no-start
 
 
 override_dh_installudev:

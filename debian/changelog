@@ -1,10 +1,10 @@
 docker.io (17.03.2-0ubuntu2) UNRELEASED; urgency=medium
 
-  * Replace "--no-restart-on-upgrade" with "--restart-after-upgrade"
+  * Replace "--no-restart-on-upgrade" with "--no-start" and a debconf prompt
     - not restarting Docker causes many issues (LP: #1658691)
-    - folks should be careful about upgrading Docker since it'll now stop
-      running containers (suggested workarounds are to use "--restart=always",
-      Swarm Mode services, or rolling replacement of k8s workers)
+    - suggested methods for keeping containers up are to use a restart policy
+      ("--restart=..." on "docker run"), Swarm Mode services, or rolling
+      replacement of k8s workers
   * Backport 30519 for bashism (LP: #1744599)
     - https://github.com/docker/docker/pull/30519
 

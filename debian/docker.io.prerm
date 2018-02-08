@@ -21,3 +21,9 @@ case "$1" in
 esac
 
 #DEBHELPER#
+
+# because we had to use "dh_installinit --no-start", we get to make sure the daemon is stopped on uninstall
+# (this is adapted from debhelper's "autoscripts/prerm-init-norestart")
+if [ -x /etc/init.d/docker ] && [ "$1" = remove ]; then
+	invoke-rc.d docker stop
+fi
