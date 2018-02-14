@@ -1,4 +1,4 @@
-docker.io (17.03.2-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (17.03.2-0ubuntu2) bionic; urgency=medium
 
   * Replace "--no-restart-on-upgrade" with "--no-start" and a debconf prompt
     - not restarting Docker causes many issues (LP: #1658691)
