@@ -145,7 +145,7 @@ then
 fi
 
 lxc exec docker -- apt-get update
-lxc exec docker -- apt-get install docker.io -y
+lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get install docker.io -y
 
 # Now basically run the simplest possible test inside the container.
 
