@@ -1,40 +1,26 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-export DH_GOPKG := github.com/docker/docker
+export VERSION := $(shell cat VERSION)
+
+export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(VERSION))
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 OUR_GOPATH := $(CURDIR)/.gopath
 export GOPATH := $(OUR_GOPATH)
 
-# helpful variables for deduplication
-export DOCKER_VERSION := $(shell cat VERSION)
-
-export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(DOCKER_VERSION))
-export BUILDTIME := $(shell dpkg-parsechangelog -SDate)
-
-# have "make.sh" keep "bundle/$(DOCKER_VERSION)" around between runs (we clean it up appropriately ourselves)
-export KEEPBUNDLE := 1
-
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
 # same story with SELinux
 export DOCKER_BUILDTAGS := apparmor seccomp selinux
 
-# since "gccgo" doesn't ship the "dist" go tool (and isn't likely to start), let's use that for now to detect gc vs gccgo
-export DOCKER_BUILD_TARGET := $(shell go tool dist env > /dev/null 2>&1 && echo dynbinary || echo dyngccgo)
-
-# prefer Go 1.7 explicitly if it's available (golang-1.7-go)
-export PATH := /usr/lib/go-1.7/bin:$(PATH)
-
-
-APPARMOR_RECOMMENDS := $(shell dpkg-vendor --is Ubuntu && echo apparmor)
-BUILT_LIBC := $(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)
+# prefer Go 1.9 explicitly if it's available (golang-1.9-go)
+export PATH := /usr/lib/go-1.9/bin:$(PATH)
 
 override_dh_gencontrol:
-	echo 'apparmor:Recommends=$(APPARMOR_RECOMMENDS)' >> debian/docker.io.substvars
-	echo 'libc:Built-Using=$(BUILT_LIBC)' >> debian/docker.io.substvars
+	# if we're on Ubuntu, we need to Recommends: apparmor
+	echo 'apparmor:Recommends=$(shell dpkg-vendor --is Ubuntu && echo apparmor)' >> debian/docker.io.substvars
+	echo 'libc:Built-Using=$(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)' >> debian/docker.io.substvars
 	dh_gencontrol
-
 
 override_dh_auto_configure:
 	# set up GOPATH symlink farm
@@ -42,84 +28,107 @@ override_dh_auto_configure:
 	mkdir -p '$(OUR_GOPATH)/src/github.com/opencontainers'
 	ln -sfT '$(CURDIR)/runc' '$(OUR_GOPATH)/src/github.com/opencontainers/runc'
 	# containerd
-	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
-	ln -sfT '$(CURDIR)/containerd' '$(OUR_GOPATH)/src/github.com/docker/containerd'
+	mkdir -p '$(OUR_GOPATH)/src/github.com/containerd'
+	ln -sfT '$(CURDIR)/containerd' '$(OUR_GOPATH)/src/github.com/containerd/containerd'
 	# libnetwork
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
 	ln -sfT '$(CURDIR)/libnetwork' '$(OUR_GOPATH)/src/github.com/docker/libnetwork'
-	# docker
+	# cli
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
-	ln -sfT '$(CURDIR)' '$(OUR_GOPATH)/src/github.com/docker/docker'
+	ln -sfT '$(CURDIR)/components/cli' '$(OUR_GOPATH)/src/github.com/docker/cli'
+	# engine
+	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
+	ln -sfT '$(CURDIR)/components/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
 
-override_dh_auto_build-indep:
-	# noop
+# https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/cli/scripts/docs/generate-man.sh
+# (replacing hard-coded "/tmp/gen-manpages" with "debian/tmp/gen-manpages")
+_build-manpages:
+	cd '$(OUR_GOPATH)/src/github.com/docker/cli' \
+		&& export PATH='$(OUR_GOPATH)/bin':"$$PATH" \
+		&& sed 's!/tmp/gen-manpages!$(CURDIR)/debian/tmp/gen-manpages!g' scripts/docs/generate-man.sh \
+			| bash
 
-override_dh_auto_build-arch:
+override_dh_auto_build:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
 	
-	# compile runc
+	# several "supporting binaries" need to be built and installed
+	# (https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/engine/hack/dockerfile/install-binaries.sh)
+	
+	# runc
 	cd '$(OUR_GOPATH)/src/github.com/opencontainers/runc' \
 		&& make \
 			BUILDTAGS='seccomp apparmor selinux' \
-			COMMIT='$(shell . hack/dockerfile/binaries-commits && echo "$$RUNC_COMMIT")'
+			COMMIT='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$RUNC_COMMIT")'
 	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
 	
-	# compile containerd
-	LDFLAGS='' make -C containerd \
-		GIT_COMMIT='$(shell . hack/dockerfile/binaries-commits && echo "$$CONTAINERD_COMMIT")'
+	# containerd
+	cd '$(OUR_GOPATH)/src/github.com/containerd/containerd' \
+		&& make \
+			LDFLAGS='' \
+			VERSION='docker-$(VERSION)' \
+			REVISION='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$CONTAINERD_COMMIT")'
 	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
 	
-	# compile docker ("cd" first to ensure we build from within GOPATH)
-	cd '$(OUR_GOPATH)/src/$(DH_GOPKG)' \
-		&& '$(CURDIR)/hack/make.sh' $(DOCKER_BUILD_TARGET)
-	
-	# compile man pages
-	./man/md2man-all.sh -q
-	
-	# compile docker-proxy (from libnetwork)
-	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
-	
-	# compile docker-init (tini)
+	# tini (docker-init)
 	cd tini \
 		&& cmake . \
 		&& make tini-static
+	
+	# docker-proxy (from libnetwork)
+	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
+	
+	# cli
+	make -C components/cli \
+			LDFLAGS='' \
+			VERSION='$(VERSION)' \
+			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
+			dynbinary
+	$(MAKE) -f debian/rules _build-manpages
+	
+	# engine
+	cd components/engine \
+		&& ./hack/make.sh dynbinary
 
+# basic smoke test to ensure binaries built successfully
+# (especially since their tests are _really_ involved)
+override_dh_auto_test:
+	# runc
+	./runc/runc --version
+	# containerd
+	./containerd/bin/containerd --version
+	@# "containerd-shim" has no version flag
+	./containerd/bin/ctr --version
+	# tini
+	./tini/tini-static --version
+	# cli
+	./components/cli/build/docker --version
+	# engine
+	./components/engine/bundles/latest/dynbinary-daemon/dockerd --version
 
-override_dh_install:
-	## Do not install extra license files:
-	dh_install -XLICENSE
-
+override_dh_strip:
+	# Go has lots of problems with stripping, so just don't
 
 override_dh_auto_install:
 	# we use dh_install / dh-exec for installing files where they need to be
-
-
-override_dh_auto_test:
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	# run unit tests
-	cd '$(OUR_GOPATH)/src/$(DH_GOPKG)' \
-		&& export TESTFLAGS='-test.short' \
-		&& '$(CURDIR)/hack/make.sh' test-unit
-endif
-
 
 # "--no-start" because we have a debconf prompt to determine whether to restart during upgrades
 # (which means we get to handle both "start" and "stop" ourselves too)
 override_dh_installinit:
 	dh_installinit --name=docker --no-start
 
-
 override_dh_installudev:
 	# use priority z80 to match the upstream priority of 80
 	dh_installudev --priority=z80
 
+override_dh_install:
+	dh_install
+	dh_apparmor --profile-name=docker.io -pdocker.io
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
 override_dh_auto_clean:
-	dh_auto_clean
-	
-	# OUR_GOPATH is created by us
-	rm -rf '$(OUR_GOPATH)'
-
+	@# stop debhelper from doing "make clean"
 
 %:
-	dh $@ --with=systemd,bash-completion
+	dh $@ --with=bash-completion,systemd

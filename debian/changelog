@@ -1,3 +1,9 @@
+docker.io (17.12.1-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Update to 17.12.1-ce upstream release
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 28 Feb 2018 09:46:05 -0800
+
 docker.io (17.03.2-0ubuntu3) bionic; urgency=medium
 
   * d/tests/docker-in-lxd: set DEBIAN_FRONTEND=noninteractive when installing

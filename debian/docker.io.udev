@@ -1,1 +1,1 @@
-../contrib/udev/80-docker.rules
+../components/packaging/deb/common/docker-ce.udev

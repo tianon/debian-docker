@@ -1,1 +1,2 @@
-docs/*
+components/cli/docs/*
+components/engine/docs/*

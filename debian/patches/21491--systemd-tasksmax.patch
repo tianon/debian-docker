@@ -2,10 +2,10 @@ Description: uncomment "TasksMax" in systemd service file (since our version of 
 Author: Tianon Gravi <tianon@debian.org>
 Origin: https://github.com/docker/docker/pull/21491#issuecomment-201431374
 
-diff --git a/contrib/init/systemd/docker.service b/contrib/init/systemd/docker.service
+diff --git a/components/packaging/deb/systemd/docker.service b/components/packaging/deb/systemd/docker.service
 index c10655d..d14b320 100644
---- a/contrib/init/systemd/docker.service
-+++ b/contrib/init/systemd/docker.service
+--- a/components/packaging/deb/systemd/docker.service
++++ b/components/packaging/deb/systemd/docker.service
 @@ -19,7 +19,7 @@ LimitNPROC=infinity
  LimitCORE=infinity
  # Uncomment TasksMax if your systemd version supports it.

@@ -1,1 +1,1 @@
-../contrib/init/sysvinit-debian/docker
+../components/packaging/deb/common/docker-ce.docker.init

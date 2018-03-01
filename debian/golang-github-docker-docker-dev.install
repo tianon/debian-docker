@@ -1,8 +1,8 @@
 #!/usr/bin/dh-exec
 
-api usr/share/gocode/src/${DH_GOPKG}/
-client usr/share/gocode/src/${DH_GOPKG}/
-dockerversion usr/share/gocode/src/${DH_GOPKG}/
-opts usr/share/gocode/src/${DH_GOPKG}/
-pkg usr/share/gocode/src/${DH_GOPKG}/
-vendor usr/share/gocode/src/${DH_GOPKG}/
+components/engine/api usr/share/gocode/src/github.com/docker/docker/
+components/engine/client usr/share/gocode/src/github.com/docker/docker/
+components/engine/dockerversion usr/share/gocode/src/github.com/docker/docker/
+components/engine/opts usr/share/gocode/src/github.com/docker/docker/
+components/engine/pkg usr/share/gocode/src/github.com/docker/docker/
+components/engine/vendor usr/share/gocode/src/github.com/docker/docker/

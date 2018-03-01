@@ -1,18 +1,16 @@
 #!/usr/bin/dh-exec
 
-# docker itself
-bundles/${DOCKER_VERSION}/${DOCKER_BUILD_TARGET}-client/docker-${DOCKER_VERSION} => usr/bin/docker
-bundles/${DOCKER_VERSION}/${DOCKER_BUILD_TARGET}-daemon/dockerd-${DOCKER_VERSION} => usr/bin/dockerd
+# https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/packaging/deb/common/rules#L24-L31
+components/cli/build/docker => usr/bin/docker
+components/engine/bundles/latest/dynbinary-daemon/dockerd => usr/bin/dockerd
+libnetwork/docker-proxy => usr/bin/docker-proxy
 containerd/bin/containerd => usr/bin/docker-containerd
 containerd/bin/containerd-shim => usr/bin/docker-containerd-shim
 containerd/bin/ctr => usr/bin/docker-containerd-ctr
-libnetwork/docker-proxy => usr/bin/docker-proxy
 runc/runc => usr/bin/docker-runc
 tini/tini-static => usr/bin/docker-init
 
-contrib/*-integration usr/share/docker.io/contrib/
-contrib/check-config.sh usr/share/docker.io/contrib/
-contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
-contrib/init/systemd/docker.socket lib/systemd/system/
-contrib/mk* usr/share/docker.io/contrib/
-contrib/nuke-graph-directory.sh usr/share/docker.io/contrib/
+components/cli/contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
+components/engine/contrib/check-config.sh usr/share/docker.io/contrib/
+components/engine/contrib/nuke-graph-directory.sh usr/share/docker.io/contrib/
+components/packaging/deb/systemd/docker.socket lib/systemd/system/

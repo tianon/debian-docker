@@ -14,10 +14,10 @@ To reproduce, just install docker.io from trusty archive (0.9.1 or 1.0.1), start
 container doing just a echo hello, every seconds, then upgrade. The container cannot
 start again.
 
-diff --git a/contrib/init/sysvinit-debian/docker b/contrib/init/sysvinit-debian/docker
+diff --git a/components/packaging/deb/common/docker-ce.docker.init b/components/packaging/deb/common/docker-ce.docker.init
 index 0a5ffc8..d1a1158 100755
---- a/contrib/init/sysvinit-debian/docker
-+++ b/contrib/init/sysvinit-debian/docker
+--- a/components/packaging/deb/common/docker-ce.docker.init
++++ b/components/packaging/deb/common/docker-ce.docker.init
 @@ -59,12 +59,21 @@ fail_unless_root() {
  	fi
  }
@@ -40,10 +40,10 @@ index 0a5ffc8..d1a1158 100755
  		touch "$DOCKER_LOGFILE"
  		chgrp docker "$DOCKER_LOGFILE"
  
-diff --git a/contrib/init/upstart/docker.conf b/contrib/init/upstart/docker.conf
+diff --git a/components/packaging/deb/common/docker-ce.docker.upstart b/components/packaging/deb/common/docker-ce.docker.upstart
 index 4414e4b..e8f718a 100644
---- a/contrib/init/upstart/docker.conf
-+++ b/contrib/init/upstart/docker.conf
+--- a/components/packaging/deb/common/docker-ce.docker.upstart
++++ b/components/packaging/deb/common/docker-ce.docker.upstart
 @@ -7,6 +7,13 @@ limit nproc 524288 1048576
  
  respawn

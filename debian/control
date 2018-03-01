@@ -11,20 +11,20 @@ Build-Depends: bash-completion,
                ca-certificates,
                cmake,
                debconf (>= 0.5),
-               debhelper (>= 9),
+               debhelper (>= 9.20160709~),
+               dh-apparmor,
                dh-exec,
-               dh-systemd,
                git,
-               go-md2man (>= 1.0.3~),
-               golang-any (>= 2:1.7~) | golang-1.7-go,
+               golang-any (>= 2:1.9~) | golang-1.9-go,
                libapparmor-dev,
                libdevmapper-dev (>= 2:1.02.68~),
+               libltdl-dev,
                libseccomp-dev,
                pkg-config,
                procps,
                tzdata
 Standards-Version: 3.9.8
-Homepage: https://dockerproject.org
+Homepage: https://www.docker.com/community-edition
 Vcs-Git: https://anonscm.debian.org/git/docker/docker.io.git
 Vcs-Browser: https://anonscm.debian.org/cgit/docker/docker.io.git
 XS-Go-Import-Path: github.com/docker/docker
@@ -88,7 +88,7 @@ Description: Externally reusable Go packages included with Docker
 
 Package: golang-docker-dev
 Section: oldlibs
-Priority: extra
+Priority: optional
 Architecture: all
 Depends: golang-github-docker-docker-dev, ${misc:Depends}
 Description: Transitional package for golang-github-docker-docker-dev

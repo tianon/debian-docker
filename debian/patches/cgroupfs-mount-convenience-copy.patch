@@ -3,10 +3,10 @@ Description: remove convenience copies of cgroupfs-mount in init.d / upstart
 Forwarded: not-needed
 Bug-Debian: https://bugs.debian.org/783143
 
-diff --git a/contrib/init/sysvinit-debian/docker b/contrib/init/sysvinit-debian/docker
+diff --git a/components/packaging/deb/common/docker-ce.docker.init b/components/packaging/deb/common/docker-ce.docker.init
 index 11500a0..3ad9e2e 100755
---- a/contrib/init/sysvinit-debian/docker
-+++ b/contrib/init/sysvinit-debian/docker
+--- a/components/packaging/deb/common/docker-ce.docker.init
++++ b/components/packaging/deb/common/docker-ce.docker.init
 @@ -59,37 +59,12 @@ fail_unless_root() {
  	fi
  }
@@ -45,10 +45,10 @@ index 11500a0..3ad9e2e 100755
  		touch "$DOCKER_LOGFILE"
  		chgrp docker "$DOCKER_LOGFILE"
  
-diff --git a/contrib/init/upstart/docker.conf b/contrib/init/upstart/docker.conf
+diff --git a/components/packaging/deb/common/docker-ce.docker.upstart b/components/packaging/deb/common/docker-ce.docker.upstart
 index ec50b35..75858f8 100644
---- a/contrib/init/upstart/docker.conf
-+++ b/contrib/init/upstart/docker.conf
+--- a/components/packaging/deb/common/docker-ce.docker.upstart
++++ b/components/packaging/deb/common/docker-ce.docker.upstart
 @@ -9,29 +9,6 @@ respawn
  
  kill timeout 20

@@ -1,1 +1,1 @@
-../contrib/init/upstart/docker.conf
+../components/packaging/deb/common/docker-ce.docker.upstart

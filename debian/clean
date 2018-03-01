@@ -1,9 +1,11 @@
-# generated files
-autogen/
-bundles/
-dockerversion/*_autogen*.go
+.gopath/
+components/cli/build/
+components/cli/man/man*/
+components/engine/bundles/
+components/engine/dockerversion/*_autogen*.go
+containerd/bin/
 libnetwork/docker-proxy
-man/man*/
+runc/runc
 tini/CMakeCache.txt
 tini/CMakeFiles/
 tini/CPackConfig.cmake
