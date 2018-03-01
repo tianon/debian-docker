@@ -70,19 +70,20 @@ override_dh_auto_build:
 	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
 	
 	# tini (docker-init)
-	cd tini \
-		&& cmake . \
+	mkdir -p tini/build
+	cd tini/build \
+		&& cmake .. \
 		&& make tini-static
 	
 	# docker-proxy (from libnetwork)
 	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
 	
 	# cli
-	make -C components/cli \
+	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
+		make -C components/cli \
 			LDFLAGS='' \
 			VERSION='$(VERSION)' \
 			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
-			DISABLE_WARN_OUTSIDE_CONTAINER=1 \
 			dynbinary
 	$(MAKE) -f debian/rules _build-manpages
 	
@@ -100,7 +101,7 @@ override_dh_auto_test:
 	@# "containerd-shim" has no version flag
 	./containerd/bin/ctr --version
 	# tini
-	./tini/tini-static --version
+	./tini/build/tini-static --version
 	# cli
 	./components/cli/build/docker --version
 	# engine

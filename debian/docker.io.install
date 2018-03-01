@@ -8,7 +8,7 @@ containerd/bin/containerd => usr/bin/docker-containerd
 containerd/bin/containerd-shim => usr/bin/docker-containerd-shim
 containerd/bin/ctr => usr/bin/docker-containerd-ctr
 runc/runc => usr/bin/docker-runc
-tini/tini-static => usr/bin/docker-init
+tini/build/tini-static => usr/bin/docker-init
 
 components/cli/contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
 components/engine/contrib/check-config.sh usr/share/docker.io/contrib/
