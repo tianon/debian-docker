@@ -82,6 +82,7 @@ override_dh_auto_build:
 			LDFLAGS='' \
 			VERSION='$(VERSION)' \
 			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
+			DISABLE_WARN_OUTSIDE_CONTAINER=1 \
 			dynbinary
 	$(MAKE) -f debian/rules _build-manpages
 	
