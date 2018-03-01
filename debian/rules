@@ -16,6 +16,11 @@ export DOCKER_BUILDTAGS := apparmor seccomp selinux
 # prefer Go 1.9 explicitly if it's available (golang-1.9-go)
 export PATH := /usr/lib/go-1.9/bin:$(PATH)
 
+ifneq (,$(filter parallel=%, $(DEB_BUILD_OPTIONS)))
+	NUMJOBS := $(patsubst parallel=%, %, $(filter parallel=%, $(DEB_BUILD_OPTIONS)))
+	MAKEFLAGS += -j '$(NUMJOBS)'
+endif
+
 override_dh_gencontrol:
 	# if we're on Ubuntu, we need to Recommends: apparmor
 	echo 'apparmor:Recommends=$(shell dpkg-vendor --is Ubuntu && echo apparmor)' >> debian/docker.io.substvars
@@ -40,6 +45,47 @@ override_dh_auto_configure:
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
 	ln -sfT '$(CURDIR)/components/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
 
+_require-gitcommit:
+	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
+
+override_dh_auto_build: _build-runc _build-containerd _build-tini _build-proxy _build-cli _build-manpages _build-engine
+	@#
+
+# several "supporting binaries" need to be built and installed
+# (https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/engine/hack/dockerfile/install-binaries.sh)
+
+_build-runc:
+	cd '$(OUR_GOPATH)/src/github.com/opencontainers/runc' \
+		&& make \
+			BUILDTAGS='seccomp apparmor selinux' \
+			COMMIT='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$RUNC_COMMIT")'
+	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
+
+_build-containerd:
+	cd '$(OUR_GOPATH)/src/github.com/containerd/containerd' \
+		&& make \
+			LDFLAGS='' \
+			VERSION='docker-$(VERSION)' \
+			REVISION='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$CONTAINERD_COMMIT")'
+	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
+
+_build-tini: # (docker-init)
+	mkdir -p tini/build
+	cd tini/build \
+		&& cmake .. \
+		&& make tini-static
+
+_build-proxy: # (from libnetwork)
+	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
+
+_build-cli: _require-gitcommit
+	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
+		make -C components/cli \
+			LDFLAGS='' \
+			VERSION='$(VERSION)' \
+			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
+			dynbinary
+
 # https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/cli/scripts/docs/generate-man.sh
 # (replacing hard-coded "/tmp/gen-manpages" with "debian/tmp/gen-manpages")
 _build-manpages:
@@ -48,46 +94,7 @@ _build-manpages:
 		&& sed 's!/tmp/gen-manpages!$(CURDIR)/debian/tmp/gen-manpages!g' scripts/docs/generate-man.sh \
 			| bash
 
-override_dh_auto_build:
-	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
-	
-	# several "supporting binaries" need to be built and installed
-	# (https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/engine/hack/dockerfile/install-binaries.sh)
-	
-	# runc
-	cd '$(OUR_GOPATH)/src/github.com/opencontainers/runc' \
-		&& make \
-			BUILDTAGS='seccomp apparmor selinux' \
-			COMMIT='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$RUNC_COMMIT")'
-	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
-	
-	# containerd
-	cd '$(OUR_GOPATH)/src/github.com/containerd/containerd' \
-		&& make \
-			LDFLAGS='' \
-			VERSION='docker-$(VERSION)' \
-			REVISION='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$CONTAINERD_COMMIT")'
-	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
-	
-	# tini (docker-init)
-	mkdir -p tini/build
-	cd tini/build \
-		&& cmake .. \
-		&& make tini-static
-	
-	# docker-proxy (from libnetwork)
-	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
-	
-	# cli
-	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
-		make -C components/cli \
-			LDFLAGS='' \
-			VERSION='$(VERSION)' \
-			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
-			dynbinary
-	$(MAKE) -f debian/rules _build-manpages
-	
-	# engine
+_build-engine: _require-gitcommit
 	cd components/engine \
 		&& ./hack/make.sh dynbinary
 
