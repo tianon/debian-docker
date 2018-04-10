@@ -26,33 +26,29 @@ case "$1" in
 		;;
 esac
 
-shouldStartRestart=
-if [ "$1" != 'reconfigure' ] && [ -z "${DEBCONF_RECONFIGURE:-}" ]; then
-	# (if we're just doing "dpkg-reconfigure", there's no reason to actually [re]start Docker)
-	shouldStartRestart=1
-fi
-
-# restart Docker if it's running (thus this is an upgrade) and the user (via debconf) told us they're OK with that
+# restart Docker if it's running (thus this is an upgrade) and the user (via debconf) tells us they're OK with that
 db_version 2.0
-db_get docker.io/restart
-if \
-	[ "$RET" = 'true' ] \
-	&& [ -n "$2" ] && [ "$1" = 'configure' ] \
-	&& [ -n "$shouldStartRestart" ] \
-	&& [ -x /etc/init.d/docker ] \
+db_fset docker.io/restart seen false
+if [ -n "$2" ] && [ "$1" = 'configure' ] \
+	&& [ -z "${DEBCONF_RECONFIGURE:-}" ] \
 	&& invoke-rc.d --disclose-deny docker status > /dev/null 2>&1 \
 ; then
-	# Docker daemon appears to be running and should be restarted
-	invoke-rc.d docker restart || :
+	db_input high docker.io/restart || :
+	db_go || :
+	db_get docker.io/restart
+	if [ "$RET" = 'true' ]; then
+		# Docker daemon appears to be running and should be restarted
+		invoke-rc.d docker restart || :
+	fi
 fi
 db_stop
 
 #DEBHELPER#
 
-# because we had to use "dh_installinit --no-start", we get to make sure the daemon is started on first install
+# because we had to use "dh_installinit --no-start", we get to make sure the daemon is started on first install (and upgrades thereafter, if it isn't running)
 # (this is adapted from debhelper's "autoscripts/postinst-init")
 if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ]; then
-	if [ -x /etc/init.d/docker ] && [ -n "$shouldStartRestart" ] && ! invoke-rc.d docker status > /dev/null 2>&1 ; then
+	if [ -z "${DEBCONF_RECONFIGURE:-}" ] && ! invoke-rc.d docker status > /dev/null 2>&1 ; then
 		invoke-rc.d docker start || :
 	fi
 fi
