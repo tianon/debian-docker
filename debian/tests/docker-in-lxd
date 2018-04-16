@@ -123,7 +123,7 @@ EOF
 fi
 
 attempts=0
-while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q ^nameserver; do
+while ! lxc exec docker -- grep -q ^nameserver /etc/resolv.conf; do
     sleep 1
     attempts=$((attempts+1))
     if [ $attempts -gt 30 ]; then
@@ -131,10 +131,10 @@ while ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep -q ^nameserve
         exit 1
     fi
 done
-if ! lxc file pull docker/etc/resolv.conf - 2> /dev/null | grep ^nameserver | grep -qv 127.0.0.53
+if ! lxc exec docker -- sh -c 'grep ^nameserver /etc/resolv.conf | grep -qv 127.0.0.53'
 then
     echo "systemd-resolved"
-    while ! lxc file pull docker/run/systemd/resolve/resolv.conf - 2> /dev/null | grep -v fe80 | grep -q ^nameserver; do
+    while ! lxc exec docker -- sh -c 'grep -v fe80 /run/systemd/resolve/resolv.conf | grep -q ^nameserver'; do
         sleep 1
         attempts=$((attempts+1))
         if [ $attempts -gt 30 ]; then
