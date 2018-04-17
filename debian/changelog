@@ -12,6 +12,7 @@ docker.io (17.12.1-0ubuntu1) UNRELEASED; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * Switch to building with default version of Go.
+  * Adjust debconf template to match change in behavior.
 
  -- Tianon Gravi <tianon@debian.org>  Wed, 28 Feb 2018 09:46:05 -0800
 

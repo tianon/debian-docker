@@ -1,7 +1,7 @@
 Template: docker.io/restart
 Type: boolean
 Default: false
-Description: Automatically restart Docker daemon during package upgrades?
+Description: Automatically restart Docker daemon?
  If Docker is upgraded without restarting the Docker daemon, Docker will often
  have trouble starting new containers, and in some cases even maintaining the
  containers it is currently running. See https://launchpad.net/bugs/1658691 for
