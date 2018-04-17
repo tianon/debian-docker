@@ -1,5 +1,6 @@
 docker.io (17.12.1-0ubuntu1) UNRELEASED; urgency=medium
 
+  [ Tianon Gravi ]
   * Update to 17.12.1-ce upstream release
     - swap from github.com/docker/docker to .../docker/docker-ce
     - build separate components in a way that can be parallelized
@@ -8,6 +9,9 @@ docker.io (17.12.1-0ubuntu1) UNRELEASED; urgency=medium
   * Adjust debconf prompt:
     - ask during _every_ upgrade
     - default to not restarting
+
+  [ Michael Hudson-Doyle ]
+  * Switch to building with default version of Go.
 
  -- Tianon Gravi <tianon@debian.org>  Wed, 28 Feb 2018 09:46:05 -0800
 

@@ -13,9 +13,6 @@ export GOPATH := $(OUR_GOPATH)
 # same story with SELinux
 export DOCKER_BUILDTAGS := apparmor seccomp selinux
 
-# prefer Go 1.9 explicitly if it's available (golang-1.9-go)
-export PATH := /usr/lib/go-1.9/bin:$(PATH)
-
 ifneq (,$(filter parallel=%, $(DEB_BUILD_OPTIONS)))
 	NUMJOBS := $(patsubst parallel=%, %, $(filter parallel=%, $(DEB_BUILD_OPTIONS)))
 	MAKEFLAGS += -j '$(NUMJOBS)'
