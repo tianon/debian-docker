@@ -1,4 +1,4 @@
-docker.io (17.12.1-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (17.12.1-0ubuntu1) bionic; urgency=medium
 
   [ Tianon Gravi ]
   * Update to 17.12.1-ce upstream release
