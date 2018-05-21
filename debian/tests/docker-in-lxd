@@ -81,14 +81,17 @@ fi
 suite=$(lsb_release -cs)
 arch=$(dpkg --print-architecture)
 
-lxc launch images:ubuntu/${suite}/${arch} docker -c security.nesting=true
+lxc launch ubuntu-daily:${suite}/${arch} docker -c security.nesting=true
 
 defer 'lxc delete --force docker'
 
 # autopkgtest will have done some complicated things to ensure that "apt
 # install docker.io" installs the version that should be tested in the
 # host. But we want to test that version of docker in the container, so
-# replace the entire apt configuration of the container with that of the host.
+# replace the entire apt configuration of the container with that of the host
+# (after waiting for cloud-init to avoid racing with its attempts to rewrite
+# the apt config).
+lxc exec docker -- cloud-init status --wait
 lxc exec docker -- rm -rf /etc/apt
 lxc exec docker -- mkdir /etc/apt
 tar -cC /etc/apt . | lxc exec docker -- tar -xC /etc/apt
