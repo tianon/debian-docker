@@ -7,7 +7,7 @@ Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>,
            Tianon Gravi <tianon@debian.org>
 Build-Conflicts: golang-github-docker-docker-dev
 Build-Depends: bash-completion,
-               btrfs-tools,
+               libbtrfs-dev | btrfs-progs (<< 4.16.1~),
                ca-certificates,
                cmake,
                debconf (>= 0.5),
@@ -43,7 +43,7 @@ Conflicts: docker-containerd, docker-runc
 Replaces: docker (<< 1.5~), docker-containerd, docker-runc
 Breaks: docker (<< 1.5~)
 Suggests: aufs-tools,
-          btrfs-tools,
+          btrfs-progs,
           debootstrap,
           docker-doc,
           rinse,

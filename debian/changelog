@@ -1,3 +1,9 @@
+docker.io (17.12.1-0ubuntu2) cosmic; urgency=medium
+
+  * Update btrfs dependencies to use the new libbtrfs-dev & btrfs-progs.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 17 May 2018 09:27:15 +0100
+
 docker.io (17.12.1-0ubuntu1) bionic; urgency=medium
 
   [ Tianon Gravi ]
