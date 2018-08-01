@@ -1,4 +1,4 @@
-docker.io (17.12.1-0ubuntu5) UNRELEASED; urgency=medium
+docker.io (17.12.1-0ubuntu5) cosmic; urgency=medium
 
   * Fix ftbfs by cherry-picking https://github.com/containerd/btrfs/pull/16.
 
