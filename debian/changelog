@@ -1,3 +1,9 @@
+docker.io (17.12.1-0ubuntu4) cosmic; urgency=medium
+
+  * d/tests/docker-in-lxd: only setup network bridge if missing
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 05 Jun 2018 22:58:51 -0400
+
 docker.io (17.12.1-0ubuntu3) cosmic; urgency=medium
 
   * d/tests/docker-in-lxd: switch to ubuntu-daily lxd remote and wait

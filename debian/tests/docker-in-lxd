@@ -42,8 +42,10 @@ lxd_extension() {
 if [ -n "${AUTOPKGTEST_TMP:-}" ]; then
     lxd init --auto
     if lxd_extension "network"; then
-        lxc network create adt-br0
-        lxc network attach-profile adt-br0 default eth0
+        if ! lxc profile device list default | grep -q eth0; then
+            lxc network create adt-br0
+            lxc network attach-profile adt-br0 default eth0
+        fi
     else
         sleep 10
         systemctl stop lxd-bridge
