@@ -1,3 +1,9 @@
+docker.io (17.12.1-0ubuntu5) UNRELEASED; urgency=medium
+
+  * Fix ftbfs by cherry-picking https://github.com/containerd/btrfs/pull/16.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 01 Aug 2018 11:40:05 +1200
+
 docker.io (17.12.1-0ubuntu4) cosmic; urgency=medium
 
   * d/tests/docker-in-lxd: only setup network bridge if missing
