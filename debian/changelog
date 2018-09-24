@@ -1,4 +1,4 @@
-docker.io (17.12.1-0ubuntu6) UNRELEASED; urgency=medium
+docker.io (17.12.1-0ubuntu7) UNRELEASED; urgency=medium
 
   * Update debconf to prompt more aggressively (LP: #1784602)
     1. does not prompt on initial install (but does start the daemon)
@@ -10,6 +10,12 @@ docker.io (17.12.1-0ubuntu6) UNRELEASED; urgency=medium
        prompt
 
  -- Tianon Gravi <tianon@debian.org>  Mon, 24 Sep 2018 15:42:19 -0700
+
+docker.io (17.12.1-0ubuntu6) cosmic; urgency=medium
+
+  * d/tests/docker-in-lxd: Avoid startup race and drop lxd-client depends
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sat, 15 Sep 2018 03:07:49 +0200
 
 docker.io (17.12.1-0ubuntu5) cosmic; urgency=medium
 

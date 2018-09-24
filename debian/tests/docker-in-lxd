@@ -37,6 +37,8 @@ lxd_extension() {
   lxc info | grep -q "^\- ${1}$"
 }
 
+lxd waitready
+
 # Attempt to auto-configure ipv4, but only when really running under
 # autopkgtest.
 if [ -n "${AUTOPKGTEST_TMP:-}" ]; then
