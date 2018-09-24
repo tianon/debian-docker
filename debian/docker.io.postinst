@@ -29,16 +29,22 @@ esac
 # restart Docker if it's running (thus this is an upgrade) and the user (via debconf) tells us they're OK with that
 db_version 2.0
 db_fset docker.io/restart seen false
-if [ -n "$2" ] && [ "$1" = 'configure' ] \
-	&& [ -z "${DEBCONF_RECONFIGURE:-}" ] \
-	&& invoke-rc.d --disclose-deny docker status > /dev/null 2>&1 \
-; then
+if [ -n "$2" ] && [ "$1" = 'configure' ] && {
+	# either:
+	#   - we're doing "dpkg-reconfigure" (and thus need to "db_input" to make sure users can change their answer between installs/upgrades)
+	#   - we're doing install/upgrade and Docker is running (and thus it matters whether or not the user wants us to restart Docker for them)
+	[ -n "${DEBCONF_RECONFIGURE:-}" ] \
+	|| invoke-rc.d --disclose-deny docker status > /dev/null 2>&1
+}; then
 	db_input high docker.io/restart || :
 	db_go || :
-	db_get docker.io/restart
-	if [ "$RET" = 'true' ]; then
-		# Docker daemon appears to be running and should be restarted
-		invoke-rc.d docker restart || :
+	if [ -z "${DEBCONF_RECONFIGURE:-}" ]; then
+		# only perform the actual restart if we're doing install/upgrade (not during interactive "dpkg-reconfigure")
+		db_get docker.io/restart
+		if [ "$RET" = 'true' ]; then
+			# Docker daemon appears to be running and should be restarted
+			invoke-rc.d docker restart || :
+		fi
 	fi
 fi
 db_stop

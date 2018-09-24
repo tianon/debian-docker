@@ -1,3 +1,16 @@
+docker.io (17.12.1-0ubuntu6) UNRELEASED; urgency=medium
+
+  * Update debconf to prompt more aggressively (LP: #1784602)
+    1. does not prompt on initial install (but does start the daemon)
+    2. does prompt on every reinstall / upgrade (if the daemon is running)
+    3. does prompt during "dpkg-reconfigure docker.io" (but does _not_
+       [re]start the daemon)
+    4. works properly with DEBIAN_FRONTEND=noninteractive -- user's
+       previous/stored answer to the question automatically applies with no
+       prompt
+
+ -- Tianon Gravi <tianon@debian.org>  Mon, 24 Sep 2018 15:42:19 -0700
+
 docker.io (17.12.1-0ubuntu5) cosmic; urgency=medium
 
   * Fix ftbfs by cherry-picking https://github.com/containerd/btrfs/pull/16.
