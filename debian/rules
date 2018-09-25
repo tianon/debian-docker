@@ -93,7 +93,7 @@ _build-manpages:
 
 _build-engine: _require-gitcommit
 	cd components/engine \
-		&& ./hack/make.sh dynbinary
+		&& PRODUCT=docker ./hack/make.sh dynbinary
 
 # basic smoke test to ensure binaries built successfully
 # (especially since their tests are _really_ involved)

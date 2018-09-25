@@ -1,5 +1,7 @@
-docker.io (17.12.1-0ubuntu7) UNRELEASED; urgency=medium
+docker.io (18.06.1-0ubuntu1) UNRELEASED; urgency=medium
 
+  * Update to 18.06.1 upstream release
+    - drop "fix-btrfs-constants.patch" (applied upstream)
   * Update debconf to prompt more aggressively (LP: #1784602)
     1. does not prompt on initial install (but does start the daemon)
     2. does prompt on every reinstall / upgrade (if the daemon is running)
