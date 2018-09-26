@@ -1,6 +1,6 @@
 docker.io (18.06.1-0ubuntu1) UNRELEASED; urgency=medium
 
-  * Update to 18.06.1 upstream release
+  * Update to 18.06.1 upstream release (LP: #1794396)
     - drop "fix-btrfs-constants.patch" (applied upstream)
   * Update debconf to prompt more aggressively (LP: #1784602)
     1. does not prompt on initial install (but does start the daemon)
