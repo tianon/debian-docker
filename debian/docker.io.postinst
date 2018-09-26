@@ -6,7 +6,10 @@ set -e
 case "$1" in
 	configure)
 		if [ -z "$2" ]; then
-			addgroup --system docker
+			# make sure the "docker" system group exists for "docker.socket" to apply it as the group on "docker.sock"
+			if ! getent group docker > /dev/null 2>&1; then
+				addgroup --system docker
+			fi
 		fi
 
 		# Ensure config directory permissions

@@ -10,6 +10,7 @@ docker.io (18.06.1-0ubuntu1) UNRELEASED; urgency=medium
     4. works properly with DEBIAN_FRONTEND=noninteractive -- user's
        previous/stored answer to the question automatically applies with no
        prompt
+  * Check if "docker" group exists before creating it (LP: #1769911)
 
  -- Tianon Gravi <tianon@debian.org>  Mon, 24 Sep 2018 15:42:19 -0700
 
