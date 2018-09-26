@@ -1,4 +1,4 @@
-docker.io (18.06.1-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (18.06.1-0ubuntu1) cosmic; urgency=medium
 
   * Update to 18.06.1 upstream release (LP: #1794396)
     - drop "fix-btrfs-constants.patch" (applied upstream)
