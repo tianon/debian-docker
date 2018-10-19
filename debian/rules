@@ -55,7 +55,7 @@ _build-runc:
 	cd '$(OUR_GOPATH)/src/github.com/opencontainers/runc' \
 		&& make \
 			BUILDTAGS='seccomp apparmor selinux' \
-			COMMIT='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$RUNC_COMMIT")'
+			COMMIT='$(shell eval "$$(grep -E '^RUNC_COMMIT=' components/engine/hack/dockerfile/install/runc.installer)" && echo "$$RUNC_COMMIT")'
 	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
 
 _build-containerd:
@@ -63,7 +63,7 @@ _build-containerd:
 		&& make \
 			LDFLAGS='' \
 			VERSION='docker-$(VERSION)' \
-			REVISION='$(shell . components/engine/hack/dockerfile/binaries-commits && echo "$$CONTAINERD_COMMIT")'
+			REVISION='$(shell eval "$$(grep -E '^CONTAINERD_COMMIT=' components/engine/hack/dockerfile/install/containerd.installer)" && echo "$$CONTAINERD_COMMIT")'
 	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
 
 _build-tini: # (docker-init)
