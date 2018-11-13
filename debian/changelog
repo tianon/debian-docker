@@ -1,4 +1,4 @@
-docker.io (18.06.1-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (18.06.1-0ubuntu2) disco; urgency=medium
 
   * Fix containerd/runc embedded commit values
   * Add "libsystemd-dev" to "Build-Depends" (LP: #1802979)
