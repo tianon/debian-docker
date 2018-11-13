@@ -20,6 +20,7 @@ Build-Depends: bash-completion,
                libdevmapper-dev (>= 2:1.02.68~),
                libltdl-dev,
                libseccomp-dev,
+               libsystemd-dev (>= 209~),
                pkg-config,
                procps,
                tzdata
