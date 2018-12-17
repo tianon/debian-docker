@@ -37,7 +37,7 @@ lxd_extension() {
   lxc info | grep -q "^\- ${1}$"
 }
 
-lxd waitready
+time lxd waitready --timeout 600
 
 # Attempt to auto-configure ipv4, but only when really running under
 # autopkgtest.
