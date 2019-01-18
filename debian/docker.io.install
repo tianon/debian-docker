@@ -13,4 +13,4 @@ tini/build/tini-static => usr/bin/docker-init
 components/cli/contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
 components/engine/contrib/check-config.sh usr/share/docker.io/contrib/
 components/engine/contrib/nuke-graph-directory.sh usr/share/docker.io/contrib/
-components/packaging/deb/systemd/docker.socket lib/systemd/system/
+components/packaging/systemd/docker.socket lib/systemd/system/

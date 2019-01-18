@@ -1,8 +1,12 @@
-docker.io (18.06.1-0ubuntu3) UNRELEASED; urgency=medium
+docker.io (18.09.1-0~ubuntu1) UNRELEASED; urgency=medium
 
+  [ Michael Hudson-Doyle ]
   * d/tests/docker-in-lxd: Increase timeout passed to lxd waitready.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 17 Dec 2018 20:23:49 +1300
+  [ Tianon Gravi ]
+  * Update to 18.09.1 upstream release
+
+ -- Tianon Gravi <tianon@debian.org>  Thu, 17 Jan 2019 16:14:51 -0800
 
 docker.io (18.06.1-0ubuntu2) disco; urgency=medium
 
