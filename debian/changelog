@@ -9,6 +9,8 @@ docker.io (18.09.1-0~ubuntu1) UNRELEASED; urgency=medium
   [ Michael Hudson-Doyle ]
   * d/rules: Empty XDG_RUNTIME_DIR when smoke testing runc to avoid it doing
     silly things.
+  * d/golang-github-docker-docker-dev.install: install some more go packages
+    that other packages in the archive depend on.
 
  -- Tianon Gravi <tianon@debian.org>  Thu, 17 Jan 2019 16:14:51 -0800
 
