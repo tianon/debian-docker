@@ -99,7 +99,9 @@ _build-engine: _require-gitcommit
 # (especially since their tests are _really_ involved)
 override_dh_auto_test:
 	# runc
-	./runc/runc --version
+	# (runc tries to create $XDG_RUNTIME_DIR if it is run as
+	# non-root and that variable is non-empty which is just silly)
+	XDG_RUNTIME_DIR= ./runc/runc --version
 	# containerd
 	./containerd/bin/containerd --version
 	@# "containerd-shim" has no version flag
