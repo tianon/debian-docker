@@ -1,4 +1,4 @@
-docker.io (18.09.1-0~ubuntu1) UNRELEASED; urgency=medium
+docker.io (18.09.1-0~ubuntu1) disco; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * d/tests/docker-in-lxd: Increase timeout passed to lxd waitready.
