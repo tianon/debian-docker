@@ -72,3 +72,16 @@ index 799399c07b..1ea91d2b5d 100644
  )
  
  func (r *remote) setDefaults() {
+diff --git a/components/packaging/systemd/docker.service b/components/packaging/systemd/docker.service
+index 9cc6216dab..4f38ce29ee 100644
+--- a/components/packaging/systemd/docker.service
++++ b/components/packaging/systemd/docker.service
+@@ -1,7 +1,7 @@
+ [Unit]
+ Description=Docker Application Container Engine
+ Documentation=https://docs.docker.com
+-BindsTo=containerd.service
++#BindsTo=containerd.service
+ After=network-online.target firewalld.service
+ Wants=network-online.target
+ Requires=docker.socket
