@@ -1,4 +1,4 @@
-docker.io (18.09.1-0~ubuntu2) UNRELEASED; urgency=medium
+docker.io (18.09.1-0ubuntu2) disco; urgency=medium
 
   * Update "docker-prefix.patch" to also fix "docker.service"
 
