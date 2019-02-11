@@ -55,7 +55,7 @@ _build-runc:
 	cd '$(OUR_GOPATH)/src/github.com/opencontainers/runc' \
 		&& make \
 			BUILDTAGS='seccomp apparmor selinux' \
-			COMMIT='$(shell eval "$$(grep -E '^RUNC_COMMIT=' components/engine/hack/dockerfile/install/runc.installer)" && echo "$$RUNC_COMMIT")'
+			COMMIT='09c8266bf2fcf9519a651b04ae54c967b9ab86ec'
 	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
 
 _build-containerd:
