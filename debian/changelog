@@ -1,4 +1,4 @@
-docker.io (18.09.2-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (18.09.2-0ubuntu1) disco; urgency=medium
 
   * Update to 18.09.2, including fix for CVE-2019-5736.
     - Convert components/engine/git-bundles/CVE-2019-5736.bundle into
