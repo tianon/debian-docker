@@ -1,3 +1,15 @@
+docker.io (18.09.3-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Update to 18.09.3.
+    - update d/upstream-version-commits
+    - refresh d/patches/docker-prefix.patch to maintain dependence on
+      docker-specific containerd daemon.
+    - remove d/patches/0001-nsenter-clone-proc-self-exe-to-avoid-exposing-host-b.patch,
+      now included upstream.
+  * Remove hard-coding for RUNC_COMMIT in debian/rules.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 14 Mar 2019 11:22:11 +1300
+
 docker.io (18.09.2-0ubuntu1) disco; urgency=medium
 
   * Update to 18.09.2, including fix for CVE-2019-5736.

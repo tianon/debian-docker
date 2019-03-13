@@ -2,4 +2,3 @@ cgroupfs-mount-convenience-copy.patch
 devicemapper-cleanup.patch
 docker-prefix.patch
 ubuntu-runc-ignore-cgroup2-under-systemd.patch
-0001-nsenter-clone-proc-self-exe-to-avoid-exposing-host-b.patch

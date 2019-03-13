@@ -2,11 +2,9 @@ Description: re-add the "docker-" prefix on forked binaries for now (eventually 
 Author: Tianon Gravi <tianon@debian.org>
 Origin: partial revert of https://github.com/moby/moby/commit/34eede0296bce6a9c335cb429f10728ae3f4252d
 
-diff --git a/components/engine/builder/builder-next/executor_unix.go b/components/engine/builder/builder-next/executor_unix.go
-index 3a11f85881..ce4d2d937f 100644
 --- a/components/engine/builder/builder-next/executor_unix.go
 +++ b/components/engine/builder/builder-next/executor_unix.go
-@@ -28,7 +28,7 @@ func newExecutor(root, cgroupParent string, net libnetwork.NetworkController) (e
+@@ -28,7 +28,7 @@
  	}
  	return runcexecutor.New(runcexecutor.Opt{
  		Root:                filepath.Join(root, "executor"),
@@ -15,11 +13,9 @@ index 3a11f85881..ce4d2d937f 100644
  		DefaultCgroupParent: cgroupParent,
  	}, networkProviders)
  }
-diff --git a/components/engine/daemon/daemon_unix.go b/components/engine/daemon/daemon_unix.go
-index 5234201c82..c40d11bc85 100644
 --- a/components/engine/daemon/daemon_unix.go
 +++ b/components/engine/daemon/daemon_unix.go
-@@ -54,11 +54,11 @@ import (
+@@ -54,11 +54,11 @@
  const (
  	// DefaultShimBinary is the default shim to be used by containerd if none
  	// is specified
@@ -33,7 +29,7 @@ index 5234201c82..c40d11bc85 100644
  
  	// See https://git.kernel.org/cgit/linux/kernel/git/tip/tip.git/tree/kernel/sched/sched.h?id=8cd9234c64c584432f6992fe944ca9e46ca8ea76#n269
  	linuxMinCPUShares = 2
-@@ -76,7 +76,7 @@ const (
+@@ -76,7 +76,7 @@
  
  	// DefaultRuntimeName is the default runtime to be used by
  	// containerd if none is specified
@@ -42,11 +38,9 @@ index 5234201c82..c40d11bc85 100644
  )
  
  type containerGetter interface {
-diff --git a/components/engine/libcontainerd/supervisor/remote_daemon.go b/components/engine/libcontainerd/supervisor/remote_daemon.go
-index 439162de70..e02aaa9504 100644
 --- a/components/engine/libcontainerd/supervisor/remote_daemon.go
 +++ b/components/engine/libcontainerd/supervisor/remote_daemon.go
-@@ -27,8 +27,8 @@ const (
+@@ -27,8 +27,8 @@
  	shutdownTimeout         = 15 * time.Second
  	startupTimeout          = 15 * time.Second
  	configFile              = "containerd.toml"
@@ -57,11 +51,9 @@ index 439162de70..e02aaa9504 100644
  )
  
  type pluginConfigs struct {
-diff --git a/components/engine/libcontainerd/supervisor/remote_daemon_linux.go b/components/engine/libcontainerd/supervisor/remote_daemon_linux.go
-index 799399c07b..1ea91d2b5d 100644
 --- a/components/engine/libcontainerd/supervisor/remote_daemon_linux.go
 +++ b/components/engine/libcontainerd/supervisor/remote_daemon_linux.go
-@@ -11,8 +11,8 @@ import (
+@@ -11,8 +11,8 @@
  )
  
  const (
@@ -72,16 +64,25 @@ index 799399c07b..1ea91d2b5d 100644
  )
  
  func (r *remote) setDefaults() {
-diff --git a/components/packaging/systemd/docker.service b/components/packaging/systemd/docker.service
-index 9cc6216dab..4f38ce29ee 100644
 --- a/components/packaging/systemd/docker.service
 +++ b/components/packaging/systemd/docker.service
-@@ -1,7 +1,7 @@
+@@ -1,8 +1,8 @@
  [Unit]
  Description=Docker Application Container Engine
  Documentation=https://docs.docker.com
 -BindsTo=containerd.service
+-After=network-online.target firewalld.service containerd.service
 +#BindsTo=containerd.service
- After=network-online.target firewalld.service
++After=network-online.target firewalld.service
  Wants=network-online.target
  Requires=docker.socket
+ 
+@@ -11,7 +11,7 @@
+ # the default is not to use systemd for cgroups because the delegate issues still
+ # exists and systemd currently does not support the cgroup feature set required
+ # for containers run by docker
+-ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
++ExecStart=/usr/bin/dockerd -H fd://
+ ExecReload=/bin/kill -s HUP $MAINPID
+ TimeoutSec=0
+ RestartSec=2
