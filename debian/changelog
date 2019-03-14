@@ -6,7 +6,8 @@ docker.io (18.09.3-0ubuntu1) UNRELEASED; urgency=medium
       docker-specific containerd daemon.
     - remove d/patches/0001-nsenter-clone-proc-self-exe-to-avoid-exposing-host-b.patch,
       now included upstream.
-  * Remove hard-coding for RUNC_COMMIT in debian/rules.
+  * Stop bundling containerd and runc and instead depend on the containerd
+    package from the archive.
 
  -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 14 Mar 2019 11:22:11 +1300
 
