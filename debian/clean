@@ -3,7 +3,5 @@ components/cli/build/
 components/cli/man/man*/
 components/engine/bundles/
 components/engine/dockerversion/*_autogen*.go
-containerd/bin/
 libnetwork/docker-proxy
-runc/runc
 tini/build/

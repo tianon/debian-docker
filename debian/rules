@@ -26,12 +26,6 @@ override_dh_gencontrol:
 
 override_dh_auto_configure:
 	# set up GOPATH symlink farm
-	# runc
-	mkdir -p '$(OUR_GOPATH)/src/github.com/opencontainers'
-	ln -sfT '$(CURDIR)/runc' '$(OUR_GOPATH)/src/github.com/opencontainers/runc'
-	# containerd
-	mkdir -p '$(OUR_GOPATH)/src/github.com/containerd'
-	ln -sfT '$(CURDIR)/containerd' '$(OUR_GOPATH)/src/github.com/containerd/containerd'
 	# libnetwork
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
 	ln -sfT '$(CURDIR)/libnetwork' '$(OUR_GOPATH)/src/github.com/docker/libnetwork'
@@ -45,26 +39,11 @@ override_dh_auto_configure:
 _require-gitcommit:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
 
-override_dh_auto_build: _build-runc _build-containerd _build-tini _build-proxy _build-cli _build-manpages _build-engine
+override_dh_auto_build: _build-tini _build-proxy _build-cli _build-manpages _build-engine
 	@#
 
 # several "supporting binaries" need to be built and installed
 # (https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/engine/hack/dockerfile/install-binaries.sh)
-
-_build-runc:
-	cd '$(OUR_GOPATH)/src/github.com/opencontainers/runc' \
-		&& make \
-			BUILDTAGS='seccomp apparmor selinux' \
-			COMMIT='$(shell eval "$$(grep -E '^RUNC_COMMIT=' components/engine/hack/dockerfile/install/runc.installer)" && echo "$$RUNC_COMMIT")'
-	# (we use the exact commit Docker does, so we pass that value to "runc" when we build it)
-
-_build-containerd:
-	cd '$(OUR_GOPATH)/src/github.com/containerd/containerd' \
-		&& make \
-			LDFLAGS='' \
-			VERSION='docker-$(VERSION)' \
-			REVISION='$(shell eval "$$(grep -E '^CONTAINERD_COMMIT=' components/engine/hack/dockerfile/install/containerd.installer)" && echo "$$CONTAINERD_COMMIT")'
-	# (we use the exact commit Docker does, so we pass that value to "containerd" when we build it)
 
 _build-tini: # (docker-init)
 	mkdir -p tini/build
@@ -98,14 +77,6 @@ _build-engine: _require-gitcommit
 # basic smoke test to ensure binaries built successfully
 # (especially since their tests are _really_ involved)
 override_dh_auto_test:
-	# runc
-	# (runc tries to create $XDG_RUNTIME_DIR if it is run as
-	# non-root and that variable is non-empty which is just silly)
-	XDG_RUNTIME_DIR= ./runc/runc --version
-	# containerd
-	./containerd/bin/containerd --version
-	@# "containerd-shim" has no version flag
-	./containerd/bin/ctr --version
 	# tini
 	./tini/build/tini-static --version
 	# cli

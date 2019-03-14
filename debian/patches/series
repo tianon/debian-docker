@@ -1,4 +1,2 @@
 cgroupfs-mount-convenience-copy.patch
 devicemapper-cleanup.patch
-docker-prefix.patch
-ubuntu-runc-ignore-cgroup2-under-systemd.patch
