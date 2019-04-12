@@ -1,8 +1,8 @@
-docker.io (18.09.5-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (18.09.5-0ubuntu1) disco; urgency=medium
 
   * Update to 18.09.5.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 12 Apr 2019 11:31:26 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 12 Apr 2019 12:27:37 +1200
 
 docker.io (18.09.3-0ubuntu1) disco; urgency=medium
 
