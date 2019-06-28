@@ -1,3 +1,9 @@
+docker.io (18.09.7-0ubuntu1~19.04.1) disco; urgency=medium
+
+  * Backport to 19.04. (LP: #1834690)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jun 2019 22:16:01 +0100
+
 docker.io (18.09.7-0ubuntu1) eoan; urgency=medium
 
   * Update to 18.09.7. (LP: #1834690)
