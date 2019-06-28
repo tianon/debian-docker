@@ -1,9 +1,9 @@
-docker.io (18.09.7-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (18.09.7-0ubuntu1) eoan; urgency=medium
 
   * Update to 18.09.7. (LP: #1834690)
     - Includes fix for CVE-2018-15664.
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jun 2019 20:36:52 +0100
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jun 2019 21:13:02 +0100
 
 docker.io (18.09.5-0ubuntu1) disco; urgency=medium
 
