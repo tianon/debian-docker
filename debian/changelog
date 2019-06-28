@@ -1,3 +1,10 @@
+docker.io (18.09.7-0ubuntu1~18.10.1~ppa1) cosmic; urgency=medium
+
+  * Backport to 18.10. (LP: #1834690)
+  * Version depedency on containerd.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 28 Jun 2019 21:47:20 +0100
+
 docker.io (18.09.7-0ubuntu1) eoan; urgency=medium
 
   * Update to 18.09.7. (LP: #1834690)
