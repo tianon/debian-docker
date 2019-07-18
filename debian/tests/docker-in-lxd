@@ -2,6 +2,14 @@
 
 . debian/tests/common
 
+arch=$(dpkg --print-architecture)
+release=$(lsb_release -rs)
+suite=$(lsb_release -cs)
+
+if [ "$arch" = "i386" -a "$release" \> "19.04" ]; then
+    exit 0
+fi
+
 # This stolen from lxd's debconf magic.
 random_ipv4() {
   while :; do
@@ -81,9 +89,6 @@ fi
 if [ -n "${noproxy:-}" ]; then
     lxc config set core.proxy_ignore_hosts $noproxy
 fi
-
-suite=$(lsb_release -cs)
-arch=$(dpkg --print-architecture)
 
 lxc launch ubuntu-daily:${suite}/${arch} docker -c security.nesting=true
 
