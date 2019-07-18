@@ -2,8 +2,6 @@
 
 . debian/tests/common
 
-/etc/init.d/docker start
-defer '/etc/init.d/docker stop'
 defer 'journalctl -u docker | tail'
 
 # make sure Docker itself is working before we go too deep down the rabbit hole

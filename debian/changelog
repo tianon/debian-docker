@@ -1,3 +1,10 @@
+docker.io (18.09.8-0ubuntu2) UNRELEASED; urgency=medium
+
+  * Remove extraneous start/stop of docker via init.d script from basic-smoke
+    autopkgtest.
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 18 Jul 2019 15:42:38 +1200
+
 docker.io (18.09.8-0ubuntu1) eoan; urgency=medium
 
   [ Michael Hudson-Doyle ]
