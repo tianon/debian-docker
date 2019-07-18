@@ -5,7 +5,7 @@ docker.io (18.09.8-0ubuntu1) UNRELEASED; urgency=medium
 
   [ Tianon Gravi ]
   * Remove sysvinit and upstart scripts (LP: #1832819)
-  * Update to 18.09.8 (CVE-2019-13509)
+  * Update to 18.09.8 (CVE-2019-13509, LP: #1836987)
 
  -- Tianon Gravi <tianon@debian.org>  Wed, 17 Jul 2019 18:26:58 -0700
 
