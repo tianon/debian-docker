@@ -1,4 +1,4 @@
-docker.io (18.09.8-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (18.09.8-0ubuntu1) eoan; urgency=medium
 
   [ Michael Hudson-Doyle ]
   * Version dependency on containerd.
