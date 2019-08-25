@@ -1,9 +1,9 @@
-docker.io (18.09.8-0ubuntu5) UNRELEASED; urgency=medium
+docker.io (18.09.8-0ubuntu5) eoan; urgency=medium
 
   * Set GOCACHE to a safely writable directory during build as the cache is
     mandatory with Go 1.12. 
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 26 Aug 2019 10:19:28 +1200
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Mon, 26 Aug 2019 10:20:12 +1200
 
 docker.io (18.09.8-0ubuntu4) eoan; urgency=medium
 
