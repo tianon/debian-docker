@@ -1,3 +1,4 @@
+.gocache/
 .gopath/
 components/cli/build/
 components/cli/man/man*/
