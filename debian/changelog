@@ -1,3 +1,10 @@
+docker.io (18.09.8-0ubuntu4) eoan; urgency=medium
+
+  * Add dependency on golang-github-docker-docker-credential-helpers-dev,
+    needed by github.com/docker/cli/cli/config/credentials/native_store.go.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 23 Aug 2019 14:21:42 -0700
+
 docker.io (18.09.8-0ubuntu3) eoan; urgency=medium
 
   * d/tests/docker-in-lxd: skip on eoan+/i386 as lxd images are no longer
