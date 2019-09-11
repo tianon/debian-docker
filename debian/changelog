@@ -1,3 +1,11 @@
+docker.io (18.09.8-0ubuntu6) UNRELEASED; urgency=medium
+
+  * Remove leftover sysvinit/upstart patches
+    - cgroupfs-mount-convenience-copy.patch
+    - devicemapper-cleanup.patch
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 11 Sep 2019 15:18:35 -0700
+
 docker.io (18.09.8-0ubuntu5) eoan; urgency=medium
 
   * Set GOCACHE to a safely writable directory during build as the cache is
