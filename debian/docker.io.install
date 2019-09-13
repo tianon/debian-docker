@@ -1,6 +1,6 @@
 #!/usr/bin/dh-exec
 
-# https://github.com/docker/docker-ce/blob/v17.12.1-ce/components/packaging/deb/common/rules#L24-L31
+# https://github.com/docker/docker-ce/blob/v19.03.2/components/packaging/deb/common/rules#L36
 components/cli/build/docker => usr/bin/docker
 components/engine/bundles/latest/dynbinary-daemon/dockerd => usr/bin/dockerd
 libnetwork/docker-proxy => usr/bin/docker-proxy
