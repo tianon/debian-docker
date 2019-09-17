@@ -5,6 +5,8 @@ export VERSION := $(shell cat VERSION)
 
 export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(VERSION))
 
+export PATH := $(CURDIR)/go/bin:$(PATH)
+
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 OUR_GOPATH := $(CURDIR)/.gopath
 export GOPATH := $(OUR_GOPATH)
@@ -46,16 +48,19 @@ override_dh_auto_build: _build-tini _build-proxy _build-cli _build-manpages _bui
 # several "supporting binaries" need to be built and installed
 # (https://github.com/docker/docker-ce/tree/v19.03.6/components/engine/hack/dockerfile/install)
 
+_build-go:
+	cd go/src && ./make.bash
+
 _build-tini: # (docker-init)
 	mkdir -p tini/build
 	cd tini/build \
 		&& cmake .. \
 		&& make tini-static
 
-_build-proxy: # (from libnetwork)
+_build-proxy: _build-go # (from libnetwork)
 	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
 
-_build-cli: _require-gitcommit
+_build-cli: _build-go _require-gitcommit
 	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
 		make -C components/cli \
 			LDFLAGS='' \
@@ -65,13 +70,13 @@ _build-cli: _require-gitcommit
 
 # https://github.com/docker/docker-ce/blob/v19.03.6/components/cli/scripts/docs/generate-man.sh
 # (replacing hard-coded "/tmp/gen-manpages" with "debian/tmp/gen-manpages")
-_build-manpages:
+_build-manpages: _build-go
 	cd '$(OUR_GOPATH)/src/github.com/docker/cli' \
 		&& export PATH='$(OUR_GOPATH)/bin':"$$PATH" \
 		&& sed 's!/tmp/gen-manpages!$(CURDIR)/debian/tmp/gen-manpages!g' scripts/docs/generate-man.sh \
 			| bash
 
-_build-engine: _require-gitcommit
+_build-engine: _build-go _require-gitcommit
 	cd components/engine \
 		&& PRODUCT=docker ./hack/make.sh dynbinary
 
