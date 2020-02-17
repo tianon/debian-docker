@@ -44,7 +44,7 @@ override_dh_auto_build: _build-tini _build-proxy _build-cli _build-manpages _bui
 	@#
 
 # several "supporting binaries" need to be built and installed
-# (https://github.com/docker/docker-ce/tree/v19.03.2/components/engine/hack/dockerfile/install)
+# (https://github.com/docker/docker-ce/tree/v19.03.6/components/engine/hack/dockerfile/install)
 
 _build-tini: # (docker-init)
 	mkdir -p tini/build
@@ -63,7 +63,7 @@ _build-cli: _require-gitcommit
 			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
 			dynbinary
 
-# https://github.com/docker/docker-ce/blob/v19.03.2/components/cli/scripts/docs/generate-man.sh
+# https://github.com/docker/docker-ce/blob/v19.03.6/components/cli/scripts/docs/generate-man.sh
 # (replacing hard-coded "/tmp/gen-manpages" with "debian/tmp/gen-manpages")
 _build-manpages:
 	cd '$(OUR_GOPATH)/src/github.com/docker/cli' \
