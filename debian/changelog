@@ -1,3 +1,9 @@
+docker.io (19.03.6-0ubuntu1~19.10.1) UNRELEASED; urgency=medium
+
+  * Backport to eoan. (LP: #1863669)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Tue, 18 Feb 2020 21:25:42 +1300
+
 docker.io (19.03.6-0ubuntu1) focal; urgency=medium
 
   * Update to 19.03.6 upstream release
