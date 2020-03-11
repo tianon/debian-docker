@@ -1,6 +1,6 @@
 docker.io (19.03.8-0ubuntu1) UNRELEASED; urgency=medium
 
-  * Update to 19.03.8 upstream release
+  * Update to 19.03.8 upstream release (LP: #1867068)
     - Improve mitigation for CVE-2019-14271 for some nscd configuration.
 
  -- Tianon Gravi <tianon@debian.org>  Wed, 11 Mar 2020 15:48:33 -0700
