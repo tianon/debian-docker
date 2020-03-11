@@ -1,4 +1,4 @@
-docker.io (19.03.8-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (19.03.8-0ubuntu1) focal; urgency=medium
 
   * Update to 19.03.8 upstream release (LP: #1867068)
     - Improve mitigation for CVE-2019-14271 for some nscd configuration.
