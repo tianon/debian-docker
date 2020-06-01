@@ -38,7 +38,6 @@ Depends: adduser,
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: ca-certificates,
-            cgroupfs-mount | cgroup-lite,
             git,
             pigz,
             ubuntu-fan,
@@ -48,6 +47,7 @@ Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
 Suggests: aufs-tools,
           btrfs-progs,
+          cgroupfs-mount | cgroup-lite,
           debootstrap,
           docker-doc,
           rinse,
