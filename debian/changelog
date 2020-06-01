@@ -1,6 +1,7 @@
 docker.io (19.03.11-0ubuntu1) UNRELEASED; urgency=medium
 
   * Update to 19.03.11 upstream release (CVE-2020-13401)
+  * Apply wrap-and-sort
 
  -- Tianon Gravi <tianon@debian.org>  Mon, 01 Jun 2020 15:14:15 -0700
 

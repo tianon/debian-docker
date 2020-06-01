@@ -81,7 +81,7 @@ Description: Docker container engine - Vim highlighting syntax files
 
 Package: golang-github-docker-docker-dev
 Architecture: all
-Depends: ${misc:Depends}, golang-github-docker-docker-credential-helpers-dev
+Depends: golang-github-docker-docker-credential-helpers-dev, ${misc:Depends}
 Replaces: golang-docker-dev (<< 1.8.2~ds1-1~)
 Breaks: golang-docker-dev (<< 1.8.2~ds1-1~)
 Provides: golang-docker-dev
