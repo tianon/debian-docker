@@ -1,6 +1,6 @@
 docker.io (19.03.11-0ubuntu1) UNRELEASED; urgency=medium
 
-  * Update to 19.03.11 upstream release (CVE-2020-13401)
+  * Update to 19.03.11 upstream release (CVE-2020-13401, LP: #1881679)
   * Apply wrap-and-sort
   * Move cgroupfs-mount to Suggests
     (esp. on Ubuntu where systemd is canonical)
