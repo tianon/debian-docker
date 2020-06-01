@@ -1,3 +1,32 @@
+docker.io (19.03.8-0ubuntu4) groovy; urgency=medium
+
+  * Provide "image" and "oci" components in golang dev package,
+    mirroring Debian to address libpod FTBFS
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sat, 30 May 2020 11:56:59 -0400
+
+docker.io (19.03.8-0ubuntu3) groovy; urgency=medium
+
+  * Provide the rootless component in golang dev package, mirroring Debian
+    (addresses nomad FTBFS).
+
+ -- Logan Rosen <logan@ubuntu.com>  Tue, 26 May 2020 21:06:20 -0400
+
+docker.io (19.03.8-0ubuntu2) groovy; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  [ Didier Roche ]
+  * Fix use with ZFS on root:
+    - docker creates one dataset for any layer of containers that were
+      created. Create now a <pool>/var/lib/docker for creating them in
+      the persistent namespace and migrate existing one here.
+    - purge the automated historic that was created.
+    The migration only impacts the ubuntu desktop installation with
+    experimental ZFS on root, and we have thus to stop and start the daemon
+    to migrate data. (LP: #1879473)
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 19 May 2020 11:01:22 +0200
+
 docker.io (19.03.8-0ubuntu1) focal; urgency=medium
 
   * Update to 19.03.8 upstream release (LP: #1867068)
