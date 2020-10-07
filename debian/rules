@@ -30,6 +30,13 @@ override_dh_gencontrol:
 	# if we're on Ubuntu, we need to Recommends: apparmor
 	echo 'apparmor:Recommends=$(shell dpkg-vendor --is Ubuntu && echo apparmor)' >> debian/docker.io.substvars
 	echo 'libc:Built-Using=$(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)' >> debian/docker.io.substvars
+	# use "dh_golang" to generate "misc:Built-Using" (via "go list")
+	DH_GOLANG_BUILDPKG=' \
+		-tags "$(DOCKER_BUILDTAGS)" \
+		github.com/docker/docker/cmd/dockerd \
+		github.com/docker/cli/cmd/docker \
+		github.com/docker/libnetwork/cmd/proxy \
+	' dh_golang --builddirectory='$(OUR_GOPATH:$(CURDIR)/%=%)'
 	dh_gencontrol
 
 override_dh_auto_configure:
