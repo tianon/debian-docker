@@ -19,6 +19,13 @@ ifneq (,$(filter parallel=%, $(DEB_BUILD_OPTIONS)))
 	MAKEFLAGS += -j '$(NUMJOBS)'
 endif
 
+# build explicitly against Go 1.13 (for now):
+#   https://github.com/moby/moby/pull/40353
+#   https://github.com/containerd/containerd/issues/4509
+#   https://github.com/containerd/containerd/pull/4050
+#   https://github.com/golang/go/issues/37942
+export PATH := /usr/lib/go-1.13/bin:$(PATH)
+
 override_dh_gencontrol:
 	# if we're on Ubuntu, we need to Recommends: apparmor
 	echo 'apparmor:Recommends=$(shell dpkg-vendor --is Ubuntu && echo apparmor)' >> debian/docker.io.substvars
