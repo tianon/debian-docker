@@ -1,0 +1,52 @@
+From ee079e4692c26417eb4c711a1e489203624a6972 Mon Sep 17 00:00:00 2001
+From: Akihiro Suda <akihiro.suda.cz@hco.ntt.co.jp>
+Date: Fri, 2 Oct 2020 17:33:52 +0900
+Subject: [PATCH] pkg/aaparser: support parsing version like "3.0.0-beta1"
+
+Fix #41517
+
+Signed-off-by: Akihiro Suda <akihiro.suda.cz@hco.ntt.co.jp>
+---
+ pkg/aaparser/aaparser.go      |  3 +++
+ pkg/aaparser/aaparser_test.go | 14 ++++++++++++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/components/engine/pkg/aaparser/aaparser.go b/components/engine/pkg/aaparser/aaparser.go
+index 9c12e8db8d20..50ada7f7886d 100644
+--- a/components/engine/pkg/aaparser/aaparser.go
++++ b/components/engine/pkg/aaparser/aaparser.go
+@@ -56,6 +56,9 @@ func parseVersion(output string) (int, error) {
+ 	words := strings.Split(lines[0], " ")
+ 	version := words[len(words)-1]
+ 
++	// trim "-beta1" suffix from version="3.0.0-beta1" if exists
++	version = strings.SplitN(version, "-", 2)[0]
++
+ 	// split by major minor version
+ 	v := strings.Split(version, ".")
+ 	if len(v) == 0 || len(v) > 3 {
+diff --git a/components/engine/pkg/aaparser/aaparser_test.go b/components/engine/pkg/aaparser/aaparser_test.go
+index 6d1f737702f4..64ec8147297d 100644
+--- a/components/engine/pkg/aaparser/aaparser_test.go
++++ b/components/engine/pkg/aaparser/aaparser_test.go
+@@ -59,6 +59,20 @@ Copyright 2009-2012 Canonical Ltd.
+ `,
+ 			version: 314159,
+ 		},
++		{
++			output: `AppArmor parser version 3.0.0-beta1
++Copyright (C) 1999-2008 Novell Inc.
++Copyright 2009-2018 Canonical Ltd.
++`,
++			version: 300000,
++		},
++		{
++			output: `AppArmor parser version 3.0.0-beta1-foo-bar
++Copyright (C) 1999-2008 Novell Inc.
++Copyright 2009-2018 Canonical Ltd.
++`,
++			version: 300000,
++		},
+ 	}
+ 
+ 	for _, v := range versions {
