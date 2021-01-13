@@ -124,5 +124,8 @@ override_dh_shlibdeps:
 override_dh_auto_clean:
 	@# stop debhelper from doing "make clean"
 
+override_dh_systemd_start:
+	dh_systemd_start --package=docker.io --no-stop-on-upgrade
+
 %:
 	dh $@ --with=bash-completion,systemd
