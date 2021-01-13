@@ -23,7 +23,11 @@ case "$1" in
 
 		# ZFS handling: create a dedicated ZFS docker dataset to handle all children containers in a single,
 		# persistent, place.
-		if modinfo zfs >/dev/null 2>&1; then
+		# Also check if zfs executable exists and if it is in $PATH.
+		# The zfs command is provided by zfs-fuse | zfsutils and they
+		# are runtime Suggested dependencies which means they are not
+		# necessarily available during configuration time (LP: #1910133).
+		if [ -x "$(command -v zfs)" ] && modinfo zfs >/dev/null 2>&1; then
 			# if there is no mountpoint /var/lib/docker:
 			# 1: create <currentpool>/var/lib/docker if doesn’t exist (zfs mount?)
 			# /var/lib with canmount off if doesn’t exist

@@ -1,3 +1,12 @@
+docker.io (19.03.13-0ubuntu6) hirsute; urgency=medium
+
+  * d/docker.io.postinst: check if zfs exists before calling it (LP: #1910133).
+    The zfs executable is provided by zfs-fuse | zfsutils and they are
+    runtime Suggested dependencies, which means they might not be available
+    during configuration time.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 04 Jan 2021 17:25:39 -0300
+
 docker.io (19.03.13-0ubuntu5) hirsute; urgency=medium
 
   * d/rules: pass -r instead of --no-stop-on-upgrade to dh_systemd_start.
