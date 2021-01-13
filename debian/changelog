@@ -1,3 +1,13 @@
+docker.io (19.03.13-0ubuntu5) hirsute; urgency=medium
+
+  * d/rules: pass -r instead of --no-stop-on-upgrade to dh_systemd_start.
+    The --no-stop-on-upgrade is not backport-able to xenial because
+    debhelper 9 does not support that, and --no-restart-on-upgrade will be
+    deprecated in debhelper 14. Therefore, let's use the short version which
+    is supported by a larger range of debhelper versions.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 10 Dec 2020 16:16:09 -0300
+
 docker.io (19.03.13-0ubuntu4) hirsute; urgency=medium
 
   * d/p/do_not_bind_docker_to_containerd.patch: Update docker.io to not
