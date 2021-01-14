@@ -85,6 +85,7 @@ _build-manpages:
 	cd '$(OUR_GOPATH)/src/github.com/docker/cli' \
 		&& export PATH='$(OUR_GOPATH)/bin':"$$PATH" \
 		&& sed 's!/tmp/gen-manpages!$(CURDIR)/debian/tmp/gen-manpages!g' scripts/docs/generate-man.sh \
+		&& sed 's!/go/bin/md2man!$(OUR_GOPATH)/bin/md2man!g' scripts/docs/generate-man.sh \
 			| bash
 
 _build-engine: _require-gitcommit
