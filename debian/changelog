@@ -1,3 +1,9 @@
+docker.io (20.10.2-0ubuntu1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 14 Jan 2021 11:00:12 -0300
+
 docker.io (19.03.13-0ubuntu6) hirsute; urgency=medium
 
   * d/docker.io.postinst: check if zfs exists before calling it (LP: #1910133).
