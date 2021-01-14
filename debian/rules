@@ -5,7 +5,7 @@ include /usr/share/dpkg/pkg-info.mk
 
 export VERSION := $(DEB_VERSION_UPSTREAM)
 
-export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(VERSION))
+export DOCKER_GITCOMMIT := $(DEB_VERSION)
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 OUR_GOPATH := $(CURDIR)/.gopath
@@ -53,9 +53,6 @@ override_dh_auto_configure:
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
 	ln -sfT '$(CURDIR)/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
 
-_require-gitcommit:
-	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
-
 override_dh_auto_build: _build-tini _build-proxy _build-cli _build-manpages _build-engine
 	@#
 
@@ -71,7 +68,7 @@ _build-tini: # (docker-init)
 _build-proxy: # (from libnetwork)
 	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
 
-_build-cli: _require-gitcommit
+_build-cli:
 	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
 		make -C cli \
 			LDFLAGS='' \
@@ -88,7 +85,7 @@ _build-manpages:
 		&& sed 's!/go/bin/md2man!$(OUR_GOPATH)/bin/md2man!g' scripts/docs/generate-man.sh \
 			| bash
 
-_build-engine: _require-gitcommit
+_build-engine:
 	cd engine \
 		&& PRODUCT=docker ./hack/make.sh dynbinary
 
