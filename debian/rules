@@ -46,10 +46,10 @@ override_dh_auto_configure:
 	ln -sfT '$(CURDIR)/libnetwork' '$(OUR_GOPATH)/src/github.com/docker/libnetwork'
 	# cli
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
-	ln -sfT '$(CURDIR)/components/cli' '$(OUR_GOPATH)/src/github.com/docker/cli'
+	ln -sfT '$(CURDIR)/cli' '$(OUR_GOPATH)/src/github.com/docker/cli'
 	# engine
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
-	ln -sfT '$(CURDIR)/components/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
+	ln -sfT '$(CURDIR)/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
 
 _require-gitcommit:
 	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
@@ -71,7 +71,7 @@ _build-proxy: # (from libnetwork)
 
 _build-cli: _require-gitcommit
 	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
-		make -C components/cli \
+		make -C cli \
 			LDFLAGS='' \
 			VERSION='$(VERSION)' \
 			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
@@ -86,7 +86,7 @@ _build-manpages:
 			| bash
 
 _build-engine: _require-gitcommit
-	cd components/engine \
+	cd engine \
 		&& PRODUCT=docker ./hack/make.sh dynbinary
 
 # basic smoke test to ensure binaries built successfully
@@ -95,9 +95,9 @@ override_dh_auto_test:
 	# tini
 	./tini/build/tini-static --version
 	# cli
-	./components/cli/build/docker --version
+	./cli/build/docker --version
 	# engine
-	./components/engine/bundles/dynbinary-daemon/dockerd --version
+	./engine/bundles/dynbinary-daemon/dockerd --version
 
 override_dh_strip:
 	# Go has lots of problems with stripping, so just don't
