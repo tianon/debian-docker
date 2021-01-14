@@ -1,7 +1,9 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-export VERSION := $(shell cat VERSION)
+include /usr/share/dpkg/pkg-info.mk
+
+export VERSION := $(DEB_VERSION_UPSTREAM)
 
 export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(VERSION))
 
