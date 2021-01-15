@@ -136,4 +136,4 @@ override_dh_systemd_start:
 	dh_systemd_start --package=docker.io -r
 
 %:
-	dh $@ --with=bash-completion,systemd
+	dh $@ --with=bash-completion
