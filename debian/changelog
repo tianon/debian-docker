@@ -1,8 +1,50 @@
 docker.io (20.10.2-0ubuntu1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * d/watch: update components, docker-ce is deprecated now.
+    Add "engine", "cli" and "packaging" components which were previously
+    provided by docker-ce.
+  * Pass create-empty-orig to dpkg-source since now there is no main tarball.
+    Due to docker-ce deprecation this source package is now composed by
+    multiple components but no main tarball. In order to allow that,
+    create-empty-orig is passed to dpkg-source which creates an empty
+    tarball for us.
+  * Drop patches applied by upstream:
+    - d/p/41518--apparmor-parser-beta.patch
+    - d/p/CVE-2020-15157.patch
+  * Add docker systemd service and socket to the debian directory.
+    Instead of using the packaging component just to get those two files
+    let's embed them in the debian directory. They were downloaded from the
+    master branch of the docker/docker-ce-packaging:
+    https://github.com/docker/docker-ce-packaging/tree/master/systemd
+  * Apply changes in do-not-bind-docker-to-containerd.patch to systemd service.
+    The systemd service is part of the debian packaging directory, so no
+    need to have a patch for this.
+    This change was a decision made by the Ubuntu community, pay attention
+    to this when updating the systemd service file.
+  * Pass --name=docker to dh_installsystemd
+  * Remove "components/" from all references of engine and cli.
+    Now engine and cli are regular components in the root of the source
+    package. They are not under the components directory anymore.
+  * d/rules: use DEB_VERSION_UPSTREAM from pkg-info.mk instead of VERSION file.
+    The VERSION file was previously provided by the deprecated docker-ce.
+  * d/rules: do not try to install md2man in /go/bin/md2man.
+    Upstream source code changed and by default it tries to install it in
+    /go/bin/md2man. A sed command was added to replace this path with
+    $(OUR_GOPATH)/bin/md2man.
+  * d/vim-syntax-docker.install: do not install files from engine.
+    Those files do not exist anymore because they were incorporated in vim
+    itself upstream.
+  * Remove d/{helpers/gitcommit.sh,upstream-version-gitcommits}
+    Since the main repo, docker-ce, is deprecated there is no way to get a
+    consistent git commit hash across all the components. Let's use
+    DEB_VERSION for now.
+  * Bump debhelper compatibility level to 11.
+    For instance to call dh_installsystemd we need a compat level > 9.
+    I picked 11 because it is available from Bionic on in case we want to
+    backport the package.
 
- -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 14 Jan 2021 11:00:12 -0300
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Fri, 15 Jan 2021 10:30:18 -0300
 
 docker.io (19.03.13-0ubuntu6) hirsute; urgency=medium
 
