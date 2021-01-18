@@ -1,8 +1,8 @@
 .gocache/
 .gopath/
-components/cli/build/
-components/cli/man/man*/
-components/engine/bundles/
-components/engine/dockerversion/*_autogen*.go
+cli/build/
+cli/man/man*/
+engine/bundles/
+engine/dockerversion/*_autogen*.go
 libnetwork/docker-proxy
 tini/build/
