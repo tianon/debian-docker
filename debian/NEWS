@@ -6,6 +6,11 @@ docker.io (20.10.2-0ubuntu2) UNRELEASED; urgency=medium
   /var/lib/docker/aufs before upgrading can succeed. See the previous NEWS
   entry for instructions on moving away from AUFS.
 
+  Note: Option 3 from the previous NEWS entry is no longer going to be a valid
+        option moving forward. Users will have to either migrate their
+        containers to a supported storage driver or maintain their own kernel
+        builds with AUFS support.
+
  -- William 'jawn-smith' Wilson <william.wilson@canonical.com>  Wed, 24 Feb 2021 16:06:03 -0600
 
 docker.io (1.8.3~ds1-3) unstable; urgency=medium
