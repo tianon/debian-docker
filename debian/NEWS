@@ -1,4 +1,4 @@
-docker.io (20.10.2-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (20.10.2-0ubuntu2) hirsute; urgency=medium
 
   As of version 20.10.2-0ubuntu2, upgrading the docker.io package will fail if
   any containers are still using AUFS. It will be necessary to take some
