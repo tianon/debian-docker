@@ -20,6 +20,34 @@ case "$1" in
 				chmod 0755 /etc/docker
 			fi
 		fi
+
+		# ZFS handling: create a dedicated ZFS docker dataset to handle all children containers in a single,
+		# persistent, place.
+		if modinfo zfs >/dev/null 2>&1 && type zfs >/dev/null 2>&1; then
+			# Check where the closest mountpoint is (if it’s zfs)
+			docker_parent_mountpoint="$(findmnt -n -o SOURCE -T /var/lib/docker -t zfs || true)"
+			if [ -z "${docker_parent_mountpoint}" ]; then
+				# case of new installation
+				docker_parent_mountpoint="$(findmnt -n -o SOURCE -T /var/lib -t zfs || true)"
+			fi
+			if [ -n "${docker_parent_mountpoint}" ]; then
+				# New install: create <currentpool>/var/lib/docker (if it doesn’t exist)
+				if [ -z "$2" ]; then
+					pool="${docker_parent_mountpoint%%/*}"
+					zfs create -o canmount=off "$pool"/var 2>/dev/null || true
+					zfs create -o canmount=off "$pool"/var/lib 2>/dev/null || true
+					dockermnt="$pool"/var/lib/docker
+					zfs create "${dockermnt}" 2>/dev/null || true
+					chmod 0711 /var/lib/docker
+
+				# We don’t migrate but only warn on upgrade
+				else
+					if dpkg --compare-versions "$2" le-nl '19.03.8-0ubuntu1.20.04'; then
+						echo "WARNING: your ZFS docker layout may perform badly over time. Please follow instructions on https://github.com/ubuntu/zsys/wiki/Performance-issue-with-docker-on-ubuntu-20.04-LTS to migrate to a more efficient layout."
+					fi
+				fi
+			fi
+		fi
 		;;
 	abort-*)
 		# How'd we get here??

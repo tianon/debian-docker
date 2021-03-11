@@ -1,3 +1,18 @@
+docker.io (19.03.8-0ubuntu1.20.04) focal; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  [ Didier Roche ]
+  * Fix use with ZFS on root:
+    - docker creates one dataset for any layer of containers that were
+      created. Create now a <pool>/var/lib/docker for creating them in
+      the persistent namespace.
+    - don’t migrate existing ones but display a message to the end user on
+      ZSys wiki with instrutions.
+    The migration only impacts the ubuntu desktop installation with
+    experimental ZFS on root. (LP: #1879473)
+
+ -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Jun 2020 10:26:54 +0200
+
 docker.io (19.03.8-0ubuntu1) focal; urgency=medium
 
   * Update to 19.03.8 upstream release (LP: #1867068)
