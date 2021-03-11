@@ -1,3 +1,15 @@
+docker.io (19.03.13-0ubuntu3.1) groovy; urgency=medium
+
+  * d/p/do_not_bind_docker_to_containerd.patch: Update docker.io to not
+    stop when containerd is upgraded, by using Wants= rather than BindTo=.
+    (LP: #1870514)
+  * d/rules: Fix docker.io to not restart its service during package
+    upgrades, to prevent service downtime from automatic updates via
+    unattended-upgrade.
+    (LP: #1906364)
+
+ -- Bryce Harrington <bryce@canonical.com>  Fri, 04 Dec 2020 23:02:49 +0000
+
 docker.io (19.03.13-0ubuntu3) groovy; urgency=medium
 
   * SECURITY UPDATE: Sensitive information disclosure

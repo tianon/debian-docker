@@ -124,5 +124,13 @@ override_dh_shlibdeps:
 override_dh_auto_clean:
 	@# stop debhelper from doing "make clean"
 
+override_dh_systemd_start:
+	# We take care of determining whether the docker.io service should be
+	# restarted during upgrades or not ourselves, based on the debconf
+	# choice made by the user during installation.  For this reason, we
+	# invoke dh_systemd_start with "-r" in order to avoid indiscriminately
+	# stopping the service during upgrades.
+	dh_systemd_start --package=docker.io -r
+
 %:
 	dh $@ --with=bash-completion,systemd
