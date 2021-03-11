@@ -1,3 +1,19 @@
+docker.io (19.03.6-0ubuntu1~18.04.3) bionic; urgency=medium
+
+  [ Bryce Harrington ]
+  * d/p/do_not_bind_docker_to_containerd.patch: Update docker.io to not
+    stop when containerd is upgraded, by using Wants= rather than BindTo=.
+    (LP: #1870514)
+  * d/rules: Fix docker.io to not restart its service during package
+    upgrades, to prevent service downtime from automatic updates via
+    unattended-upgrade.
+    (LP: #1906364)
+
+  [ Lucas Kanashiro ]
+  * Do not build depend on libbtrfs-dev, it is not available in Bionic.
+
+ -- Lucas Kanashiro <lucas.kanashiro@canonical.com>  Thu, 10 Dec 2020 10:23:49 -0300
+
 docker.io (19.03.6-0ubuntu1~18.04.2) bionic-security; urgency=medium
 
   * SECURITY UPDATE: Sensitive information disclosure
