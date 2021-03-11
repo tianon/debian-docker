@@ -1,3 +1,11 @@
+docker.io (19.03.8-0ubuntu1.20.04.1) focal-security; urgency=medium
+
+  * SECURITY UPDATE: Sensitive information disclosure
+    - debian/patches/CVE-2020-15157.patch: Improve fetch function.
+    - CVE-2020-15157
+
+ -- Paulo Flabiano Smorigo <pfsmorigo@canonical.com>  Wed, 14 Oct 2020 16:41:21 +0000
+
 docker.io (19.03.8-0ubuntu1.20.04) focal; urgency=medium
 
   [ Jean-Baptiste Lallement ]
