@@ -1,3 +1,11 @@
+docker.io (19.03.6-0ubuntu1~18.04.2) bionic-security; urgency=medium
+
+  * SECURITY UPDATE: Sensitive information disclosure
+    - debian/patches/CVE-2020-15157.patch: Improve fetch function.
+    - CVE-2020-15157
+
+ -- Paulo Flabiano Smorigo <pfsmorigo@canonical.com>  Wed, 14 Oct 2020 16:52:50 +0000
+
 docker.io (19.03.6-0ubuntu1~18.04.1) bionic; urgency=medium
 
   * Backport to Bionic (LP: #1863669)
