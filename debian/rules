@@ -1,11 +1,11 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-export VERSION := $(shell cat VERSION)
+include /usr/share/dpkg/pkg-info.mk
 
-export DOCKER_GITCOMMIT := $(shell ./debian/helpers/gitcommit.sh $(VERSION))
+export VERSION := $(DEB_VERSION_UPSTREAM)
 
-export PATH := $(CURDIR)/go/bin:$(PATH)
+export DOCKER_GITCOMMIT := $(DEB_VERSION)
 
 # temporary build path (see http://golang.org/doc/code.html#GOPATH)
 OUR_GOPATH := $(CURDIR)/.gopath
@@ -21,10 +21,24 @@ ifneq (,$(filter parallel=%, $(DEB_BUILD_OPTIONS)))
 	MAKEFLAGS += -j '$(NUMJOBS)'
 endif
 
+# build explicitly against Go 1.13 (for now):
+#   https://github.com/moby/moby/pull/40353
+#   https://github.com/containerd/containerd/issues/4509
+#   https://github.com/containerd/containerd/pull/4050
+#   https://github.com/golang/go/issues/37942
+export PATH := /usr/lib/go-1.13/bin:$(PATH)
+
 override_dh_gencontrol:
 	# if we're on Ubuntu, we need to Recommends: apparmor
 	echo 'apparmor:Recommends=$(shell dpkg-vendor --is Ubuntu && echo apparmor)' >> debian/docker.io.substvars
 	echo 'libc:Built-Using=$(shell dpkg-query -f '$${source:Package} (= $${source:Version})' -W libc-dev-bin)' >> debian/docker.io.substvars
+	# use "dh_golang" to generate "misc:Built-Using" (via "go list")
+	DH_GOLANG_BUILDPKG=' \
+		-tags "$(DOCKER_BUILDTAGS)" \
+		github.com/docker/docker/cmd/dockerd \
+		github.com/docker/cli/cmd/docker \
+		github.com/docker/libnetwork/cmd/proxy \
+	' dh_golang --builddirectory='$(OUR_GOPATH:$(CURDIR)/%=%)'
 	dh_gencontrol
 
 override_dh_auto_configure:
@@ -34,13 +48,10 @@ override_dh_auto_configure:
 	ln -sfT '$(CURDIR)/libnetwork' '$(OUR_GOPATH)/src/github.com/docker/libnetwork'
 	# cli
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
-	ln -sfT '$(CURDIR)/components/cli' '$(OUR_GOPATH)/src/github.com/docker/cli'
+	ln -sfT '$(CURDIR)/cli' '$(OUR_GOPATH)/src/github.com/docker/cli'
 	# engine
 	mkdir -p '$(OUR_GOPATH)/src/github.com/docker'
-	ln -sfT '$(CURDIR)/components/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
-
-_require-gitcommit:
-	@bash -c '{ [ "$$DOCKER_GITCOMMIT" ]; } || { echo; echo "error: missing DOCKER_GITCOMMIT - see debian/upstream-version-gitcommits"; echo; exit 2; } >&2'
+	ln -sfT '$(CURDIR)/engine' '$(OUR_GOPATH)/src/github.com/docker/docker'
 
 override_dh_auto_build: _build-tini _build-proxy _build-cli _build-manpages _build-engine
 	@#
@@ -48,21 +59,18 @@ override_dh_auto_build: _build-tini _build-proxy _build-cli _build-manpages _bui
 # several "supporting binaries" need to be built and installed
 # (https://github.com/docker/docker-ce/tree/v19.03.6/components/engine/hack/dockerfile/install)
 
-_build-go:
-	cd go/src && ./make.bash
-
 _build-tini: # (docker-init)
 	mkdir -p tini/build
 	cd tini/build \
 		&& cmake .. \
 		&& make tini-static
 
-_build-proxy: _build-go # (from libnetwork)
+_build-proxy: # (from libnetwork)
 	go build -o libnetwork/docker-proxy github.com/docker/libnetwork/cmd/proxy
 
-_build-cli: _build-go _require-gitcommit
+_build-cli:
 	DISABLE_WARN_OUTSIDE_CONTAINER=1 \
-		make -C components/cli \
+		make -C cli \
 			LDFLAGS='' \
 			VERSION='$(VERSION)' \
 			GITCOMMIT='$(DOCKER_GITCOMMIT)' \
@@ -70,14 +78,15 @@ _build-cli: _build-go _require-gitcommit
 
 # https://github.com/docker/docker-ce/blob/v19.03.6/components/cli/scripts/docs/generate-man.sh
 # (replacing hard-coded "/tmp/gen-manpages" with "debian/tmp/gen-manpages")
-_build-manpages: _build-go
+_build-manpages:
 	cd '$(OUR_GOPATH)/src/github.com/docker/cli' \
 		&& export PATH='$(OUR_GOPATH)/bin':"$$PATH" \
 		&& sed 's!/tmp/gen-manpages!$(CURDIR)/debian/tmp/gen-manpages!g' scripts/docs/generate-man.sh \
+		&& sed 's!/go/bin/md2man!$(OUR_GOPATH)/bin/md2man!g' scripts/docs/generate-man.sh \
 			| bash
 
-_build-engine: _build-go _require-gitcommit
-	cd components/engine \
+_build-engine:
+	cd engine \
 		&& PRODUCT=docker ./hack/make.sh dynbinary
 
 # basic smoke test to ensure binaries built successfully
@@ -86,9 +95,9 @@ override_dh_auto_test:
 	# tini
 	./tini/build/tini-static --version
 	# cli
-	./components/cli/build/docker --version
+	./cli/build/docker --version
 	# engine
-	./components/engine/bundles/dynbinary-daemon/dockerd --version
+	./engine/bundles/dynbinary-daemon/dockerd --version
 
 override_dh_strip:
 	# Go has lots of problems with stripping, so just don't
@@ -100,6 +109,9 @@ override_dh_auto_install:
 # (which means we get to handle both "start" and "stop" ourselves too)
 override_dh_installinit:
 	dh_installinit --name=docker --no-start
+
+override_dh_installsystemd:
+	dh_installsystemd --name=docker --no-start
 
 override_dh_installudev:
 	# use priority z80 to match the upstream priority of 80
@@ -124,4 +136,4 @@ override_dh_systemd_start:
 	dh_systemd_start --package=docker.io -r
 
 %:
-	dh $@ --with=bash-completion,systemd
+	dh $@ --with=bash-completion

@@ -1,6 +1,72 @@
-docker.io (19.03.6-0ubuntu1~18.04.3) bionic; urgency=medium
+docker.io (20.10.2-0ubuntu1) hirsute; urgency=medium
 
-  [ Bryce Harrington ]
+  * New upstream release.
+  * d/watch: update components, docker-ce is deprecated now.
+    Add "engine", "cli" and "packaging" components which were previously
+    provided by docker-ce.
+  * Pass create-empty-orig to dpkg-source since now there is no main tarball.
+    Due to docker-ce deprecation this source package is now composed by
+    multiple components but no main tarball. In order to allow that,
+    create-empty-orig is passed to dpkg-source which creates an empty
+    tarball for us.
+  * Drop patches applied by upstream:
+    - d/p/41518--apparmor-parser-beta.patch
+    - d/p/CVE-2020-15157.patch
+  * Add docker systemd service and socket to the debian directory.
+    Instead of using the packaging component just to get those two files
+    let's embed them in the debian directory. They were downloaded from the
+    master branch of the docker/docker-ce-packaging:
+    https://github.com/docker/docker-ce-packaging/tree/master/systemd
+  * Apply changes in do-not-bind-docker-to-containerd.patch to systemd service.
+    The systemd service is part of the debian packaging directory, so no
+    need to have a patch for this.
+    This change was a decision made by the Ubuntu community, pay attention
+    to this when updating the systemd service file.
+  * Pass --name=docker to dh_installsystemd
+  * Remove "components/" from all references of engine and cli.
+    Now engine and cli are regular components in the root of the source
+    package. They are not under the components directory anymore.
+  * d/rules: use DEB_VERSION_UPSTREAM from pkg-info.mk instead of VERSION file.
+    The VERSION file was previously provided by the deprecated docker-ce.
+  * d/rules: do not try to install md2man in /go/bin/md2man.
+    Upstream source code changed and by default it tries to install it in
+    /go/bin/md2man. A sed command was added to replace this path with
+    $(OUR_GOPATH)/bin/md2man.
+  * d/vim-syntax-docker.install: do not install files from engine.
+    Those files do not exist anymore because they were incorporated in vim
+    itself upstream.
+  * Remove d/{helpers/gitcommit.sh,upstream-version-gitcommits}
+    Since the main repo, docker-ce, is deprecated there is no way to get a
+    consistent git commit hash across all the components. Let's use
+    DEB_VERSION for now.
+  * Bump debhelper compatibility level to 11.
+    For instance to call dh_installsystemd we need a compat level > 9.
+    I picked 11 because it is available from Bionic on in case we want to
+    backport the package.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Fri, 15 Jan 2021 10:30:18 -0300
+
+docker.io (19.03.13-0ubuntu6) hirsute; urgency=medium
+
+  * d/docker.io.postinst: check if zfs exists before calling it (LP: #1910133).
+    The zfs executable is provided by zfs-fuse | zfsutils and they are
+    runtime Suggested dependencies, which means they might not be available
+    during configuration time.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 04 Jan 2021 17:25:39 -0300
+
+docker.io (19.03.13-0ubuntu5) hirsute; urgency=medium
+
+  * d/rules: pass -r instead of --no-stop-on-upgrade to dh_systemd_start.
+    The --no-stop-on-upgrade is not backport-able to xenial because
+    debhelper 9 does not support that, and --no-restart-on-upgrade will be
+    deprecated in debhelper 14. Therefore, let's use the short version which
+    is supported by a larger range of debhelper versions.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 10 Dec 2020 16:16:09 -0300
+
+docker.io (19.03.13-0ubuntu4) hirsute; urgency=medium
+
   * d/p/do_not_bind_docker_to_containerd.patch: Update docker.io to not
     stop when containerd is upgraded, by using Wants= rather than BindTo=.
     (LP: #1870514)
@@ -9,25 +75,76 @@ docker.io (19.03.6-0ubuntu1~18.04.3) bionic; urgency=medium
     unattended-upgrade.
     (LP: #1906364)
 
-  [ Lucas Kanashiro ]
-  * Do not build depend on libbtrfs-dev, it is not available in Bionic.
+ -- Bryce Harrington <bryce@canonical.com>  Fri, 04 Dec 2020 23:02:49 +0000
 
- -- Lucas Kanashiro <lucas.kanashiro@canonical.com>  Thu, 10 Dec 2020 10:23:49 -0300
-
-docker.io (19.03.6-0ubuntu1~18.04.2) bionic-security; urgency=medium
+docker.io (19.03.13-0ubuntu3) groovy; urgency=medium
 
   * SECURITY UPDATE: Sensitive information disclosure
     - debian/patches/CVE-2020-15157.patch: Improve fetch function.
     - CVE-2020-15157
 
- -- Paulo Flabiano Smorigo <pfsmorigo@canonical.com>  Wed, 14 Oct 2020 16:52:50 +0000
+ -- Paulo Flabiano Smorigo <pfsmorigo@canonical.com>  Wed, 14 Oct 2020 13:25:32 +0000
 
-docker.io (19.03.6-0ubuntu1~18.04.1) bionic; urgency=medium
+docker.io (19.03.13-0ubuntu2) groovy; urgency=medium
 
-  * Backport to Bionic (LP: #1863669)
-  * Bootstrap Go 1.12.17 as part of the build.
+  [ Tianon Gravi ]
+  * Backport https://github.com/moby/moby/pull/41518 to handle newer AppArmor
 
- -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Wed, 19 Feb 2020 14:06:16 +1300
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Fri, 09 Oct 2020 08:28:02 +1300
+
+docker.io (19.03.13-0ubuntu1) groovy; urgency=medium
+
+  [ Tianon Gravi ]
+  * Update to 19.03.13 upstream release
+  * Build against Go 1.13 (per upstream)
+  * Use dh-golang to generate appropriate Built-Using
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 08 Oct 2020 10:43:13 +1300
+
+docker.io (19.03.11-0ubuntu1) groovy; urgency=medium
+
+  * Update to 19.03.11 upstream release (CVE-2020-13401, LP: #1881679)
+  * Apply wrap-and-sort
+  * Move cgroupfs-mount to Suggests
+    (esp. on Ubuntu where systemd is canonical)
+
+ -- Tianon Gravi <tianon@debian.org>  Mon, 01 Jun 2020 15:14:15 -0700
+
+docker.io (19.03.8-0ubuntu4) groovy; urgency=medium
+
+  * Provide "image" and "oci" components in golang dev package,
+    mirroring Debian to address libpod FTBFS
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sat, 30 May 2020 11:56:59 -0400
+
+docker.io (19.03.8-0ubuntu3) groovy; urgency=medium
+
+  * Provide the rootless component in golang dev package, mirroring Debian
+    (addresses nomad FTBFS).
+
+ -- Logan Rosen <logan@ubuntu.com>  Tue, 26 May 2020 21:06:20 -0400
+
+docker.io (19.03.8-0ubuntu2) groovy; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  [ Didier Roche ]
+  * Fix use with ZFS on root:
+    - docker creates one dataset for any layer of containers that were
+      created. Create now a <pool>/var/lib/docker for creating them in
+      the persistent namespace and migrate existing one here.
+    - purge the automated historic that was created.
+    The migration only impacts the ubuntu desktop installation with
+    experimental ZFS on root, and we have thus to stop and start the daemon
+    to migrate data. (LP: #1879473)
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 19 May 2020 11:01:22 +0200
+
+docker.io (19.03.8-0ubuntu1) focal; urgency=medium
+
+  * Update to 19.03.8 upstream release (LP: #1867068)
+    - Improve mitigation for CVE-2019-14271 for some nscd configuration.
+
+ -- Tianon Gravi <tianon@debian.org>  Wed, 11 Mar 2020 15:48:33 -0700
 
 docker.io (19.03.6-0ubuntu1) focal; urgency=medium
 
