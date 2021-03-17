@@ -1,4 +1,77 @@
-docker.io (19.03.13-0ubuntu3.1) groovy; urgency=medium
+docker.io (20.10.2-0ubuntu1~20.10.1) groovy; urgency=medium
+
+  * Backport version 20.10.2-0ubuntu1 from Hirsute (LP: #1919322).
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Tue, 16 Mar 2021 16:16:09 -0300
+
+docker.io (20.10.2-0ubuntu1) hirsute; urgency=medium
+
+  * New upstream release.
+  * d/watch: update components, docker-ce is deprecated now.
+    Add "engine", "cli" and "packaging" components which were previously
+    provided by docker-ce.
+  * Pass create-empty-orig to dpkg-source since now there is no main tarball.
+    Due to docker-ce deprecation this source package is now composed by
+    multiple components but no main tarball. In order to allow that,
+    create-empty-orig is passed to dpkg-source which creates an empty
+    tarball for us.
+  * Drop patches applied by upstream:
+    - d/p/41518--apparmor-parser-beta.patch
+    - d/p/CVE-2020-15157.patch
+  * Add docker systemd service and socket to the debian directory.
+    Instead of using the packaging component just to get those two files
+    let's embed them in the debian directory. They were downloaded from the
+    master branch of the docker/docker-ce-packaging:
+    https://github.com/docker/docker-ce-packaging/tree/master/systemd
+  * Apply changes in do-not-bind-docker-to-containerd.patch to systemd service.
+    The systemd service is part of the debian packaging directory, so no
+    need to have a patch for this.
+    This change was a decision made by the Ubuntu community, pay attention
+    to this when updating the systemd service file.
+  * Pass --name=docker to dh_installsystemd
+  * Remove "components/" from all references of engine and cli.
+    Now engine and cli are regular components in the root of the source
+    package. They are not under the components directory anymore.
+  * d/rules: use DEB_VERSION_UPSTREAM from pkg-info.mk instead of VERSION file.
+    The VERSION file was previously provided by the deprecated docker-ce.
+  * d/rules: do not try to install md2man in /go/bin/md2man.
+    Upstream source code changed and by default it tries to install it in
+    /go/bin/md2man. A sed command was added to replace this path with
+    $(OUR_GOPATH)/bin/md2man.
+  * d/vim-syntax-docker.install: do not install files from engine.
+    Those files do not exist anymore because they were incorporated in vim
+    itself upstream.
+  * Remove d/{helpers/gitcommit.sh,upstream-version-gitcommits}
+    Since the main repo, docker-ce, is deprecated there is no way to get a
+    consistent git commit hash across all the components. Let's use
+    DEB_VERSION for now.
+  * Bump debhelper compatibility level to 11.
+    For instance to call dh_installsystemd we need a compat level > 9.
+    I picked 11 because it is available from Bionic on in case we want to
+    backport the package.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Fri, 15 Jan 2021 10:30:18 -0300
+
+docker.io (19.03.13-0ubuntu6) hirsute; urgency=medium
+
+  * d/docker.io.postinst: check if zfs exists before calling it (LP: #1910133).
+    The zfs executable is provided by zfs-fuse | zfsutils and they are
+    runtime Suggested dependencies, which means they might not be available
+    during configuration time.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 04 Jan 2021 17:25:39 -0300
+
+docker.io (19.03.13-0ubuntu5) hirsute; urgency=medium
+
+  * d/rules: pass -r instead of --no-stop-on-upgrade to dh_systemd_start.
+    The --no-stop-on-upgrade is not backport-able to xenial because
+    debhelper 9 does not support that, and --no-restart-on-upgrade will be
+    deprecated in debhelper 14. Therefore, let's use the short version which
+    is supported by a larger range of debhelper versions.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 10 Dec 2020 16:16:09 -0300
+
+docker.io (19.03.13-0ubuntu4) hirsute; urgency=medium
 
   * d/p/do_not_bind_docker_to_containerd.patch: Update docker.io to not
     stop when containerd is upgraded, by using Wants= rather than BindTo=.
