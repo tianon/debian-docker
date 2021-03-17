@@ -1,12 +1,11 @@
 #!/usr/bin/dh-exec
 
 # https://github.com/docker/docker-ce/blob/v19.03.2/components/packaging/deb/common/rules#L36
-components/cli/build/docker => usr/bin/docker
-components/engine/bundles/dynbinary-daemon/dockerd => usr/bin/dockerd
+cli/build/docker => usr/bin/docker
+engine/bundles/dynbinary-daemon/dockerd => usr/bin/dockerd
 libnetwork/docker-proxy => usr/bin/docker-proxy
 tini/build/tini-static => usr/bin/docker-init
 
-components/cli/contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
-components/engine/contrib/check-config.sh usr/share/docker.io/contrib/
-components/engine/contrib/nuke-graph-directory.sh usr/share/docker.io/contrib/
-components/packaging/systemd/docker.socket lib/systemd/system/
+cli/contrib/completion/zsh/_docker usr/share/zsh/vendor-completions/
+engine/contrib/check-config.sh usr/share/docker.io/contrib/
+engine/contrib/nuke-graph-directory.sh usr/share/docker.io/contrib/

@@ -20,6 +20,52 @@ case "$1" in
 				chmod 0755 /etc/docker
 			fi
 		fi
+
+		# ZFS handling: create a dedicated ZFS docker dataset to handle all children containers in a single,
+		# persistent, place.
+		# Also check if zfs executable exists and if it is in $PATH.
+		# The zfs command is provided by zfs-fuse | zfsutils and they
+		# are runtime Suggested dependencies which means they are not
+		# necessarily available during configuration time (LP: #1910133).
+		if [ -x "$(command -v zfs)" ] && modinfo zfs >/dev/null 2>&1; then
+			# if there is no mountpoint /var/lib/docker:
+			# 1: create <currentpool>/var/lib/docker if doesn’t exist (zfs mount?)
+			# /var/lib with canmount off if doesn’t exist
+			# /var with canmount off if doesn’t exist
+			rpool="$(zfs mount | awk '$2=="/" {print $1}'|  cut -d/ -f1)"
+
+			if [ -n "$rpool" ]; then
+				dockermnt="$(findmnt -n -o SOURCE /var/lib/docker || true)"
+
+				# Create <currentpool>/var/lib/docker if doesn’t exist
+				if echo "$dockermnt" | grep -qE '^$|/ROOT/'; then
+					zfs create -o canmount=off "$rpool"/var 2>/dev/null || true
+					zfs create -o canmount=off "$rpool"/var/lib 2>/dev/null || true
+					if dpkg --compare-versions "$2" le-nl '19.03.8-0ubuntu2'; then
+						invoke-rc.d docker stop || true
+						mv /var/lib/docker /var/lib/docker.migrating
+					fi
+					zfs create "$rpool"/var/lib/docker 2>/dev/null || true
+					dockermnt="$rpool"/var/lib/docker
+				fi
+
+				if dpkg --compare-versions "$2" le-nl '19.03.8-0ubuntu2'; then
+					mv /var/lib/docker.migrating/* /var/lib/docker/
+					rmdir /var/lib/docker.migrating/
+					# Migrate datasets
+					for dataset in $(zfs list -H -t filesystem -o name,mountpoint,canmount -r "$rpool"/ROOT | grep -E "/var/lib/[0-9a-f]{64}(-init)?\slegacy\son" | cut -f1); do
+						dockerid=${dataset##*/}
+						zfs rename "$dataset" "$dockermnt/$dockerid" || true
+					done
+					# Purge their zsys history datasets
+					for dataset in $(zfs list -H -t snapshot -o name -r "$rpool"/var/lib/docker | grep "@autozsys_"); do
+						zfs destroy -R "$dataset" || true
+					done
+					invoke-rc.d docker start || true
+				fi
+			fi
+		fi
+
 		;;
 	abort-*)
 		# How'd we get here??

@@ -1,4 +1,1 @@
-components/engine/contrib/syntax/vim/doc/* /usr/share/vim/addons/doc/
-components/engine/contrib/syntax/vim/ftdetect/* /usr/share/vim/addons/ftdetect/
-components/engine/contrib/syntax/vim/syntax/* /usr/share/vim/addons/syntax/
 debian/vim-syntax-docker.yaml /usr/share/vim/registry/
