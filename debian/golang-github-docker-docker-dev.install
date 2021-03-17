@@ -1,12 +1,15 @@
 #!/usr/bin/dh-exec
 
-components/engine/api usr/share/gocode/src/github.com/docker/docker/
-components/engine/client usr/share/gocode/src/github.com/docker/docker/
-components/engine/dockerversion usr/share/gocode/src/github.com/docker/docker/
-components/engine/errdefs usr/share/gocode/src/github.com/docker/docker/
-components/engine/opts usr/share/gocode/src/github.com/docker/docker/
-components/engine/pkg usr/share/gocode/src/github.com/docker/docker/
-components/engine/registry usr/share/gocode/src/github.com/docker/docker/
-components/engine/vendor usr/share/gocode/src/github.com/docker/docker/
-components/cli/cli usr/share/gocode/src/github.com/docker/cli/
-components/cli/opts usr/share/gocode/src/github.com/docker/cli/
+engine/api usr/share/gocode/src/github.com/docker/docker/
+engine/client usr/share/gocode/src/github.com/docker/docker/
+engine/dockerversion usr/share/gocode/src/github.com/docker/docker/
+engine/errdefs usr/share/gocode/src/github.com/docker/docker/
+engine/image usr/share/gocode/src/github.com/docker/docker/
+engine/oci usr/share/gocode/src/github.com/docker/docker/
+engine/opts usr/share/gocode/src/github.com/docker/docker/
+engine/pkg usr/share/gocode/src/github.com/docker/docker/
+engine/registry usr/share/gocode/src/github.com/docker/docker/
+engine/rootless usr/share/gocode/src/github.com/docker/docker/
+engine/vendor usr/share/gocode/src/github.com/docker/docker/
+cli/cli usr/share/gocode/src/github.com/docker/cli/
+cli/opts usr/share/gocode/src/github.com/docker/cli/

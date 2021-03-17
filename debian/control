@@ -10,11 +10,12 @@ Build-Depends: bash-completion,
                ca-certificates,
                cmake,
                debconf (>= 0.5),
-               debhelper (>= 9.20160709~),
+               debhelper (>= 11),
                dh-apparmor,
                dh-exec,
+               dh-golang,
                git,
-               golang-any (>= 2:1.12~),
+               golang-1.13-go,
                libapparmor-dev,
                libbtrfs-dev | btrfs-progs (<< 4.16.1~),
                libdevmapper-dev (>= 2:1.02.68~),
@@ -38,7 +39,6 @@ Depends: adduser,
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: ca-certificates,
-            cgroupfs-mount | cgroup-lite,
             git,
             pigz,
             ubuntu-fan,
@@ -48,11 +48,12 @@ Replaces: docker (<< 1.5~)
 Breaks: docker (<< 1.5~)
 Suggests: aufs-tools,
           btrfs-progs,
+          cgroupfs-mount | cgroup-lite,
           debootstrap,
           docker-doc,
           rinse,
           zfs-fuse | zfsutils
-Built-Using: ${libc:Built-Using}
+Built-Using: ${libc:Built-Using}, ${misc:Built-Using}
 Description: Linux container runtime
  Docker complements kernel namespacing with a high-level API which operates at
  the process level. It runs unix processes with strong guarantees of isolation
@@ -81,7 +82,7 @@ Description: Docker container engine - Vim highlighting syntax files
 
 Package: golang-github-docker-docker-dev
 Architecture: all
-Depends: ${misc:Depends}, golang-github-docker-docker-credential-helpers-dev
+Depends: golang-github-docker-docker-credential-helpers-dev, ${misc:Depends}
 Replaces: golang-docker-dev (<< 1.8.2~ds1-1~)
 Breaks: golang-docker-dev (<< 1.8.2~ds1-1~)
 Provides: golang-docker-dev

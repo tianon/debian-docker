@@ -7,7 +7,7 @@ dpkg-source --before-build .
 # prepare the environment
 ./debian/rules dh_configure
 export GOPATH="$PWD/.gopath"
-export DOCKER_GITCOMMIT="$(./debian/helpers/gitcommit.sh)"
+export DOCKER_GITCOMMIT="foo"
 
 # docker's tests need an unprivileged user available at this username
 useradd --system --gid docker --comment 'Docker Test Suite Unprivileged User' unprivilegeduser
