@@ -1,3 +1,13 @@
+docker.io (20.10.2-0ubuntu1~20.04.2) focal; urgency=medium
+
+  * d/rules: pass --no-restart-after-upgrade to dh_installsystemd.
+    The --no-start flag we pass to dh_installsystemd in d/rules is supposed
+    to also disable --restart-after-upgrade, however, this feature was buggy
+    before the now fixed debhelper 13. Due to that we need to manually add
+    --no-restart-after-upgrade.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 29 Mar 2021 16:10:09 -0300
+
 docker.io (20.10.2-0ubuntu1~20.04.1) focal; urgency=medium
 
   * Backport version 20.10.2-0ubuntu1 from Hirsute (LP: #1919322).
