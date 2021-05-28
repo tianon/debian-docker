@@ -13,3 +13,11 @@ engine/rootless usr/share/gocode/src/github.com/docker/docker/
 engine/vendor usr/share/gocode/src/github.com/docker/docker/
 cli/cli usr/share/gocode/src/github.com/docker/cli/
 cli/opts usr/share/gocode/src/github.com/docker/cli/
+libnetwork/datastore usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/discoverapi usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/ipamutils usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/ns usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/options usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/resolvconf usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/testutils usr/share/gocode/src/github.com/docker/libnetwork/
+libnetwork/types usr/share/gocode/src/github.com/docker/libnetwork/
