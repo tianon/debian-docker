@@ -84,6 +84,7 @@ Package: golang-github-docker-docker-dev
 Architecture: all
 Depends: golang-github-ishidawataru-sctp-dev,
          golang-github-docker-docker-credential-helpers-dev,
+         golang-github-seccomp-libseccomp-golang-dev,
          ${misc:Depends}
 Replaces: golang-docker-dev (<< 1.8.2~ds1-1~)
 Breaks: golang-docker-dev (<< 1.8.2~ds1-1~)
