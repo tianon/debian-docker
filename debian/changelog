@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu1) impish; urgency=medium
 
   * New upstream release.
     - Among new features and bug fixes, the CVE-2021-21284 and CVE-2021-21285
