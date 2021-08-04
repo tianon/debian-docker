@@ -1,3 +1,19 @@
+docker.io (20.10.7-0ubuntu1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+    - Among new features and bug fixes, the CVE-2021-21284 and CVE-2021-21285
+      were addressed.
+  * d/watch: adjust regex to correctly match the tarball files.
+  * d/rules: make some improvements.
+    - Adjust regex in the build-manpages target due to some upstream changes.
+    - Separately install the systemd service and socket.
+    - Tell dh_installsystemd to not stop the service during the upgrade.
+      The previous implementation worked fine until debhelper compat 10 where
+      dh_systemd_start was still a thing. In compat 11, it was deprecated
+      which means that piece of code was not called.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Tue, 03 Aug 2021 15:58:42 -0300
+
 docker.io (20.10.2-0ubuntu2) hirsute; urgency=medium
 
   [ William 'jawn-smith' Wilson ]
