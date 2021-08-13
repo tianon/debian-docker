@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu2) impish; urgency=medium
 
   * Ship libnetwork into the golang-github-docker-docker-dev package.
     - d/golang-github-docker-docker-dev.install: add libnetwork directories.
