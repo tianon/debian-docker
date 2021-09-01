@@ -156,7 +156,15 @@ then
     done
 fi
 
+# Perform a full upgrade and restart the container before attempting
+# to install docker.io.  See
+# https://bugs.launchpad.net/ubuntu/+source/docker.io/+bug/1942276 for
+# more details.
 lxc exec docker -- apt-get update
+lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get full-upgrade -y
+lxc restart docker
+sleep 5
+
 lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get install docker.io -y
 
 # Now basically run the simplest possible test inside the container.
