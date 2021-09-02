@@ -1,3 +1,11 @@
+docker.io (20.10.7-0ubuntu3) impish; urgency=medium
+
+  * d/t/docker-in-lxd:
+    Perform a full upgrade and restart of the container before attempting
+    to install docker.io. (LP: #1942276)
+
+ -- Sergio Durigan Junior <sergio.durigan@canonical.com>  Wed, 01 Sep 2021 18:58:31 -0400
+
 docker.io (20.10.7-0ubuntu2) impish; urgency=medium
 
   * Ship libnetwork into the golang-github-docker-docker-dev package.
