@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu4) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu4) impish; urgency=medium
 
   * d/p/seccomp-add-support-for-clone3-syscall-in-default-policy.patch: Fix
     failure with new glibc clone3 syscall adding it to the default seccomp
