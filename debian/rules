@@ -82,7 +82,7 @@ _build-manpages:
 	cd '$(OUR_GOPATH)/src/github.com/docker/cli' \
 		&& export PATH='$(OUR_GOPATH)/bin':"$$PATH" \
 		&& sed 's!/tmp/gen-manpages!$(CURDIR)/debian/tmp/gen-manpages!g' scripts/docs/generate-man.sh \
-		&& sed 's!/go/bin/md2man!$(OUR_GOPATH)/bin/md2man!g' scripts/docs/generate-man.sh \
+		&& sed 's!/go/bin/go-md2man!$(OUR_GOPATH)/bin/go-md2man!g' scripts/docs/generate-man.sh \
 			| bash
 
 _build-engine:
@@ -111,7 +111,13 @@ override_dh_installinit:
 	dh_installinit --name=docker --no-start
 
 override_dh_installsystemd:
-	dh_installsystemd --name=docker --no-start --no-restart-after-upgrade
+	# We take care of determining whether the docker.io service should be
+	# restarted during upgrades or not ourselves, based on the debconf
+	# choice made by the user during installation.  For this reason, we
+	# invoke dh_installsystemd with "--no-stop-on-upgrade" in order
+	# to avoid indiscriminately stopping the service during upgrades.
+	dh_installsystemd --name=docker --no-start -pdocker.io --no-stop-on-upgrade docker.service
+	dh_installsystemd --name=docker --no-start -pdocker.io --no-stop-on-upgrade docker.socket
 
 override_dh_installudev:
 	# use priority z80 to match the upstream priority of 80
@@ -126,14 +132,6 @@ override_dh_shlibdeps:
 
 override_dh_auto_clean:
 	@# stop debhelper from doing "make clean"
-
-override_dh_systemd_start:
-	# We take care of determining whether the docker.io service should be
-	# restarted during upgrades or not ourselves, based on the debconf
-	# choice made by the user during installation.  For this reason, we
-	# invoke dh_systemd_start with "-r" in order to avoid indiscriminately
-	# stopping the service during upgrades.
-	dh_systemd_start --package=docker.io -r
 
 %:
 	dh $@ --with=bash-completion
