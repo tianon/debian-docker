@@ -8,13 +8,13 @@ component=engine,\
 dversionmangle=s/[+~](debian|dfsg|ds|deb)\d*$//,\
 uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|beta|alpha)\d*)$/$1~$2/,\
 filenamemangle=s/.+\/v(\d\S*)\.tar\.gz/docker.io_$1.orig-engine.tar.gz/ \
-  https://github.com/moby/moby/tags .*/archive/v(\d\S*).tar.gz
+  https://github.com/moby/moby/tags .*/archive/.*v(\d\S*).tar.gz
 
 opts=\
 component=cli,\
 uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|beta|alpha)\d*)$/$1~$2/,\
 filenamemangle=s/.+\/v(\d\S*)\.tar\.gz/docker.io_$1.orig-cli.tar.gz/ \
-  https://github.com/docker/cli/tags .*/archive/v(\d\S*).tar.gz
+  https://github.com/docker/cli/tags .*/archive/.*v(\d\S*).tar.gz
 
 opts=\
 component=libnetwork,\
