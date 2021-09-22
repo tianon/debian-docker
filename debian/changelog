@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu4~18.04.1) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu4~18.04.1) bionic; urgency=medium
 
   * Backport version 20.10.7-0ubuntu4 from Impish (LP: #1938908).
     - d/control: do not b-d on libbtrfs-dev, it is not available in Bionic.
