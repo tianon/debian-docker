@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu4~21.04.1) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu4~21.04.1) hirsute; urgency=medium
 
   * Backport version 20.10.7-0ubuntu4 from Impish (LP: #1938908).
 
