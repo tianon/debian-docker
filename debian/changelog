@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu5) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu5) impish; urgency=medium
 
   [ Sergio Durigan Junior ]
   * d/t/docker-in-lxd:
