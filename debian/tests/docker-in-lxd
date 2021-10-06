@@ -45,6 +45,17 @@ lxd_extension() {
   lxc info | grep -q "^\- ${1}$"
 }
 
+# Copy the local apt package archive over to the lxd container.
+# This function assumes that the container is named "docker".
+copy_local_apt_files() {
+  for local_source in $(apt-get indextargets | grep-dctrl -F URI -e '^file:///' -sURI); do
+    local_source=${local_source#file://}
+    local_dir=$(dirname "${local_source}")
+    lxc exec docker -- mkdir -p "${local_dir}"
+    tar -cC "${local_dir}" . | lxc exec docker -- tar -xC "${local_dir}"
+  done
+}
+
 time lxd waitready --timeout 600
 
 # Attempt to auto-configure ipv4, but only when really running under
@@ -105,12 +116,7 @@ lxc exec docker -- rm -rf /etc/apt
 lxc exec docker -- mkdir /etc/apt
 tar -cC /etc/apt . | lxc exec docker -- tar -xC /etc/apt
 
-for local_source in $(apt-get indextargets | grep-dctrl -F URI -e '^file:///' -sURI); do
-    local_source=${local_source#file://}
-    local_dir=$(dirname ${local_source})
-    lxc exec docker -- mkdir -p ${local_dir}
-    tar -cC ${local_dir} . | lxc exec docker -- tar -xC ${local_dir}
-done
+copy_local_apt_files
 
 if [ -n "${http_proxy:-}" ]; then
     lxc exec docker -- mkdir -p /etc/systemd/system/docker.service.d
@@ -165,22 +171,49 @@ lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get full-upgrade -y
 lxc restart docker
 sleep 5
 
+# We call this again here because if the local apt repository lived
+# under /tmp, it won't be available anymore after a container restart.
+copy_local_apt_files
+lxc exec docker -- apt-get update
+
 lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get install docker.io -y
 
 # Now basically run the simplest possible test inside the container.
 
 case ${arch} in
-    amd64)
-        image=hello-world;;
-    armhf|i386|s390x)
-        image=${arch}/hello-world;;
+    amd64|i386|s390x)
+        image_hello_world=${arch}/hello-world
+        image_ubuntu="${arch}/ubuntu:devel";;
+    armhf)
+        image_hello_world=arm32v7/hello-world
+        image_ubuntu=arm32v7/ubuntu:devel;;
     ppc64el)
-        image=ppc64le/hello-world;;
+        image_hello_world=ppc64le/hello-world
+        image_ubuntu=ppc64le/ubuntu:devel;;
     arm64)
-        image=aarch64/hello-world;;
+        image_hello_world=arm64v8/hello-world
+        image_ubuntu=arm64v8/ubuntu:devel;;
     *)
         echo "unknown arch: ${arch}"
         exit 2;;
 esac
 
-lxc exec docker -- docker run ${image}
+lxc exec docker -- docker run "${image_hello_world}"
+
+ubuntu_devel_suite=$(lxc exec docker -- docker run --rm "${image_ubuntu}" \
+                         /bin/bash -c 'source /etc/lsb-release && echo "$DISTRIB_CODENAME"')
+
+# We also need to run some commands inside an ubuntu:devel container,
+# to make sure that docker.io can work correctly with the latest
+# glibc.
+#
+# It's also important to make sure the docker container is using the
+# same apt configuration from the lxd container, which itself is the
+# same apt configuration from the host.
+#
+# We just want to perform this test when the docker.io package is
+# being tested against the development release of Ubuntu.
+if [ "${ubuntu_devel_suite}" = "${suite}" ]; then
+  lxc exec docker -- docker run -v /etc/apt:/etc/apt "${image_ubuntu}" \
+      /bin/bash -c 'apt-get update; apt-get full-upgrade -y && apt-get install -y hello'
+fi
