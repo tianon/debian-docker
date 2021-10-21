@@ -1,4 +1,4 @@
-docker.io (20.10.7-0ubuntu5~18.04.2) UNRELEASED; urgency=medium
+docker.io (20.10.7-0ubuntu5~18.04.2) bionic; urgency=medium
 
   * d/t/control: make basic-smoke do not depend on debian-archive-keyring.
     In Bionic, when debian-archive-keyring is installed we are not able to
