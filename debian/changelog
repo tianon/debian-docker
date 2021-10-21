@@ -1,3 +1,12 @@
+docker.io (20.10.7-0ubuntu5~18.04.2) UNRELEASED; urgency=medium
+
+  * d/t/control: make basic-smoke do not depend on debian-archive-keyring.
+    In Bionic, when debian-archive-keyring is installed we are not able to
+    debootstrap a Debian stable chroot. Removing this dependency make it
+    work again.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 21 Oct 2021 16:55:00 -0300
+
 docker.io (20.10.7-0ubuntu5~18.04.1) bionic; urgency=medium
 
   * Backport version 20.10.7-0ubuntu5 from Impish (LP: #1938908).
