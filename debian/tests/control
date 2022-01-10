@@ -1,5 +1,5 @@
 Tests: basic-smoke
-Depends: aufs-tools, debian-archive-keyring, debootstrap, @
+Depends: debian-archive-keyring, debootstrap, @
 Restrictions: allow-stderr isolation-machine needs-root
 
 Tests: docker-in-lxd
