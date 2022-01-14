@@ -1,3 +1,17 @@
+docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
+
+  * d/t/docker-in-lxd: Match "file:/" instead of "file:///" on
+    copy_local_apt_files.
+    The command "apt-get indextargets" returns a URI field with "file:/"
+    as the prefix.  We've been trying to match "file:///", which is
+    sometimes unsuccessful and leads to errors because the local apt cache
+    is not copied over to the container.  We can use "file:/" instead,
+    which will work on both scenarios.  It's also not a problem to just
+    strip the "file:" prefix, because even paths like "///var/cache" are
+    correctly resolved by the filesystem.
+
+ -- Sergio Durigan Junior <sergio.durigan@canonical.com>  Fri, 14 Jan 2022 14:30:44 -0500
+
 docker.io (20.10.12-0ubuntu1) jammy; urgency=medium
 
   * New upstream release.
