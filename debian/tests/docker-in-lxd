@@ -48,8 +48,8 @@ lxd_extension() {
 # Copy the local apt package archive over to the lxd container.
 # This function assumes that the container is named "docker".
 copy_local_apt_files() {
-  for local_source in $(apt-get indextargets | grep-dctrl -F URI -e '^file:///' -sURI); do
-    local_source=${local_source#file://}
+  for local_source in $(apt-get indextargets | grep-dctrl -F URI -e '^file:/' -sURI); do
+    local_source=${local_source#file:}
     local_dir=$(dirname "${local_source}")
     lxc exec docker -- mkdir -p "${local_dir}"
     tar -cC "${local_dir}" . | lxc exec docker -- tar -xC "${local_dir}"
