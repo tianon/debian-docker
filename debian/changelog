@@ -1,3 +1,12 @@
+docker.io (20.10.7-0ubuntu5.1) impish-security; urgency=medium
+
+  * SECURITY UPDATE: docker cli information disclosure on misconfiguration
+    - d/p/CVE-2021-41092.patch: Ensure that default authentication config
+      has an address.
+    - CVE-2021-41092
+
+ -- Ray Veldkamp <ray.veldkamp@canonical.com>  Fri, 22 Oct 2021 10:58:58 +1100
+
 docker.io (20.10.7-0ubuntu5) impish; urgency=medium
 
   [ Sergio Durigan Junior ]
