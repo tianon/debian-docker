@@ -1,3 +1,9 @@
+docker.io (20.10.12-0ubuntu2~21.10.1) UNRELEASED; urgency=medium
+
+  * Backport version 20.10.12-0ubuntu2 from Jammy (LP: #1960449).
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 10 Feb 2022 11:49:06 -0300
+
 docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
 
   * d/t/docker-in-lxd: Match "file:/" instead of "file:///" on
