@@ -1,3 +1,11 @@
+docker.io (20.10.12-0ubuntu2~20.04.1) UNRELEASED; urgency=medium
+
+  * Backport version 20.10.12-0ubuntu2 from Jammy (LP: #1960449).
+    - d/control: b-d on golang-1.16-go instead of golang-any.
+    - d/rules: build with Golang 1.16.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 10 Feb 2022 12:03:35 -0300
+
 docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
 
   * d/t/docker-in-lxd: Match "file:/" instead of "file:///" on
