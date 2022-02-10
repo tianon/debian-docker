@@ -1,4 +1,4 @@
-docker.io (20.10.12-0ubuntu2~20.04.1) UNRELEASED; urgency=medium
+docker.io (20.10.12-0ubuntu2~20.04.1) focal; urgency=medium
 
   * Backport version 20.10.12-0ubuntu2 from Jammy (LP: #1960449).
     - d/control: b-d on golang-1.16-go instead of golang-any.
