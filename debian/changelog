@@ -1,3 +1,9 @@
+docker.io (20.10.12-0ubuntu4) jammy; urgency=medium
+
+  * Enable riscv64 architecture (LP: #1963920)
+
+ -- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>  Mon, 07 Mar 2022 16:57:50 +0100
+
 docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
 
   * d/t/docker-in-lxd: Match "file:/" instead of "file:///" on
