@@ -1,4 +1,4 @@
-docker.io (20.10.12-0ubuntu2~18.04.1) UNRELEASED; urgency=medium
+docker.io (20.10.12-0ubuntu2~18.04.1) bionic; urgency=medium
 
   * Backport version 20.10.12-0ubuntu2 from Jammy (LP: #1960449).
     - Build with Golang 1.16.
