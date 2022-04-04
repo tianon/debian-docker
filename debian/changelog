@@ -1,3 +1,13 @@
+docker.io (20.10.12-0ubuntu2~18.04.1) UNRELEASED; urgency=medium
+
+  * Backport version 20.10.12-0ubuntu2 from Jammy (LP: #1960449).
+    - Build with Golang 1.16.
+      + d/control: b-d on golang-1.16-go instead of golang-any.
+      + d/rules: build with Golang 1.16.
+    - d/control: do not b-d on libbtrfs-dev, it is not available in Bionic
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 04 Apr 2022 17:53:56 -0300
+
 docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
 
   * d/t/docker-in-lxd: Match "file:/" instead of "file:///" on
