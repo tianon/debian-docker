@@ -1,18 +1,40 @@
-docker.io (20.10.7-0ubuntu5~18.04.2) bionic; urgency=medium
+docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
 
-  * d/t/control: make basic-smoke do not depend on debian-archive-keyring.
-    In Bionic, when debian-archive-keyring is installed we are not able to
-    debootstrap a Debian stable chroot. Removing this dependency make it
-    work again.
+  * d/t/docker-in-lxd: Match "file:/" instead of "file:///" on
+    copy_local_apt_files.
+    The command "apt-get indextargets" returns a URI field with "file:/"
+    as the prefix.  We've been trying to match "file:///", which is
+    sometimes unsuccessful and leads to errors because the local apt cache
+    is not copied over to the container.  We can use "file:/" instead,
+    which will work on both scenarios.  It's also not a problem to just
+    strip the "file:" prefix, because even paths like "///var/cache" are
+    correctly resolved by the filesystem.
 
- -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 21 Oct 2021 16:55:00 -0300
+ -- Sergio Durigan Junior <sergio.durigan@canonical.com>  Fri, 14 Jan 2022 14:30:44 -0500
 
-docker.io (20.10.7-0ubuntu5~18.04.1) bionic; urgency=medium
+docker.io (20.10.12-0ubuntu1) jammy; urgency=medium
 
-  * Backport version 20.10.7-0ubuntu5 from Impish (LP: #1938908).
-    - d/control: do not b-d on libbtrfs-dev, it is not available in Bionic.
+  * New upstream release.
+  * Remove all patches, applied by upstream.
+  * Build depend on default golang 1.17.
+  * d/rules: set GO111MODULE to auto.
 
- -- Lucas Kanashiro <kanashiro@ubuntu.com>  Wed, 06 Oct 2021 11:08:37 -0300
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 10 Jan 2022 18:08:58 -0300
+
+docker.io (20.10.7-0ubuntu7) jammy; urgency=medium
+
+  * SECURITY UPDATE: docker cli information disclosure on misconfiguration
+    - d/p/CVE-2021-41092.patch: Ensure that default authentication config
+    has an address.
+    - CVE-2021-41092
+
+ -- Ray Veldkamp <ray.veldkamp@canonical.com>  Fri, 22 Oct 2021 17:03:30 +1100
+
+docker.io (20.10.7-0ubuntu6) devel; urgency=medium
+
+  * d/t/control: Drop unused aufs-tools as a test dependency (LP: #1947004)
+
+ -- Lukas Märdian <slyon@ubuntu.com>  Wed, 13 Oct 2021 17:22:20 +0200
 
 docker.io (20.10.7-0ubuntu5) impish; urgency=medium
 

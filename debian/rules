@@ -12,6 +12,9 @@ OUR_GOPATH := $(CURDIR)/.gopath
 export GOPATH := $(OUR_GOPATH)
 export GOCACHE := $(CURDIR)/.gocache
 
+# https://blog.golang.org/go116-module-changes (TODO figure out a new solution for Go 1.17+)
+export GO111MODULE := auto
+
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
 # same story with SELinux
 export DOCKER_BUILDTAGS := apparmor seccomp selinux
@@ -20,13 +23,6 @@ ifneq (,$(filter parallel=%, $(DEB_BUILD_OPTIONS)))
 	NUMJOBS := $(patsubst parallel=%, %, $(filter parallel=%, $(DEB_BUILD_OPTIONS)))
 	MAKEFLAGS += -j '$(NUMJOBS)'
 endif
-
-# build explicitly against Go 1.13 (for now):
-#   https://github.com/moby/moby/pull/40353
-#   https://github.com/containerd/containerd/issues/4509
-#   https://github.com/containerd/containerd/pull/4050
-#   https://github.com/golang/go/issues/37942
-export PATH := /usr/lib/go-1.13/bin:$(PATH)
 
 override_dh_gencontrol:
 	# if we're on Ubuntu, we need to Recommends: apparmor
