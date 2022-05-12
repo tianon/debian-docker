@@ -1,4 +1,4 @@
-docker.io (20.10.16-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (20.10.16-0ubuntu1) kinetic; urgency=medium
 
   * New upstream release.
 
