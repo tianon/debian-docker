@@ -9,12 +9,12 @@ docker version
 
 debootstrap \
 	--variant=minbase \
-	stable \
+	bionic \
 	"$tempDir" \
-	http://httpredir.debian.org/debian
+	http://archive.ubuntu.com/ubuntu
 
-tar -cC "$tempDir" . | docker import - debian
-defer 'docker rmi debian'
+tar -cC "$tempDir" . | docker import - bionic
+defer 'docker rmi bionic'
 
-docker run --name test debian true
+docker run --name test bionic true
 defer 'docker rm -f test'
