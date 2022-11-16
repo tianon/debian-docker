@@ -1,4 +1,4 @@
-docker.io (20.10.21-0ubuntu1) UNRELEASED; urgency=medium
+docker.io (20.10.21-0ubuntu1) lunar; urgency=medium
 
   * New upstream release.
 
