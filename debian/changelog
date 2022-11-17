@@ -1,4 +1,4 @@
-docker.io (20.10.21-0ubuntu1~20.04.1) UNRELEASED; urgency=medium
+docker.io (20.10.21-0ubuntu1~20.04.1) focal; urgency=medium
 
   * Backport version 20.10.21-0ubuntu1 from Lunar (LP: #1996909).
     - d/control: b-d on golang-1.18-go instead of golang-go.
