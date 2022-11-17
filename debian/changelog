@@ -1,10 +1,20 @@
-docker.io (20.10.12-0ubuntu2~20.04.1) focal; urgency=medium
+docker.io (20.10.21-0ubuntu1) lunar; urgency=medium
 
-  * Backport version 20.10.12-0ubuntu2 from Jammy (LP: #1960449).
-    - d/control: b-d on golang-1.16-go instead of golang-any.
-    - d/rules: build with Golang 1.16.
+  * New upstream release.
 
- -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 10 Feb 2022 12:03:35 -0300
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Wed, 16 Nov 2022 15:42:50 -0300
+
+docker.io (20.10.16-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream release.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 12 May 2022 17:04:31 -0300
+
+docker.io (20.10.12-0ubuntu4) jammy; urgency=medium
+
+  * Enable riscv64 architecture (LP: #1963920)
+
+ -- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>  Mon, 07 Mar 2022 16:57:50 +0100
 
 docker.io (20.10.12-0ubuntu2) jammy; urgency=medium
 
