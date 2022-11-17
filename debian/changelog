@@ -1,3 +1,12 @@
+docker.io (20.10.21-0ubuntu1~20.04.1) UNRELEASED; urgency=medium
+
+  * Backport version 20.10.21-0ubuntu1 from Lunar (LP: #1996909).
+    - d/control: b-d on golang-1.18-go instead of golang-go.
+    - d/rules: build with Golang 1.18.
+    - d/control: do not build docker.io in riscv64.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Thu, 17 Nov 2022 17:19:30 -0300
+
 docker.io (20.10.21-0ubuntu1) lunar; urgency=medium
 
   * New upstream release.
