@@ -1,4 +1,4 @@
-docker.io (20.10.21-0ubuntu1~22.04.1) UNRELEASED; urgency=medium
+docker.io (20.10.21-0ubuntu1~22.04.1) jammy; urgency=medium
 
   * Backport version 20.10.21-0ubuntu1 from Lunar (LP: #1996909).
 
