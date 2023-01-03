@@ -15,9 +15,9 @@ Build-Depends: bash-completion,
                dh-exec,
                dh-golang,
                git,
-               golang-1.16-go,
+               golang-go,
                libapparmor-dev,
-               btrfs-progs (<< 4.16.1~),
+               libbtrfs-dev | btrfs-progs (<< 4.16.1~),
                libdevmapper-dev (>= 2:1.02.68~),
                libltdl-dev,
                libseccomp-dev,
@@ -32,7 +32,7 @@ Vcs-Browser: https://anonscm.debian.org/cgit/docker/docker.io.git
 XS-Go-Import-Path: github.com/docker/docker
 
 Package: docker.io
-Architecture: amd64 arm64 armhf i386 ppc64el s390x
+Architecture: amd64 arm64 armhf i386 ppc64el riscv64 s390x
 Depends: adduser,
          containerd (>= 1.2.6-0ubuntu1~),
          iptables,
