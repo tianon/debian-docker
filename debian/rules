@@ -15,6 +15,9 @@ export GOCACHE := $(CURDIR)/.gocache
 # https://blog.golang.org/go116-module-changes (TODO figure out a new solution for Go 1.17+)
 export GO111MODULE := auto
 
+# Build with Golang 1.18
+export PATH := /usr/lib/go-1.18/bin:$(PATH)
+
 # AppArmor can be optionally used in Debian and is there by default in Ubuntu, so we need support for it compiled into our binary
 # same story with SELinux
 export DOCKER_BUILDTAGS := apparmor seccomp selinux
