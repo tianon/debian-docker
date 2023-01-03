@@ -1,3 +1,13 @@
+docker.io (20.10.21-0ubuntu1~18.04.1) bionic; urgency=medium
+
+  * Backport version 20.10.21-0ubuntu1 from Lunar (LP: #1996909).
+    - Build with Go 1.18.
+    - d/control: do not b-d on libbtrfs-dev, it is not available in Bionic.
+    - d/control: do not build docker.io for riscv64, not supported in Bionic.
+    - d/t/basic-smoke: debootstrap bionic instead of debian stable.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Tue, 03 Jan 2023 15:52:33 -0300
+
 docker.io (20.10.21-0ubuntu1) lunar; urgency=medium
 
   * New upstream release.
