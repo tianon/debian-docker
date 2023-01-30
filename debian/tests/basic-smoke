@@ -10,8 +10,7 @@ docker version
 debootstrap \
 	--variant=minbase \
 	bionic \
-	"$tempDir" \
-	http://archive.ubuntu.com/ubuntu
+	"$tempDir"
 
 tar -cC "$tempDir" . | docker import - bionic
 defer 'docker rmi bionic'
