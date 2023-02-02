@@ -1,6 +1,9 @@
 docker.io (20.10.21-0ubuntu1~18.04.2) bionic; urgency=medium
 
-  * d/t/basic-smoke: do not pass mirror url to debootstrap call.
+  * d/t/basic-smoke: do not pass mirror url to debootstrap call, since, in
+    Ubuntu, this url changes for non-amd64/non-i386 architectures. By not
+    passing the url, we pick the default one, which will be correct for the
+    architecture being tested.
 
  -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 30 Jan 2023 18:07:30 -0300
 
