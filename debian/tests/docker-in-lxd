@@ -167,7 +167,7 @@ fi
 # https://bugs.launchpad.net/ubuntu/+source/docker.io/+bug/1942276 for
 # more details.
 lxc exec docker -- apt-get update
-lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get full-upgrade -y
+lxc exec docker --env DEBIAN_FRONTEND=noninteractive -- apt-get full-upgrade -y -o Dpkg::Options::='--force-confold'
 lxc restart docker
 sleep 5
 
