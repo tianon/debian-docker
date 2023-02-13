@@ -1,3 +1,10 @@
+docker.io (20.10.21-0ubuntu1~18.04.3) UNRELEASED; urgency=medium
+
+  * d/t/docker-in-lxd: keep old config file when upgrading the container.
+    Add -o Dpkg::Options::='--force-confold' to the apt-get full-upgrade call.
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Mon, 13 Feb 2023 11:50:00 -0300
+
 docker.io (20.10.21-0ubuntu1~18.04.2) bionic; urgency=medium
 
   * d/t/basic-smoke: do not pass mirror url to debootstrap call, since, in
