@@ -104,7 +104,7 @@ if [ -n "${noproxy:-}" ]; then
     lxc config set core.proxy_ignore_hosts $noproxy
 fi
 
-lxc launch ubuntu-daily:${suite}/${arch} docker -c security.nesting=true
+lxc launch ubuntu-daily:${suite}/${arch} docker -c security.nesting=true -c security.privileged=true
 
 defer 'lxc delete --force docker'
 
