@@ -1,4 +1,4 @@
-docker.io (20.10.21-0ubuntu2) UNRELEASED; urgency=medium
+docker.io (20.10.21-0ubuntu2) lunar; urgency=medium
 
   * d/tests: install lxd via snap in docker-in-lxd test.
     Since Jammy, lxd is not available as a .deb anymore. Let's install it via
