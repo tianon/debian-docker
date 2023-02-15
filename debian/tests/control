@@ -3,7 +3,7 @@ Depends: debian-archive-keyring, debootstrap, @
 Restrictions: allow-stderr isolation-machine needs-root
 
 Tests: docker-in-lxd
-Depends: dctrl-tools, lxd
+Depends: dctrl-tools, snapd
 Restrictions: allow-stderr isolation-machine needs-root
 
 #Tests: integration

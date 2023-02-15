@@ -10,6 +10,9 @@ if [ "$arch" = "i386" -a "$release" \> "19.04" ]; then
     exit 0
 fi
 
+# lxd is not available as a .deb anymore
+snap install lxd
+
 # This stolen from lxd's debconf magic.
 random_ipv4() {
   while :; do
