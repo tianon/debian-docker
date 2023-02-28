@@ -1,3 +1,12 @@
+docker.io (20.10.21-0ubuntu3) UNRELEASED; urgency=medium
+
+  * d/t/docker-in-lxd: set up lxd container storage using btrfs.
+    Do not use privileged lxd container to run the test.
+    Follow the official Ubuntu documentation:
+    https://ubuntu.com/tutorials/how-to-run-docker-inside-lxd-containers
+
+ -- Lucas Kanashiro <kanashiro@ubuntu.com>  Tue, 28 Feb 2023 09:17:52 -0300
+
 docker.io (20.10.21-0ubuntu2) lunar; urgency=medium
 
   * d/tests: install lxd via snap in docker-in-lxd test.
