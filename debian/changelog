@@ -1,4 +1,4 @@
-docker.io (20.10.21-0ubuntu3) UNRELEASED; urgency=medium
+docker.io (20.10.21-0ubuntu3) lunar; urgency=medium
 
   * d/t/docker-in-lxd: set up lxd container storage using btrfs.
     Do not use privileged lxd container to run the test.
