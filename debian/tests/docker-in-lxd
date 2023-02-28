@@ -104,7 +104,12 @@ if [ -n "${noproxy:-}" ]; then
     lxc config set core.proxy_ignore_hosts $noproxy
 fi
 
-lxc launch ubuntu-daily:${suite}/${arch} docker -c security.nesting=true -c security.privileged=true
+# Follow the official tutorial on how to run docker inside lxd containers
+# https://ubuntu.com/tutorials/how-to-run-docker-inside-lxd-containers
+lxc storage create docker-storage btrfs
+lxc storage volume create docker-storage docker-vol
+lxc launch ubuntu-daily:${suite}/${arch} docker -c security.nesting=true -c security.syscalls.intercept.mknod=true -c security.syscalls.intercept.setxattr=true
+lxc storage volume attach docker-storage docker-vol docker /var/lib/docker
 
 defer 'lxc delete --force docker'
 
