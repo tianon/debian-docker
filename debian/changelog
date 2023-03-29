@@ -1,3 +1,11 @@
+docker.io (20.10.21-0ubuntu4) UNRELEASED; urgency=medium
+
+  * d/t/docker-in-lxd: Fix dep8 tests to let them copy packages into
+    containers properly by adding the -n flag in the grep-dctrl call
+    (LP: #2012299)
+
+ -- Michal Maloszewski <michal.maloszewski@canonical.com>  Wed, 29 Mar 2023 23:58:52 +0200
+
 docker.io (20.10.21-0ubuntu3) lunar; urgency=medium
 
   * d/t/docker-in-lxd: set up lxd container storage using btrfs.
